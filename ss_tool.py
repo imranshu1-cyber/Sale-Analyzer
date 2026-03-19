@@ -1,3 +1,17 @@
+import threading
+import urllib.request
+import time
+
+def keep_alive():
+    while True:
+        time.sleep(300)  # har 5 min
+        try:
+            urllib.request.urlopen('https://sale-analyzer.streamlit.app')
+        except:
+            pass
+
+t = threading.Thread(target=keep_alive, daemon=True)
+t.start()
 import streamlit as st
 import pandas as pd
 import numpy as np
