@@ -127,7 +127,7 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
 
 /* File uploader */
 [data-testid="stFileUploader"] {
-    background:#fff !important; border:2px dashed #c084fc !important; border-radius:14px !important;
+    background:transparent !important; border:2px dashed #c084fc !important; border-radius:14px !important;
 }
 [data-testid="stFileUploader"] * { color:#6a1b9a !important; font-weight:500 !important; }
 [data-testid="stFileUploaderFileName"] { color:#4c1d95 !important; font-weight:700 !important; }
