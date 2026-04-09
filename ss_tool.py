@@ -1,17 +1,3 @@
-import threading
-import urllib.request
-import time
-
-def keep_alive():
-    while True:
-        time.sleep(300)  # har 5 min
-        try:
-            urllib.request.urlopen('https://sale-analyzer.streamlit.app')
-        except:
-            pass
-
-t = threading.Thread(target=keep_alive, daemon=True)
-t.start()
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -2474,4 +2460,3 @@ Be specific with store names and numbers. Be direct and business-focused. No flu
             <div style="font-size:.8rem;color:#90a4c0;margin-top:.4rem">
                 Analyses all 28 stores · 11 categories · 11 months of data</div>
         </div>""", unsafe_allow_html=True)
-
