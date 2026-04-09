@@ -154,6 +154,7 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
 
 /* Dataframe */
 .stDataFrame { border-radius:12px !important; overflow:hidden; }
+[data-testid="stFileUploaderDropzone"] button { display: none !important; }
 </style>
 """, unsafe_allow_html=True)
 
