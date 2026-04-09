@@ -125,7 +125,7 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
 }
 .stDownloadButton > button:hover { background:#f5f0ff !important; }
 
-/* ══ FILE UPLOADER ══ */
+/* File uploader */
 [data-testid="stFileUploader"] {
     background: linear-gradient(90deg, #3a0068 0%, #6a1b9a 55%, #9c27b0 100%) !important;
     border:2px dashed rgba(255,255,255,0.4) !important; border-radius:14px !important;
@@ -136,32 +136,8 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
 }
 [data-testid="stFileUploader"] * { color:#ffffff !important; font-weight:500 !important; }
 [data-testid="stFileUploaderFileName"] { color:#ffffff !important; font-weight:700 !important; }
+[data-testid="stFileUploaderDropzone"] button { visibility: hidden !important; height: 0 !important; padding: 0 !important; margin: 0 !important; }
 [data-testid="stFileUploaderDropzone"] svg { fill: #ffffff !important; }
-[data-testid="stFileUploaderDropzone"] button {
-    visibility: visible !important;
-    height: auto !important;
-    padding: .35rem 1rem !important;
-    margin: .4rem auto 0 !important;
-    background: rgba(255,255,255,0.2) !important;
-    border: 1.5px solid rgba(255,255,255,0.5) !important;
-    border-radius: 8px !important;
-    color: #ffffff !important;
-    font-weight: 700 !important;
-    font-size: .8rem !important;
-    display: block !important;
-}
-[data-testid="stFileUploaderDropzone"] button:hover {
-    background: rgba(255,255,255,0.35) !important;
-}
-[data-testid="stFileUploadDeleteBtn"] button,
-[data-testid="stFileUploadDeleteBtn"] {
-    visibility: visible !important;
-    height: auto !important;
-    padding: 0 !important;
-    color: #ffffff !important;
-    opacity: 0.85 !important;
-}
-[data-testid="stFileUploadDeleteBtn"] svg { fill: #ffffff !important; }
 
 /* Tabs */
 .stTabs [data-baseweb="tab-list"] {
@@ -184,7 +160,7 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
 [data-testid="stSpinner"] * { color:#6a1b9a !important; }
 
 /* Dataframe */
-[data-testid="stFileUploaderDropzone"] button { display: none !important; }
+.stDataFrame { border-radius:12px !important; overflow:hidden; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -276,6 +252,7 @@ E_CONT_PCT   = "374151"   # Dark       - contribution %
 E_BORDER     = "e5e7eb"   # Light grey border
 
 # Pastel column colors (like the CRM example - each month gets a color band)
+# These are used as light background tints per column group
 MONTH_COLORS = [
     "dbeafe",  # light blue    - Apr
     "dcfce7",  # light green   - May
@@ -385,23 +362,26 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     wb = Workbook()
 
     # ── Pastel palette ──
+    # Each month gets its own pastel bg + matching dark fg
     M_BG = ["dbeafe","dcfce7","fef9c3","ffedd5","fce7f3",
             "ede9fe","d1fae5","fee2e2","e0f2fe","d1fae5","fef9c3"]
     M_FG = ["1e40af","166534","854d0e","9a3412","9d174d",
             "5b21b6","065f46","991b1b","0c4a6e","065f46","854d0e"]
+    # Same for CWC categories
     C_BG = ["dbeafe","dcfce7","fef9c3","ffedd5","fce7f3",
             "ede9fe","d1fae5","fee2e2","e0f2fe","d1fae5","fef9c3"]
     C_FG = ["1e40af","166534","854d0e","9a3412","9d174d",
             "5b21b6","065f46","991b1b","0c4a6e","065f46","854d0e"]
+    # Stock columns: lighter tint of same color
     S_BG = ["eff6ff","f0fdf4","fefce8","fff7ed","fdf2f8",
             "f5f3ff","ecfdf5","fef2f2","f0f9ff","ecfdf5","fefce8"]
     S_FG = ["6b7280","6b7280","6b7280","6b7280","6b7280",
             "6b7280","6b7280","6b7280","6b7280","6b7280","6b7280"]
 
-    HDR_BG = "f3f4f6"; HDR_FG = "111827"
-    TITLE_BG = "1e3a5f"; TITLE_FG = "FFFFFF"
-    CONT_BG = "f9fafb"; CONT_FG = "6b7280"
-    GT_BG = "e8eaf6";   GT_FG = "1a237e"
+    HDR_BG = "f3f4f6"; HDR_FG = "111827"          # column header row
+    TITLE_BG = "1e3a5f"; TITLE_FG = "FFFFFF"       # title banner
+    CONT_BG = "f9fafb"; CONT_FG = "6b7280"         # contribution % row
+    GT_BG = "e8eaf6";   GT_FG = "1a237e"           # Grand Total row
     WHITE = "FFFFFF";    DGREY = "374151"
 
     # ════════════════════════════════════════
@@ -414,10 +394,12 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     all_cols = ["Row Labels"] + MONTHS + ["Total Sale", "Feb Closing Stk", "Sale Cont."]
     n = len(all_cols)
 
+    # ── Row 1: Title ──
     ws.merge_cells(f"A1:{get_column_letter(n)}1")
     _c(1, 1, ws, "STORE WISE CONTRIBUTION (SWC)", TITLE_BG, TITLE_FG, sz=13, bold=True)
     ws.row_dimensions[1].height = 32
 
+    # ── Row 2: Month % contribution — each cell gets its month color ──
     mc_row = swc_final.loc['_mc']
     _c(2, 1, ws, "", CONT_BG, CONT_FG)
     for mi, col in enumerate(MONTHS):
@@ -430,6 +412,7 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     _c(2, n,   ws, "", CONT_BG, CONT_FG)
     ws.row_dimensions[2].height = 17
 
+    # ── Row 3: Column headers — each month header gets its color ──
     _c(3, 1, ws, "Store Name", HDR_BG, HDR_FG, sz=9, bold=True, h="left", ind=1)
     for mi, col in enumerate(MONTHS):
         ci = mi + 2
@@ -440,6 +423,7 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     _c(3, n,   ws, "Sale Cont.",       "dcfce7", "166534", sz=9, bold=True)
     ws.row_dimensions[3].height = 26
 
+    # ── Data rows ──
     data_rows = swc_final[~swc_final.index.isin(['_mc', 'Grand Total'])]
     for ri, (store, row) in enumerate(data_rows.iterrows(), 4):
         _c(ri, 1, ws, str(store), WHITE, DGREY, sz=9, h="left", ind=1)
@@ -448,14 +432,18 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
             v = row[col]
             val = int(v) if pd.notna(v) and v != 0 else "—"
             _c(ri, ci, ws, val, M_BG[mi], M_FG[mi], sz=9)
+        # Total Sale
         ts = row['Total Sale']
         _c(ri, n-2, ws, int(ts) if pd.notna(ts) else "—", "dbeafe", "1e40af", sz=9, bold=True)
+        # Closing Stock
         v = row['Feb Closing Stk']
         _c(ri, n-1, ws, int(v) if pd.notna(v) and v != 0 else "—", WHITE, "6b7280", sz=9)
+        # Sale Cont.
         v = row['Sale Cont.']
         _c(ri, n, ws, pct(v,4) if pd.notna(v) else "—", "dcfce7", "166534", sz=9, bold=True)
         ws.row_dimensions[ri].height = 18
 
+    # ── Grand Total row ──
     gr = len(data_rows) + 4
     gt_row = swc_final.loc['Grand Total']
     _c(gr, 1, ws, "Grand Total", GT_BG, GT_FG, sz=10, bold=True, h="left", ind=1)
@@ -469,6 +457,7 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     _c(gr, n,   ws, "100.00%",                          GT_BG, GT_FG, sz=9,  bold=True)
     ws.row_dimensions[gr].height = 22
 
+    # ── Column widths + freeze ──
     ws.column_dimensions['A'].width = 22
     for ci in range(2, n+1):
         ws.column_dimensions[get_column_letter(ci)].width = 11
@@ -484,10 +473,12 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     ncats = len(avail)
     total_cols = 1 + ncats * 2 + 2
 
+    # ── Row 1: Title ──
     ws2.merge_cells(f"A1:{get_column_letter(total_cols)}1")
     _c(1, 1, ws2, "CATEGORY WISE CONTRIBUTION (CWC)", TITLE_BG, TITLE_FG, sz=13, bold=True)
     ws2.row_dimensions[1].height = 32
 
+    # ── Row 2: Contribution % ──
     _c(2, 1, ws2, "Contribution", CONT_BG, CONT_FG, sz=8, bold=True, h="left", ind=1)
     ci = 2
     for i, cat in enumerate(avail):
@@ -501,6 +492,7 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     _c(2, ci+1, ws2, "100%", "f9fafb", "6b7280", sz=8)
     ws2.row_dimensions[2].height = 17
 
+    # ── Row 3: Grand Total values ──
     _c(3, 1, ws2, "Total", GT_BG, GT_FG, sz=9, bold=True, h="left", ind=1)
     ci = 2
     for i, cat in enumerate(avail):
@@ -513,6 +505,7 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     _c(3, ci+1, ws2, int(gt_k['TOTAL']) if gt_k['TOTAL'] > 0 else "—", GT_BG, "6b7280", sz=9)
     ws2.row_dimensions[3].height = 20
 
+    # ── Row 4: Category headers (merged pairs) ──
     _c(4, 1, ws2, "", HDR_BG, HDR_FG)
     ci = 2
     _bdr = Border(left=Side(style='thin',color="e5e7eb"),right=Side(style='thin',color="e5e7eb"),
@@ -530,6 +523,7 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     ws2.cell(row=4, column=ci+1).border = _bdr
     ws2.row_dimensions[4].height = 24
 
+    # ── Row 5: Sale / Stock sub-headers ──
     _c(5, 1, ws2, "Store Name", HDR_BG, HDR_FG, sz=9, bold=True)
     ci = 2
     for i in range(len(avail)):
@@ -541,6 +535,7 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     _c(5, ci+1, ws2, "Stock (MRP Value)", "f3f4f6", "6b7280", sz=8, bold=True)
     ws2.row_dimensions[5].height = 18
 
+    # ── Store data rows ──
     stores_cwc = cwc_s.index.tolist()
     for ri, store in enumerate(stores_cwc, 6):
         _c(ri, 1, ws2, str(store), WHITE, DGREY, sz=9, h="left", ind=1)
@@ -558,6 +553,7 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
         _c(ri, ci+1, ws2, int(tk) if tk else "—", WHITE, "6b7280", sz=9)
         ws2.row_dimensions[ri].height = 18
 
+    # ── Grand Total row ──
     gr2 = len(stores_cwc) + 6
     _c(gr2, 1, ws2, "Grand Total", GT_BG, GT_FG, sz=10, bold=True, h="left", ind=1)
     ci = 2
@@ -570,6 +566,7 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     _c(gr2, ci+1, ws2, int(gt_k['TOTAL']) if gt_k['TOTAL'] else "—", GT_BG, "6b7280", sz=9)
     ws2.row_dimensions[gr2].height = 22
 
+    # ── Column widths + freeze ──
     ws2.column_dimensions['A'].width = 22
     for ci in range(2, total_cols + 1):
         ws2.column_dimensions[get_column_letter(ci)].width = 14
@@ -776,7 +773,7 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
         xaxis=dict(tickangle=-30, tickfont=dict(size=10, color='#2d0050')),
         yaxis=dict(tickfont=dict(size=10, color='#2d0050'), autorange='reversed'))
 
-    # ── Heatmap Insight HTML ──
+    # ── Heatmap Insight HTML (same logic as Streamlit tab) ──
     _hm = cwc_s[avail].fillna(0)
     _hm_max_val  = _hm.max().max()
     _hm_max_cat  = _hm.max().idxmax()
@@ -823,8 +820,10 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
       </div>
     </div>"""
 
-    # ── Chart 8: Deep Dive ──
+    # ── Chart 8: Deep Dive - per store monthly bars ──
+    # Build store rank data for deep dive
     store_ranks = data_swc['Total Sale'].rank(ascending=False).astype(int)
+    # Store selector will be JS driven - build all stores data as JSON
     import json as _json
     store_data = {}
     for st in stores:
@@ -960,12 +959,13 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
         xaxis=dict(tickangle=-30, tickfont=dict(size=10, color='#1a0030')),
         yaxis=dict(tickfont=dict(size=10, color='#1a0030'), autorange='reversed'))
 
-    # Sell-through insights
+    # Sell-through insights — SMART (store-level, no contradictions)
     avg_st_val = float(st_matrix.replace(0, float('nan')).stack().mean())
     store_avg = st_matrix.replace(0, float('nan')).mean(axis=1).sort_values(ascending=False)
     best_s = store_avg[store_avg >= 60].index.str.replace("SS, ","").tolist()[:3]
     worst_s = store_avg[store_avg < 30].index.str.replace("SS, ","").tolist()[:3]
 
+    # Restock: ST >= 80% at store level
     restock_h = []
     for _store in cwc_s.index:
         for _cat in avail:
@@ -973,9 +973,12 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
             if (_s+_k) > 0 and _s > 5000 and _s/(_s+_k)*100 >= 80:
                 restock_h.append(f"{_store.replace('SS, ','')} → {_cat}")
 
+    # Smart slow categories: slow overall BUT exclude any cat that has restock stores
     restock_cats = set([x.split(' → ')[1] for x in restock_h])
     cat_avg = st_matrix.replace(0, float('nan')).mean(axis=0).sort_values(ascending=False)
+    # Category is truly slow only if avg < 30% AND no store needs restock for it
     truly_slow_c = [c for c in cat_avg[cat_avg < 30].index.tolist() if c not in restock_cats][:3]
+    # Mixed categories: slow overall but some stores need restock
     mixed_c = [c for c in cat_avg[cat_avg < 30].index.tolist() if c in restock_cats][:3]
     st_insight_html = f"""<div style="background:#f8faff;border:1.5px solid #c7d7f9;border-radius:12px;padding:1rem 1.2rem;margin-top:.8rem">
       <div style="font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1e40af;margin-bottom:.7rem">📊 KEY INSIGHTS</div>
@@ -1197,6 +1200,7 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
       document.getElementById('ddStock').innerHTML = fmtInr(d.closing) + (d.closing_qty ? "<div style='font-size:.75rem;font-weight:700;color:rgba(255,255,255,.85);margin-top:.2rem'>" + d.closing_qty.toLocaleString('en-IN') + " Pcs</div>" : '');
       document.getElementById('ddCont').textContent = (d.cont*100).toFixed(4)+'%';
 
+      // Monthly bar
       var mvals = d.monthly;
       var mmax = Math.max(...mvals) * 1.22;
       Plotly.newPlot('ddMonthChart', [{{
@@ -1212,6 +1216,7 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
         yaxis:{{gridcolor:'#ede9fe',tickfont:{{color:'#1a0030',size:10}},range:[0,mmax]}}
       }}, {{responsive:true,displayModeBar:false,displaylogo:false}});
 
+      // Category pie
       var cats = Object.keys(d.cats), vals = Object.values(d.cats);
       if(cats.length > 0) {{
         Plotly.newPlot('ddCatChart', [{{
@@ -1228,6 +1233,7 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
         }}, {{responsive:true,displayModeBar:false,displaylogo:false}});
       }}
     }}
+    // Init on load
     setTimeout(updateDeepDive, 300);
     </script>"""
 
@@ -1363,6 +1369,7 @@ function showTab(id, el) {{
   }}, 200);
   if(id==='dd') setTimeout(updateDeepDive, 200);
 }}
+// Pre-render all tabs on page load so charts initialize correctly
 window.addEventListener('load', function() {{
   var tabs = ['ov','swc','cwc','hm','dd','perf','inv'];
   var activeTab = 'ov';
@@ -1405,7 +1412,7 @@ window.addEventListener('load', function() {{
 excel = build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail)
 html_dash = build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONTHS, MONTH_SHORT, BLUE_SEQ, CAT_COLORS_LIGHT, fmt_inr, pct, chart_layout, stock=stock)
 
-# ── Build ZIP ──
+# ── Build ZIP (Excel + HTML together) ──
 import zipfile, io as _io
 excel_bytes = excel.getvalue() if hasattr(excel, 'getvalue') else (excel.read() if hasattr(excel, 'read') else excel)
 zip_buf = _io.BytesIO()
@@ -1466,6 +1473,7 @@ with t1:
         ])
     st.plotly_chart(fig, use_container_width=True)
 
+    # ── 4 Extra KPI Insight Cards ──
     avg_monthly = monthly.mean()
     feb_growth = ((monthly.values[-1] - monthly.values[0]) / monthly.values[0] * 100) if monthly.values[0] > 0 else 0
     ins1, ins2, ins3, ins4 = st.columns(4)
@@ -1537,7 +1545,7 @@ with t2:
                     marker=dict(color=bar_colors[i % len(bar_colors)]),
                     hovertemplate='<b>%{fullData.name}</b><br>%{x}: ₹%{y:,.0f}<extra></extra>',
                 ))
-        fig4.update_layout(**chart_layout(420, "Store-wise Monthly Sale Comparison"),
+        fig4.update_layout(**chart_layout(420, "Store-wise Monthly Sale Comparison"), 
                           barmode='group', bargap=0.15, bargroupgap=0.05)
         st.plotly_chart(fig4, use_container_width=True)
 
@@ -1654,22 +1662,34 @@ with t4:
     )
     st.plotly_chart(fig7, use_container_width=True)
 
+    # ── Heatmap Insight Summary ──
     hmap_data = cwc_s[avail].fillna(0)
+
+    # Highest sale combo
     max_val_hm = hmap_data.max().max()
     max_cat_hm = hmap_data.max().idxmax()
     max_store_hm = hmap_data[max_cat_hm].idxmax()
+
+    # Zero sale stores (stores with mostly zeros)
     zero_store_cats = {}
     for _s in hmap_data.index:
         zero_c = [c for c in avail if hmap_data.loc[_s,c] == 0]
         if len(zero_c) >= 7:
             zero_store_cats[_s.replace("SS, ","")] = len(zero_c)
+
+    # Category leaders (highest total sale)
     cat_totals_hm = hmap_data.sum().sort_values(ascending=False)
     top_cats_hm = cat_totals_hm.head(3)
+
+    # Weakest store (lowest total)
     store_totals_hm = hmap_data.sum(axis=1).sort_values()
     weakest_store_hm = store_totals_hm.index[0].replace("SS, ","")
     weakest_val_hm = store_totals_hm.values[0]
+
+    # Best store
     best_store_hm = store_totals_hm.index[-1].replace("SS, ","")
     best_val_hm = store_totals_hm.values[-1]
+
     zero_stores_str = ", ".join([f"<b>{s}</b> ({n} categories zero)" for s,n in list(zero_store_cats.items())[:3]]) if zero_store_cats else "None"
     top_cats_str = "<br>".join([f"<b>{c}</b> — ₹{fmt_inr(int(v))}" for c,v in top_cats_hm.items()])
 
@@ -1724,6 +1744,7 @@ with t5:
         cont_s_val = row['Sale Cont.']
         rank = int(data_swc['Total Sale'].rank(ascending=False)[sel_store])
 
+        # All 4 cards in one row — same size
         m1, m2, m3, m4 = st.columns(4)
         for col, lbl, val, icon, sub in [
             (m1, "Total MRP Sale",    f"₹{fmt_inr(total_s)}",   "💰", f"Apr'25 → Feb'26 Total"),
@@ -1783,17 +1804,22 @@ with t5:
                     fig9.update_layout(**chart_layout(300, "Category Mix"))
                     st.plotly_chart(fig9, use_container_width=True)
 
+# ══════════════════ TAB 6: PERFORMANCE ══════════════════
 with t6:
     st.markdown('<div class="section-title">📊 Month-on-Month Growth — All Stores</div>', unsafe_allow_html=True)
 
+    # MoM Growth Table
     mom_data = data_swc[MONTHS].copy()
     mom_pct = mom_data.pct_change(axis=1) * 100
+
+    # Summary MoM for all stores combined
     monthly_total = data_swc[MONTHS].sum()
     mom_total = monthly_total.pct_change() * 100
 
+    # MoM Bar Chart — Apr shown as special info box, rest as % bars
     apr_sale = float(monthly_total.values[0])
-    mom_vals_plot = [float(v) for v in mom_total.values[1:]]
-    mom_labels_plot = MONTH_SHORT[1:]
+    mom_vals_plot = [float(v) for v in mom_total.values[1:]]  # May onwards only
+    mom_labels_plot = MONTH_SHORT[1:]  # May to Feb
     colors_mom = ['#16a34a' if v >= 0 else '#dc2626' for v in mom_vals_plot]
     mom_texts = [f"{v:+.1f}%" for v in mom_vals_plot]
 
@@ -1817,6 +1843,7 @@ with t6:
         yaxis=dict(gridcolor='#ede9fe', tickfont=dict(color='#1a0030', size=11), linecolor='#ddd6fe',
                    zeroline=True, zerolinecolor='#9c27b0', zerolinewidth=2),
     )
+    # Apr info box
     st.markdown(f"""<div style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:1.5px solid #9c27b0;
         border-radius:10px;padding:.6rem 1.2rem;margin-bottom:.6rem;display:inline-block">
         <span style="font-size:.65rem;font-weight:700;letter-spacing:2px;color:#6b21a8;text-transform:uppercase">
@@ -1826,7 +1853,9 @@ with t6:
     </div>""", unsafe_allow_html=True)
     st.plotly_chart(fig_mom, use_container_width=True)
 
+    # ── Top 5 vs Bottom 5 ──
     ca6, cb6 = st.columns(2)
+
     with ca6:
         st.markdown('<div class="section-title">🏆 Top 5 Stores</div>', unsafe_allow_html=True)
         top5 = data_swc['Total Sale'].nlargest(5).sort_values()
@@ -1875,7 +1904,9 @@ with t6:
         )
         st.plotly_chart(fig_bot5, use_container_width=True)
 
+    # ── Zero Sale Months Table ──
     st.markdown('<div class="section-title">❌ Zero Sale Months — Store-wise</div>', unsafe_allow_html=True)
+
     zero_records = []
     for store in stores:
         row = data_swc.loc[store, MONTHS]
@@ -1890,24 +1921,30 @@ with t6:
                 'Zero Count': len(zero_months),
                 'Total Sale': f"₹{fmt_inr(data_swc.loc[store, 'Total Sale'])}"
             })
+
     if zero_records:
         zero_df = pd.DataFrame(zero_records).sort_values('Zero Count', ascending=False)
         st.dataframe(zero_df, use_container_width=True, hide_index=True)
         st.markdown(f"""<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:10px;
             padding:.6rem 1rem;font-size:.8rem;color:#991b1b;margin-top:.5rem">
             ⚠️ <b>{len(zero_records)} stores</b> had zero sale in one or more months.
+            These stores need immediate attention!
         </div>""", unsafe_allow_html=True)
 
+    # ── MoM Growth per Store Table ──
     st.markdown('<div class="section-title">📈 Month-on-Month Growth — Store-wise (Last Month vs Previous)</div>', unsafe_allow_html=True)
+
     mom_store = []
     for store in stores:
         row = data_swc.loc[store, MONTHS]
-        last = row.values[-1]; prev = row.values[-2]
+        last = row.values[-1]   # Feb
+        prev = row.values[-2]   # Jan
         if prev > 0:
             growth = ((last - prev) / prev) * 100
             arrow = "🟢 ▲" if growth >= 0 else "🔴 ▼"
         else:
-            growth = None; arrow = "➖ N/A"
+            growth = None
+            arrow = "➖ N/A"
         mom_store.append({
             'Store': store.replace("SS, ", ""),
             'Jan Sale': f"₹{fmt_inr(prev)}",
@@ -1915,18 +1952,23 @@ with t6:
             'MoM Growth': f"{growth:+.1f}%" if growth is not None else "N/A",
             'Trend': arrow
         })
+
     mom_df = pd.DataFrame(mom_store)
     st.dataframe(mom_df, use_container_width=True, hide_index=True)
 
 
+# ══════════════════ TAB 7: INVENTORY INTELLIGENCE ══════════════════
 with t7:
+
+    # ── Sell-Through Rate ──
     st.markdown('<div class="section-title">📊 Sell-Through Rate — Store × Category</div>', unsafe_allow_html=True)
     st.markdown("""<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;
         padding:.5rem 1rem;font-size:.8rem;color:#166534;margin-bottom:.8rem">
         <b>Sell-Through Rate</b> = Sale ÷ (Sale + Closing Stock) × 100 &nbsp;·&nbsp;
-        Higher % = Better selling &nbsp;·&nbsp; Lower % = Overstocked
+        Higher % = Better selling &nbsp;·&nbsp; Lower % = Overstocked (stock not selling)
     </div>""", unsafe_allow_html=True)
 
+    # Calculate sell-through per store per category
     st_matrix = pd.DataFrame(index=cwc_s.index, columns=avail)
     for store in cwc_s.index:
         for cat in avail:
@@ -1934,8 +1976,10 @@ with t7:
             k = cwc_k.loc[store, cat] if store in cwc_k.index else 0
             total = s + k
             st_matrix.loc[store, cat] = round(s / total * 100, 1) if total > 0 else 0
+
     st_matrix = st_matrix.astype(float)
 
+    # Heatmap for sell-through
     fig_st = go.Figure(go.Heatmap(
         z=st_matrix.values.tolist(),
         x=list(avail),
@@ -1947,7 +1991,8 @@ with t7:
         hoverongaps=False,
         hovertemplate='<b>%{y}</b><br>%{x}<br>Sell-Through: %{z:.1f}%<extra></extra>',
         zmin=0, zmax=100,
-        colorbar=dict(title="ST%", tickfont=dict(color='#1a0030', size=9), ticksuffix="%")
+        colorbar=dict(title="ST%", tickfont=dict(color='#1a0030', size=9),
+                      ticksuffix="%")
     ))
     fig_st.update_layout(
         paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(255,255,255,1)",
@@ -1960,6 +2005,7 @@ with t7:
     )
     st.plotly_chart(fig_st, use_container_width=True)
 
+    # ── Auto Insights Box ──
     avg_st = st_matrix.replace(0, np.nan).stack().mean()
     store_avg_st = st_matrix.replace(0, np.nan).mean(axis=1).sort_values(ascending=False)
     best_stores = store_avg_st[store_avg_st >= 60].index.str.replace("SS, ", "").tolist()
@@ -1989,13 +2035,14 @@ with t7:
     hero_lines = "<br>".join([f"<b>{s}</b> — Strong sell-through across categories" for s in top_heroes]) if top_heroes else "No store with consistently high ST rate"
     warn_lines = "<br>".join([f"<b>{s}</b> — Low sell-through, overstocked" for s in worst_stores[:3]]) if worst_stores else "All stores performing reasonably well"
     restock_lines = "<br>".join(restock_needed[:4]) if restock_needed else "No urgent restock required"
+    # Smart: exclude cats that have restock stores (no contradiction)
     restock_cats_st = set([x.split(' → ')[1] for x in restock_needed])
     truly_slow_cats = [c for c in slow_cats if c not in restock_cats_st]
     mixed_cats = [c for c in slow_cats if c in restock_cats_st]
     slow_lines_parts = [f"<b>{c}</b> — Reduce stock (slow across all stores)" for c in truly_slow_cats[:3]]
     if mixed_cats:
         slow_lines_parts.append(f"<i style='color:#ca8a04'>{', '.join(mixed_cats[:2])} — Mixed: slow overall but fast in specific stores</i>")
-    slow_lines = "<br>".join(slow_lines_parts) if slow_lines_parts else "No universally slow categories"
+    slow_lines = "<br>".join(slow_lines_parts) if slow_lines_parts else "No universally slow categories" 
 
     st.markdown(f"""
     <div style="background:#f8faff;border:1.5px solid #c7d7f9;border-radius:12px;padding:1.1rem 1.4rem;margin-bottom:1.2rem;">
@@ -2030,7 +2077,9 @@ with t7:
     </div>
     """, unsafe_allow_html=True)
 
+    # ── Category-Store Fit Score + Dead Stock Alert ──
     cc7, cd7 = st.columns(2)
+
     with cc7:
         st.markdown('<div class="section-title">🟢 Category-Store Fit Score</div>', unsafe_allow_html=True)
         st.markdown("""<div style="font-size:.75rem;color:#607d9b;margin-bottom:.6rem">
@@ -2045,7 +2094,12 @@ with t7:
                 total = s + k
                 if total > 0:
                     st_rate = s / total * 100
-                    fit = "🟢 Strong" if st_rate >= 60 else ("🟡 Average" if st_rate >= 30 else "🔴 Weak")
+                    if st_rate >= 60:
+                        fit = "🟢 Strong"
+                    elif st_rate >= 30:
+                        fit = "🟡 Average"
+                    else:
+                        fit = "🔴 Weak"
                     sale_qty = int(sale[(sale['Store Name']==store) & (sale['CATEGORY']==cat)]['Quantity'].sum()) if 'Quantity' in sale.columns else '—'
                     stk_qty = int(stock[(stock['Store Name']==store) & (stock['CATEGORY']==cat) & (stock['Month']=='Feb Closing')]['Quantity'].sum()) if 'Quantity' in stock.columns else '—'
                     fit_records.append({
@@ -2060,6 +2114,7 @@ with t7:
                     })
 
         fit_df = pd.DataFrame(fit_records)
+        # Show only Weak and Strong — most actionable
         fit_filter = st.selectbox("Filter by Fit", ["All", "🟢 Strong", "🟡 Average", "🔴 Weak"], key="fit_filter")
         if fit_filter != "All":
             fit_df = fit_df[fit_df['Fit'] == fit_filter]
@@ -2090,6 +2145,7 @@ with t7:
         if dead_records:
             dead_df = pd.DataFrame(dead_records).sort_values('Store')
             st.dataframe(dead_df, use_container_width=True, hide_index=True, height=400)
+            # Total dead value
             total_dead_val = 0
             total_dead_qty = 0
             for r in dead_records:
@@ -2103,7 +2159,7 @@ with t7:
             st.markdown(f"""<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:10px;
                 padding:.8rem 1.1rem;margin-top:.5rem">
                 <div style="font-size:.85rem;font-weight:700;color:#991b1b;margin-bottom:.4rem">
-                    ⚠️ <b>{len(dead_records)} store-category combinations</b> have Dead Stock
+                    ⚠️ <b>{len(dead_records)} store-category combinations</b> store-category pairs have Dead Stock
                 </div>
                 <div style="display:flex;gap:2rem;font-size:.82rem;color:#7f1d1d">
                     <span>💰 Total Dead Stock Value: <b>₹{fmt_inr(int(total_dead_val))}</b></span>
@@ -2113,26 +2169,37 @@ with t7:
         else:
             st.success("✅ No dead stock found!")
 
+    # ── Stock Recommendations ──
     st.markdown('<div class="section-title">📋 Stock Recommendations</div>', unsafe_allow_html=True)
+
     rec_records = []
     for store in cwc_s.index:
         for cat in avail:
             s = cwc_s.loc[store, cat] if store in cwc_s.index else 0
             k = cwc_k.loc[store, cat] if store in cwc_k.index else 0
             total = s + k
-            if total == 0: continue
+            if total == 0:
+                continue
             st_rate = s / total * 100
+
             if st_rate >= 75 and s > 5000:
-                rec = "📦 Increase Stock — High Demand"; priority = "🔴 Urgent"
+                rec = "📦 Increase Stock — High Demand"
+                priority = "🔴 Urgent"
             elif st_rate >= 60 and s > 0:
-                rec = "📦 Replenish Stock — Good Seller"; priority = "🟡 Medium"
+                rec = "📦 Replenish Stock — Good Seller"
+                priority = "🟡 Medium"
             elif st_rate < 20 and k > 10000:
-                rec = "🔄 Transfer to Better Performing Store"; priority = "🔴 Urgent"
+                rec = "🔄 Transfer to Better Performing Store"
+                priority = "🔴 Urgent"
             elif s == 0 and k > 0:
-                rec = "❌ Remove Stock — No Sale"; priority = "🔴 Urgent"
+                rec = "❌ Remove Stock — No Sale"
+                priority = "🔴 Urgent"
             elif st_rate < 30 and k > 5000:
-                rec = "⬇️ Reduce Stock — Slow Mover"; priority = "🟡 Medium"
-            else: continue
+                rec = "⬇️ Reduce Stock — Slow Mover"
+                priority = "🟡 Medium"
+            else:
+                continue
+
             rsq = int(sale[sale['Store Name']==store][sale['CATEGORY']==cat]['Quantity'].sum()) if 'Quantity' in sale.columns else '—'
             rkq = int(stock[(stock['Store Name']==store) & (stock['CATEGORY']==cat) & (stock['Month']=='Feb Closing')]['Quantity'].sum()) if 'Quantity' in stock.columns else '—'
             rec_records.append({
@@ -2156,10 +2223,13 @@ with t7:
         st.markdown(f"""<div style="background:#eff6ff;border:1px solid #93c5fd;border-radius:8px;
             padding:.6rem 1rem;font-size:.8rem;color:#1e40af;margin-top:.5rem">
             💡 <b>{len(rec_records)} recommendations</b> generated based on Sell-Through Rate analysis.
+            Filter by Priority to focus on urgent actions first.
         </div>""", unsafe_allow_html=True)
 
+# ══════════════════ TAB 8: AI STRATEGY SUMMARY ══════════════════
 with t8:
     st.markdown('<div class="section-title">🤖 AI Strategy Summary</div>', unsafe_allow_html=True)
+
     st.markdown("""<div style="background:linear-gradient(135deg,#3a0068,#6a1b9a);border-radius:12px;
         padding:1rem 1.4rem;margin-bottom:1rem;color:#fff">
         <div style="font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
@@ -2168,6 +2238,8 @@ with t8:
         sell-through rates, dead stock — and generates a smart business strategy with action plan.</div>
     </div>""", unsafe_allow_html=True)
 
+    # ── Build data summary for AI ──
+    # Sell-through matrix
     st_mat = pd.DataFrame(index=cwc_s.index, columns=avail)
     for _s in cwc_s.index:
         for _c in avail:
@@ -2177,18 +2249,23 @@ with t8:
             st_mat.loc[_s, _c] = round(sv/t*100, 1) if t > 0 else 0
     st_mat = st_mat.astype(float)
 
+    # Key metrics
     total_sale = float(grand)
     total_stock = float(data_swc['Feb Closing Stk'].sum())
     overall_st = float(st_mat.replace(0, np.nan).stack().mean())
     num_stores = len(stores)
     num_cats = len(avail)
 
+    # Top/Bottom stores
     top3 = data_swc['Total Sale'].nlargest(3)
     bot3 = data_swc['Total Sale'].nsmallest(3)
+
+    # Category performance
     cat_sale = gt_s[avail].sort_values(ascending=False)
     cat_stock = gt_k[avail].sort_values(ascending=False)
     cat_st = st_mat.replace(0, np.nan).mean(axis=0).sort_values(ascending=False)
 
+    # Dead stock
     dead_items = []
     dead_val = 0
     for _s in cwc_s.index:
@@ -2199,6 +2276,7 @@ with t8:
                 dead_items.append(f"{_s.replace('SS, ','')}:{_c}=₹{fmt_inr(kv)}")
                 dead_val += kv
 
+    # Restock needed
     restock_items = []
     for _s in cwc_s.index:
         for _c in avail:
@@ -2208,11 +2286,13 @@ with t8:
             if t > 0 and sv > 5000 and sv/t*100 >= 80:
                 restock_items.append(f"{_s.replace('SS, ','')}:{_c}({sv/t*100:.0f}%ST)")
 
+    # MoM last month
     monthly_vals = data_swc[MONTHS].sum()
     mom_last = ((monthly_vals.values[-1] - monthly_vals.values[-2]) / monthly_vals.values[-2] * 100) if monthly_vals.values[-2] > 0 else 0
     best_month_idx = monthly_vals.values.argmax()
     worst_month_idx = monthly_vals.values.argmin()
 
+    # Zero sale stores
     zero_stores = []
     for _s in stores:
         row = data_swc.loc[_s, MONTHS]
@@ -2220,12 +2300,13 @@ with t8:
         if zc >= 3:
             zero_stores.append(f"{_s.replace('SS, ','')}({zc} months)")
 
+    # Build comprehensive data prompt
     data_prompt = f"""You are a senior retail business consultant analyzing sales data for SS Retail (UCB brand stores in India).
 
 BUSINESS DATA SUMMARY:
 - Total MRP Sale: ₹{fmt_inr(int(total_sale))} across {num_stores} stores, {num_cats} categories, Apr'25–Feb'26 (11 months)
 - Total Closing Stock: ₹{fmt_inr(int(total_stock))}
-- Overall Sell-Through Rate: {overall_st:.1f}%
+- Overall Sell-Through Rate: {overall_st:.1f}% (only {overall_st:.1f}% of total inventory sold)
 - Last Month Growth (Jan→Feb): {mom_last:+.1f}%
 - Best Month: {MONTH_SHORT[best_month_idx]} | Worst Month: {MONTH_SHORT[worst_month_idx]}
 
@@ -2262,6 +2343,7 @@ Based on this data, provide a structured business strategy report in English wit
 
 Be specific with store names and numbers. Be direct and business-focused. No fluff."""
 
+    # ── Generate Button ──
     if 'ai_summary' not in st.session_state:
         st.session_state.ai_summary = None
     if 'ai_loading' not in st.session_state:
@@ -2300,8 +2382,11 @@ Be specific with store names and numbers. Be direct and business-focused. No flu
                 st.session_state.ai_loading = False
         st.rerun()
 
+    # ── Display AI Summary ──
     if st.session_state.ai_summary:
         summary_text = st.session_state.ai_summary
+
+        # Parse and render each section beautifully
         section_styles = {
             "EXECUTIVE SUMMARY": ("📋", "#1e3a5f", "#eff6ff", "#1e40af"),
             "KEY STRENGTHS": ("💪", "#166534", "#f0fdf4", "#16a34a"),
@@ -2310,13 +2395,16 @@ Be specific with store names and numbers. Be direct and business-focused. No flu
             "INVENTORY ACTION PLAN": ("📦", "#854d0e", "#fefce8", "#ca8a04"),
             "IMMEDIATE PRIORITIES": ("⚡", "#065f46", "#ecfdf5", "#059669"),
         }
+
         lines = summary_text.split('\n')
         current_section = None
         sections = {}
         current_content = []
+
         for line in lines:
             line = line.strip()
-            if not line: continue
+            if not line:
+                continue
             matched = False
             for sec_key in section_styles.keys():
                 if sec_key in line.upper():
@@ -2328,21 +2416,26 @@ Be specific with store names and numbers. Be direct and business-focused. No flu
                     break
             if not matched and current_section:
                 current_content.append(line)
+
         if current_section:
             sections[current_section] = '\n'.join(current_content)
 
+        # Render sections
         for sec_key, (icon, title_color, bg_color, border_color) in section_styles.items():
             if sec_key in sections:
                 sec_content = sections[sec_key]
+                # Format bullet points
                 formatted = []
                 for l in sec_content.split('\n'):
                     l = l.strip()
-                    if not l: continue
+                    if not l:
+                        continue
                     if l.startswith(('-', '•', '*')):
                         l = '• ' + l.lstrip('-•* ').strip()
                     elif l[0].isdigit() and '.' in l[:3]:
                         l = '→ ' + l[2:].strip() if l[1] == '.' else l
                     formatted.append(f'<div style="margin:.25rem 0;font-size:.85rem;color:#1a0030;line-height:1.5">{l}</div>')
+
                 st.markdown(f"""
                 <div style="background:{bg_color};border-left:4px solid {border_color};
                     border-radius:10px;padding:.9rem 1.1rem;margin-bottom:.8rem">
@@ -2353,6 +2446,7 @@ Be specific with store names and numbers. Be direct and business-focused. No flu
                     {''.join(formatted)}
                 </div>""", unsafe_allow_html=True)
 
+        # Download button for summary
         st.markdown("<br>", unsafe_allow_html=True)
         d1, d2, d3 = st.columns([1,2,1])
         with d2:
@@ -2371,5 +2465,5 @@ Be specific with store names and numbers. Be direct and business-focused. No flu
             <div style="font-size:1rem;color:#607d9b;font-weight:500;margin-top:.8rem">
                 Click "Generate AI Strategy Summary" to get AI analysis</div>
             <div style="font-size:.8rem;color:#90a4c0;margin-top:.4rem">
-                Analyses all stores · categories · months of data</div>
+                Analyses all 28 stores · 11 categories · 11 months of data</div>
         </div>""", unsafe_allow_html=True)
