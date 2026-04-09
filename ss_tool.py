@@ -19,9 +19,11 @@ st.markdown("""
 .stApp { background: #f4f0ff !important; }
 #MainMenu, footer, header { visibility: hidden; }
 
+/* Remove Streamlit default top padding */
 .block-container { padding-top: 0.8rem !important; padding-bottom: 1rem !important; }
 [data-testid="stAppViewContainer"] > section > div { padding-top: 0 !important; }
 
+/* ══ NAVBAR ══ */
 .hero {
     padding: 0.55rem 1.4rem;
     display: flex; align-items: center; gap: 1rem;
@@ -54,6 +56,7 @@ st.markdown("""
     margin: 0.08rem 0 0 0; font-weight: 400;
 }
 
+/* ══ KPI CARDS ══ */
 .kpi-card {
     background: linear-gradient(135deg, #6a1b9a 0%, #9c27b0 100%);
     border: none; border-radius: 16px;
@@ -67,19 +70,23 @@ st.markdown("""
 .kpi-value.blue { color:#ffffff !important; }
 .kpi-sub { font-size:.75rem; color:rgba(255,255,255,0.7); margin-top:.35rem; font-weight:500; }
 
+/* ══ SECTION TITLES ══ */
 .section-title {
     font-size:.65rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase;
     color:#6a1b9a; padding:.5rem 0; margin-bottom:.8rem;
     border-bottom: 2.5px solid #ddd6fe;
 }
 
+/* ══ STREAMLIT OVERRIDES ══ */
 .stApp > div { background: #f4f0ff !important; }
 
+/* Text - make ALL dark and readable */
 p { color: #1a0030 !important; font-size:.9rem !important; }
 label { color: #3d0066 !important; font-weight:600 !important; font-size:.85rem !important; }
 [data-testid="stWidgetLabel"] p { color:#6a1b9a !important; font-size:.85rem !important; font-weight:600 !important; }
 div[data-testid="stDataFrame"] * { color:#1a0030 !important; font-size:.84rem !important; }
 
+/* Inputs */
 .stSelectbox > div > div, .stMultiSelect > div > div {
     background:#ffffff !important; border:1.5px solid #c084fc !important; border-radius:10px !important;
     color:#1a0030 !important;
@@ -89,9 +96,11 @@ div[data-testid="stDataFrame"] * { color:#1a0030 !important; font-size:.84rem !i
 [data-baseweb="option"]:hover { background:rgba(106,27,154,0.08) !important; }
 li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6a1b9a !important; }
 
+/* Tags in multiselect */
 [data-baseweb="tag"] { background:#ede9fe !important; }
 [data-baseweb="tag"] span { color:#4c1d95 !important; font-weight:600 !important; }
 
+/* Buttons */
 .stButton > button {
     background: linear-gradient(135deg,#6a1b9a,#9c27b0) !important;
     color: #ffffff !important; border: none !important; border-radius: 12px !important;
@@ -116,12 +125,14 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
 }
 .stDownloadButton > button:hover { background:#f5f0ff !important; }
 
+/* File uploader */
 [data-testid="stFileUploader"] {
     background:#f3e5f5 !important; border:2px dashed #c084fc !important; border-radius:14px !important;
 }
 [data-testid="stFileUploader"] * { color:#4a0072 !important; font-weight:500 !important; }
 [data-testid="stFileUploaderFileName"] { color:#4a0072 !important; font-weight:700 !important; }
 
+/* Tabs */
 .stTabs [data-baseweb="tab-list"] {
     background:#fff !important; border-radius:12px !important; padding:4px !important;
     border:1.5px solid #ddd6fe !important; box-shadow: 0 2px 8px rgba(106,27,154,0.08) !important;
@@ -136,10 +147,12 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
 }
 .stTabs [aria-selected="true"] * { color: #ffffff !important; }
 
+/* Success/spinner */
 .stSuccess { background:#f0fdf4 !important; border:1px solid #86efac !important; border-radius:10px !important; }
 .stSuccess * { color:#166534 !important; font-weight:600 !important; }
 [data-testid="stSpinner"] * { color:#6a1b9a !important; }
 
+/* Dataframe */
 .stDataFrame { border-radius:12px !important; overflow:hidden; }
 </style>
 """, unsafe_allow_html=True)
@@ -155,33 +168,36 @@ GOLD = "1565c0"; WHITE = "FFFFFF"; BG1 = "1e3a5f"; BG2 = "e8f0f9"
 BG3 = "dce8f5"; BG4 = "c5d5e8"; GREY = "607d9b"
 
 def chart_layout(height=400, title="", xangle=0, show_legend=True):
+    """Returns a clean layout dict — no xaxis/yaxis conflict"""
     return dict(
         paper_bgcolor="rgba(255,255,255,1)",
-        plot_bgcolor="rgba(240,244,248,0.5)",
-        font=dict(color="#1a2e4a", family="Inter", size=12),
+        plot_bgcolor="rgba(245,240,255,0.5)",
+        font=dict(color="#1a0030", family="Inter", size=12),
         margin=dict(l=10, r=10, t=55, b=10),
         height=height,
-        title=dict(text=f"<b>{title}</b>", font=dict(color="#1a2e4a", size=15, family="Plus Jakarta Sans")),
+        title=dict(text=f"<b>{title}</b>", font=dict(color="#1a0030", size=15, family="Plus Jakarta Sans")),
         legend=dict(
-            font=dict(color="#1a2e4a", size=11),
+            font=dict(color="#1a0030", size=11),
             bgcolor="rgba(255,255,255,0.97)",
-            bordercolor="#c5d5e8", borderwidth=1.5,
+            bordercolor="#ddd6fe", borderwidth=1.5,
             visible=show_legend,
         ),
         xaxis=dict(
-            gridcolor="#dce8f5", tickfont=dict(color="#1a2e4a", size=11, family="Inter"),
-            linecolor="#c5d5e8", tickangle=xangle, showgrid=True,
+            gridcolor="#ede9fe", tickfont=dict(color="#1a0030", size=11, family="Inter"),
+            linecolor="#ddd6fe", tickangle=xangle, showgrid=True,
         ),
         yaxis=dict(
-            gridcolor="#dce8f5", tickfont=dict(color="#1a2e4a", size=11, family="Inter"),
-            linecolor="#c5d5e8", showgrid=True,
+            gridcolor="#ede9fe", tickfont=dict(color="#1a0030", size=11, family="Inter"),
+            linecolor="#ddd6fe", showgrid=True,
         ),
     )
 
+# Chart color palettes
 BLUE_SEQ = [[0,'#f3e5f5'],[0.4,'#9c27b0'],[1,'#6a1b9a']]
 CAT_COLORS_LIGHT = ['#7b1fa2','#e91e63','#ff6f00','#1565c0','#2e7d32',
                     '#00838f','#f57f17','#6a1b9a','#c62828','#00695c','#4527a0']
 
+# ══════════════════ HELPERS ══════════════════
 def fmt_inr(v):
     if pd.isna(v) or v == 0: return "—"
     v = int(round(float(v)))
@@ -209,39 +225,69 @@ def thick_border():
     s = Side(style='thin', color="c5d5e8")
     return Border(left=s, right=s, top=t, bottom=t)
 
-E_TITLE_BG   = "1e3a5f"
-E_TITLE_FG   = "FFFFFF"
-E_HDR_BG     = "f8f9fa"
-E_HDR_FG     = "374151"
-E_SUBHDR_BG  = "e8f4fd"
-E_SUBHDR_FG  = "1565c0"
-E_CONT_BG    = "f8f9fa"
-E_CONT_FG    = "6b7280"
-E_TOTAL_BG   = "e8eaf6"
-E_TOTAL_FG   = "1a237e"
-E_ROW1       = "FFFFFF"
-E_ROW2       = "FFFFFF"
-E_DATA_FG    = "374151"
-E_SALE_FG    = "1565c0"
-E_STK_FG     = "6b7280"
-E_CONT_PCT   = "374151"
-E_BORDER     = "e5e7eb"
+# ── Excel Color Palette (Pastel Multi-color like CRM dashboard) ──
+E_TITLE_BG   = "1e3a5f"   # Dark navy  - title row bg
+E_TITLE_FG   = "FFFFFF"   # White      - title text
+E_HDR_BG     = "f8f9fa"   # Light grey - header bg
+E_HDR_FG     = "374151"   # Dark grey  - header text
+E_SUBHDR_BG  = "e8f4fd"   # Light blue - sub-header bg
+E_SUBHDR_FG  = "1565c0"   # Blue
+E_CONT_BG    = "f8f9fa"   # Light grey - contribution row
+E_CONT_FG    = "6b7280"   # Grey       - contribution text
+E_TOTAL_BG   = "e8eaf6"   # Light indigo - grand total bg
+E_TOTAL_FG   = "1a237e"   # Dark indigo - grand total text
+E_ROW1       = "FFFFFF"   # White      - odd rows
+E_ROW2       = "FFFFFF"   # White      - even rows (no stripe, use col colors)
+E_DATA_FG    = "374151"   # Dark grey  - data text
+E_SALE_FG    = "1565c0"   # Blue       - Total Sale highlight
+E_STK_FG     = "6b7280"   # Grey       - Stock text
+E_CONT_PCT   = "374151"   # Dark       - contribution %
+E_BORDER     = "e5e7eb"   # Light grey border
 
+# Pastel column colors (like the CRM example - each month gets a color band)
+# These are used as light background tints per column group
 MONTH_COLORS = [
-    "dbeafe","dcfce7","fef9c3","ffedd5","fce7f3",
-    "ede9fe","d1fae5","fee2e2","dbeafe","dcfce7","fef9c3",
+    "dbeafe",  # light blue    - Apr
+    "dcfce7",  # light green   - May
+    "fef9c3",  # light yellow  - Jun
+    "ffedd5",  # light orange  - Jul
+    "fce7f3",  # light pink    - Aug
+    "ede9fe",  # light purple  - Sep
+    "d1fae5",  # light teal    - Oct
+    "fee2e2",  # light red     - Nov
+    "dbeafe",  # light blue    - Dec
+    "dcfce7",  # light green   - Jan
+    "fef9c3",  # light yellow  - Feb
 ]
 MONTH_FG = [
-    "1e40af","166534","854d0e","9a3412","9d174d",
-    "5b21b6","065f46","991b1b","1e40af","166534","854d0e",
+    "1e40af",  # blue    - Apr
+    "166534",  # green   - May
+    "854d0e",  # yellow  - Jun
+    "9a3412",  # orange  - Jul
+    "9d174d",  # pink    - Aug
+    "5b21b6",  # purple  - Sep
+    "065f46",  # teal    - Oct
+    "991b1b",  # red     - Nov
+    "1e40af",  # blue    - Dec
+    "166534",  # green   - Jan
+    "854d0e",  # yellow  - Feb
 ]
+# CWC category pastel colors (Sale col)
 CAT_COLORS_XL = [
-    ("dbeafe","1e40af"),("dcfce7","166534"),("fef9c3","854d0e"),
-    ("ffedd5","9a3412"),("fce7f3","9d174d"),("ede9fe","5b21b6"),
-    ("d1fae5","065f46"),("fee2e2","991b1b"),("dbeafe","1e40af"),
-    ("dcfce7","166534"),("fef9c3","854d0e"),
+    ("dbeafe","1e40af"),   # BAG - blue
+    ("dcfce7","166534"),   # BANDS - green
+    ("fef9c3","854d0e"),   # COLD WEATHER - yellow
+    ("ffedd5","9a3412"),   # HYDRATION - orange
+    ("fce7f3","9d174d"),   # INFLATABLE - pink
+    ("ede9fe","5b21b6"),   # MOVEMENT SUPPORT - purple
+    ("d1fae5","065f46"),   # OTHER - teal
+    ("fee2e2","991b1b"),   # PERFORMANCE APPAREL - red
+    ("dbeafe","1e40af"),   # RUNNING - blue
+    ("dcfce7","166534"),   # TRAINING - green
+    ("fef9c3","854d0e"),   # YOGA - yellow
 ]
 
+# ══════════════════ PROCESSING ══════════════════
 def process(file):
     df = pd.read_excel(file, header=1)
     df.columns = [str(c).strip() for c in df.columns]
@@ -251,6 +297,8 @@ def process(file):
     sale  = df[df['Sale/ Stock'] == 'Sale'].copy()
     stock = df[df['Sale/ Stock'] == 'Stock'].copy()
 
+
+    # ── SWC ──
     swc = sale.pivot_table(index='Store Name', columns='Month',
                            values='Mrp Vlu', aggfunc='sum').reindex(columns=MONTHS)
     swc['Total Sale'] = swc[MONTHS].sum(axis=1)
@@ -259,6 +307,7 @@ def process(file):
     grand = swc['Total Sale'].sum()
     swc['Sale Cont.'] = swc['Total Sale'] / grand
 
+    # month cont row
     mc = (swc[MONTHS].sum() / grand).to_frame().T
     mc.index = ['_mc']
     mc['Total Sale'] = 1.0; mc['Feb Closing Stk'] = np.nan; mc['Sale Cont.'] = np.nan
@@ -269,6 +318,7 @@ def process(file):
 
     swc_final = pd.concat([mc, swc, gt_swc])
 
+    # ── CWC ──
     avail = [c for c in CATS if c in sale['CATEGORY'].unique()]
     cwc_s = sale.pivot_table(index='Store Name', columns='CATEGORY',
                              values='Mrp Vlu', aggfunc='sum').reindex(columns=avail).fillna(0)
@@ -286,7 +336,9 @@ def process(file):
 
     return swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, sale, stock, grand, avail
 
+# ══════════════════ EXCEL BUILDER ══════════════════
 def _c(row, col, ws, val, bg, fg, sz=9, bold=False, h="center", ind=0, wrap=False):
+    """Helper: set cell value + style in one shot."""
     cell = ws.cell(row=row, column=col, value=val)
     cell.font      = Font(bold=bold, size=sz, color=fg, name="Calibri")
     cell.fill      = PatternFill("solid", fgColor=bg)
@@ -302,25 +354,32 @@ def _c(row, col, ws, val, bg, fg, sz=9, bold=False, h="center", ind=0, wrap=Fals
 def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     wb = Workbook()
 
+    # ── Pastel palette ──
+    # Each month gets its own pastel bg + matching dark fg
     M_BG = ["dbeafe","dcfce7","fef9c3","ffedd5","fce7f3",
             "ede9fe","d1fae5","fee2e2","e0f2fe","d1fae5","fef9c3"]
     M_FG = ["1e40af","166534","854d0e","9a3412","9d174d",
             "5b21b6","065f46","991b1b","0c4a6e","065f46","854d0e"]
+    # Same for CWC categories
     C_BG = ["dbeafe","dcfce7","fef9c3","ffedd5","fce7f3",
             "ede9fe","d1fae5","fee2e2","e0f2fe","d1fae5","fef9c3"]
     C_FG = ["1e40af","166534","854d0e","9a3412","9d174d",
             "5b21b6","065f46","991b1b","0c4a6e","065f46","854d0e"]
+    # Stock columns: lighter tint of same color
     S_BG = ["eff6ff","f0fdf4","fefce8","fff7ed","fdf2f8",
             "f5f3ff","ecfdf5","fef2f2","f0f9ff","ecfdf5","fefce8"]
     S_FG = ["6b7280","6b7280","6b7280","6b7280","6b7280",
             "6b7280","6b7280","6b7280","6b7280","6b7280","6b7280"]
 
-    HDR_BG = "f3f4f6"; HDR_FG = "111827"
-    TITLE_BG = "1e3a5f"; TITLE_FG = "FFFFFF"
-    CONT_BG = "f9fafb"; CONT_FG = "6b7280"
-    GT_BG = "e8eaf6";   GT_FG = "1a237e"
+    HDR_BG = "f3f4f6"; HDR_FG = "111827"          # column header row
+    TITLE_BG = "1e3a5f"; TITLE_FG = "FFFFFF"       # title banner
+    CONT_BG = "f9fafb"; CONT_FG = "6b7280"         # contribution % row
+    GT_BG = "e8eaf6";   GT_FG = "1a237e"           # Grand Total row
     WHITE = "FFFFFF";    DGREY = "374151"
 
+    # ════════════════════════════════════════
+    # SWC SHEET
+    # ════════════════════════════════════════
     ws = wb.active; ws.title = "SWC"
     ws.sheet_view.showGridLines = False
     ws.sheet_properties.tabColor = "1565c0"
@@ -328,21 +387,25 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     all_cols = ["Row Labels"] + MONTHS + ["Total Sale", "Feb Closing Stk", "Sale Cont."]
     n = len(all_cols)
 
+    # ── Row 1: Title ──
     ws.merge_cells(f"A1:{get_column_letter(n)}1")
     _c(1, 1, ws, "STORE WISE CONTRIBUTION (SWC)", TITLE_BG, TITLE_FG, sz=13, bold=True)
     ws.row_dimensions[1].height = 32
 
+    # ── Row 2: Month % contribution — each cell gets its month color ──
     mc_row = swc_final.loc['_mc']
     _c(2, 1, ws, "", CONT_BG, CONT_FG)
     for mi, col in enumerate(MONTHS):
         ci = mi + 2
         v = mc_row[col]
-        _c(2, ci, ws, f"{v*100:.2f}%" if pd.notna(v) else "", M_BG[mi], M_FG[mi], sz=8, bold=True)
+        _c(2, ci, ws, f"{v*100:.2f}%" if pd.notna(v) else "",
+           M_BG[mi], M_FG[mi], sz=8, bold=True)
     _c(2, n-2, ws, "100.00%", "e8eaf6", "1a237e", sz=8, bold=True)
     _c(2, n-1, ws, "", CONT_BG, CONT_FG)
     _c(2, n,   ws, "", CONT_BG, CONT_FG)
     ws.row_dimensions[2].height = 17
 
+    # ── Row 3: Column headers — each month header gets its color ──
     _c(3, 1, ws, "Store Name", HDR_BG, HDR_FG, sz=9, bold=True, h="left", ind=1)
     for mi, col in enumerate(MONTHS):
         ci = mi + 2
@@ -353,6 +416,7 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     _c(3, n,   ws, "Sale Cont.",       "dcfce7", "166534", sz=9, bold=True)
     ws.row_dimensions[3].height = 26
 
+    # ── Data rows ──
     data_rows = swc_final[~swc_final.index.isin(['_mc', 'Grand Total'])]
     for ri, (store, row) in enumerate(data_rows.iterrows(), 4):
         _c(ri, 1, ws, str(store), WHITE, DGREY, sz=9, h="left", ind=1)
@@ -361,14 +425,18 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
             v = row[col]
             val = int(v) if pd.notna(v) and v != 0 else "—"
             _c(ri, ci, ws, val, M_BG[mi], M_FG[mi], sz=9)
+        # Total Sale
         ts = row['Total Sale']
         _c(ri, n-2, ws, int(ts) if pd.notna(ts) else "—", "dbeafe", "1e40af", sz=9, bold=True)
+        # Closing Stock
         v = row['Feb Closing Stk']
         _c(ri, n-1, ws, int(v) if pd.notna(v) and v != 0 else "—", WHITE, "6b7280", sz=9)
+        # Sale Cont.
         v = row['Sale Cont.']
         _c(ri, n, ws, pct(v,4) if pd.notna(v) else "—", "dcfce7", "166534", sz=9, bold=True)
         ws.row_dimensions[ri].height = 18
 
+    # ── Grand Total row ──
     gr = len(data_rows) + 4
     gt_row = swc_final.loc['Grand Total']
     _c(gr, 1, ws, "Grand Total", GT_BG, GT_FG, sz=10, bold=True, h="left", ind=1)
@@ -382,11 +450,15 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     _c(gr, n,   ws, "100.00%",                          GT_BG, GT_FG, sz=9,  bold=True)
     ws.row_dimensions[gr].height = 22
 
+    # ── Column widths + freeze ──
     ws.column_dimensions['A'].width = 22
     for ci in range(2, n+1):
         ws.column_dimensions[get_column_letter(ci)].width = 11
     ws.freeze_panes = "B4"
 
+    # ════════════════════════════════════════
+    # CWC SHEET
+    # ════════════════════════════════════════
     ws2 = wb.create_sheet("CWC")
     ws2.sheet_view.showGridLines = False
     ws2.sheet_properties.tabColor = "0288d1"
@@ -394,10 +466,12 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     ncats = len(avail)
     total_cols = 1 + ncats * 2 + 2
 
+    # ── Row 1: Title ──
     ws2.merge_cells(f"A1:{get_column_letter(total_cols)}1")
     _c(1, 1, ws2, "CATEGORY WISE CONTRIBUTION (CWC)", TITLE_BG, TITLE_FG, sz=13, bold=True)
     ws2.row_dimensions[1].height = 32
 
+    # ── Row 2: Contribution % ──
     _c(2, 1, ws2, "Contribution", CONT_BG, CONT_FG, sz=8, bold=True, h="left", ind=1)
     ci = 2
     for i, cat in enumerate(avail):
@@ -411,6 +485,7 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     _c(2, ci+1, ws2, "100%", "f9fafb", "6b7280", sz=8)
     ws2.row_dimensions[2].height = 17
 
+    # ── Row 3: Grand Total values ──
     _c(3, 1, ws2, "Total", GT_BG, GT_FG, sz=9, bold=True, h="left", ind=1)
     ci = 2
     for i, cat in enumerate(avail):
@@ -423,6 +498,7 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     _c(3, ci+1, ws2, int(gt_k['TOTAL']) if gt_k['TOTAL'] > 0 else "—", GT_BG, "6b7280", sz=9)
     ws2.row_dimensions[3].height = 20
 
+    # ── Row 4: Category headers (merged pairs) ──
     _c(4, 1, ws2, "", HDR_BG, HDR_FG)
     ci = 2
     _bdr = Border(left=Side(style='thin',color="e5e7eb"),right=Side(style='thin',color="e5e7eb"),
@@ -440,6 +516,7 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     ws2.cell(row=4, column=ci+1).border = _bdr
     ws2.row_dimensions[4].height = 24
 
+    # ── Row 5: Sale / Stock sub-headers ──
     _c(5, 1, ws2, "Store Name", HDR_BG, HDR_FG, sz=9, bold=True)
     ci = 2
     for i in range(len(avail)):
@@ -451,6 +528,7 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     _c(5, ci+1, ws2, "Stock (MRP Value)", "f3f4f6", "6b7280", sz=8, bold=True)
     ws2.row_dimensions[5].height = 18
 
+    # ── Store data rows ──
     stores_cwc = cwc_s.index.tolist()
     for ri, store in enumerate(stores_cwc, 6):
         _c(ri, 1, ws2, str(store), WHITE, DGREY, sz=9, h="left", ind=1)
@@ -468,6 +546,7 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
         _c(ri, ci+1, ws2, int(tk) if tk else "—", WHITE, "6b7280", sz=9)
         ws2.row_dimensions[ri].height = 18
 
+    # ── Grand Total row ──
     gr2 = len(stores_cwc) + 6
     _c(gr2, 1, ws2, "Grand Total", GT_BG, GT_FG, sz=10, bold=True, h="left", ind=1)
     ci = 2
@@ -480,6 +559,7 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     _c(gr2, ci+1, ws2, int(gt_k['TOTAL']) if gt_k['TOTAL'] else "—", GT_BG, "6b7280", sz=9)
     ws2.row_dimensions[gr2].height = 22
 
+    # ── Column widths + freeze ──
     ws2.column_dimensions['A'].width = 22
     for ci in range(2, total_cols + 1):
         ws2.column_dimensions[get_column_letter(ci)].width = 14
@@ -489,9 +569,11 @@ def build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail):
     return out
 
 
+# ══════════════════ SESSION STATE ══════════════════
 for k, v in {"ready": False, "data": None}.items():
     if k not in st.session_state: st.session_state[k] = v
 
+# ══════════════════ UI ══════════════════
 st.markdown("""
 <div class="hero">
   <div class="hero-badge">Sale Analyzer</div>
@@ -507,6 +589,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+# ── Upload ──
 c1, c2, c3 = st.columns([1,2,1])
 with c2:
     uploaded = st.file_uploader("Sale_Report.xlsx", type=["xlsx","xls"], label_visibility="collapsed")
@@ -531,6 +614,7 @@ if not st.session_state.ready:
     """, unsafe_allow_html=True)
     st.stop()
 
+# ── Unpack ──
 swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, sale, stock, grand, avail = st.session_state.data
 
 data_swc = swc_final[~swc_final.index.isin(['_mc','Grand Total'])]
@@ -539,6 +623,7 @@ total_closing = data_swc['Feb Closing Stk'].sum()
 top_store = data_swc['Total Sale'].idxmax()
 top_val = data_swc.loc[top_store,'Total Sale']
 
+# ── KPIs ──
 k1,k2,k3,k4 = st.columns(4)
 for col, lbl, val, sub, icon in [
     (k1, "Total MRP Sale",   f"₹{fmt_inr(grand)}",        f"Apr'25 – Feb'26 · Include {len(stores)} Stores", "💰"),
@@ -558,6 +643,7 @@ for col, lbl, val, sub, icon in [
 
 st.markdown("<br>", unsafe_allow_html=True)
 
+# ── Build HTML Dashboard ──
 def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONTHS, MONTH_SHORT, BLUE_SEQ, CAT_COLORS_LIGHT, fmt_inr, pct, chart_layout, stock=None):
 
     import json
@@ -576,46 +662,51 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
         j = json.dumps(d)
         return f'<div id="{did}" style="width:100%;overflow:hidden"></div><script>var _d{did}={j};Plotly.newPlot("{did}",_d{did}.data,_d{did}.layout,{{responsive:true,displayModeBar:false,displaylogo:false}});</script>'
 
+    # KPIs
     total_closing = data_swc['Feb Closing Stk'].sum()
     total_closing_qty = int(stock[stock['Month']=='Feb Closing']['Quantity'].sum()) if stock is not None and 'Quantity' in stock.columns else 0
     top_store = data_swc['Total Sale'].idxmax().replace("SS, ","")
     top_val = data_swc['Total Sale'].max()
 
+    # ── Chart 1: Monthly Bar ──
     monthly = data_swc[MONTHS].sum()
     f1 = go.Figure(go.Bar(
         x=MONTH_SHORT, y=monthly.values.tolist(),
         marker=dict(color=monthly.values.tolist(), colorscale=BLUE_SEQ, line=dict(width=0)),
         text=[f"₹{fmt_inr(v)}" for v in monthly.values],
-        textposition='outside', textfont=dict(size=13, color='#1a2e4a'),
+        textposition='outside', textfont=dict(size=13, color='#1a0030'),
     ))
     f1.update_layout(**chart_layout(400, "Monthly MRP Sale — All Stores Combined (Apr'25 – Feb'26)"), bargap=0.3, yaxis_range=[0, float(monthly.max()) * 1.22])
     f1.update_layout(margin=dict(l=60, r=20, t=55, b=60))
 
+    # ── Chart 2: Top 10 Stores ──
     top10 = data_swc['Total Sale'].nlargest(10).sort_values()
     f2 = go.Figure(go.Bar(
         x=top10.values.tolist(), y=top10.index.str.replace("SS, ","").tolist(),
         orientation='h',
         marker=dict(color=top10.values.tolist(), colorscale=BLUE_SEQ, line=dict(width=0)),
         text=[f"₹{fmt_inr(v)}" for v in top10.values],
-        textposition='outside', textfont=dict(size=12, color='#1a2e4a'),
+        textposition='outside', textfont=dict(size=12, color='#1a0030'),
     ))
     f2.update_layout(**chart_layout(420, "Top 10 Stores by MRP Sale (Apr'25 – Feb'26)"), xaxis_range=[0, float(top10.max()) * 1.42])
     f2.update_layout(margin=dict(l=160, r=180, t=55, b=40))
 
+    # ── Chart 3: Category Pie ──
     cat_vals = gt_s[avail]
     f3 = go.Figure(go.Pie(
         labels=list(avail), values=cat_vals.values.tolist(), hole=0.52,
         marker=dict(colors=CAT_COLORS_LIGHT[:len(avail)], line=dict(color='#fff', width=2)),
         textinfo='label+percent',
-        textfont=dict(size=12, color='#1a2e4a'),
+        textfont=dict(size=12, color='#1a0030'),
         insidetextfont=dict(size=11, color='#ffffff'),
     ))
     f3.update_layout(**chart_layout(400, "Category-wise Sale Contribution"),
         annotations=[dict(text=f"<b>₹{fmt_inr(grand)}</b>", x=0.5, y=0.5,
-                          font=dict(size=13, color='#1a2e4a', family='Plus Jakarta Sans'), showarrow=False)])
+                          font=dict(size=13, color='#1a0030', family='Plus Jakarta Sans'), showarrow=False)])
 
-    bar_colors = ['#1565c0','#e91e63','#ff6f00','#1a3a6b','#2e7d32','#00838f',
-                   '#f57f17','#0d47a1','#c62828','#00695c']
+    # ── Chart 4: SWC Store-wise Grouped Bar Chart ──
+    bar_colors = ['#7b1fa2','#e91e63','#ff6f00','#1565c0','#2e7d32','#00838f',
+                   '#f57f17','#6a1b9a','#c62828','#00695c']
     f5 = go.Figure()
     for i, store in enumerate(stores):
         row = data_swc.loc[store, MONTHS].fillna(0)
@@ -627,51 +718,55 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
     f5.update_layout(**chart_layout(500, "Store-wise Monthly Sale Comparison (SWC)", show_legend=True))
     f5.update_layout(barmode='group', margin=dict(l=60, r=180, t=55, b=60))
 
+    # ── Chart 5: CWC Sale vs Stock ──
     cats = list(avail)
     sale_vals = [float(gt_s[c]) for c in cats]
     stk_vals  = [float(gt_k[c]) for c in cats]
     f6 = go.Figure()
     f6.add_trace(go.Bar(name='Sale (MRP)', y=cats, x=sale_vals, orientation='h',
-        marker_color='#1a3a6b', marker_line_width=0,
+        marker_color='#7b1fa2', marker_line_width=0,
         text=[f"₹{fmt_inr(v)}" for v in sale_vals],
-        textposition='outside', textfont=dict(size=12, color='#0f2444')))
+        textposition='outside', textfont=dict(size=12, color='#4a0072')))
     f6.add_trace(go.Bar(name='Closing Stock', y=cats, x=stk_vals, orientation='h',
-        marker_color='#607d9b', marker_line_width=0,
+        marker_color='#ce93d8', marker_line_width=0,
         text=[f"₹{fmt_inr(v)}" for v in stk_vals],
-        textposition='outside', textfont=dict(size=12, color='#1a3a6b')))
+        textposition='outside', textfont=dict(size=12, color='#6b21a8')))
     max_v = max(max(sale_vals), max(stk_vals))
     f6.update_layout(**chart_layout(560, "Total Sale vs Closing Stock by Category (CWC)"), barmode='group', bargap=0.25, bargroupgap=0.05, xaxis_range=[0, max_v * 1.45], legend_orientation='h', legend_y=1.08)
     f6.update_layout(margin=dict(l=200, r=200, t=65, b=40))
 
+    # ── Chart 6: Stores per Category ──
     cat_store_count = (cwc_s[avail] > 0).sum().sort_values(ascending=True)
     f7 = go.Figure(go.Bar(
         x=cat_store_count.values.tolist(), y=cat_store_count.index.tolist(),
         orientation='h',
         marker=dict(color=cat_store_count.values.tolist(), colorscale=BLUE_SEQ, line=dict(width=0)),
         text=[f"{v} Stores" for v in cat_store_count.values],
-        textposition='outside', textfont=dict(size=12, color='#1a2e4a'),
+        textposition='outside', textfont=dict(size=12, color='#1a0030'),
     ))
     f7.update_layout(**chart_layout(420, "Store Coverage by Category"), xaxis_range=[0, float(cat_store_count.max()) * 1.38])
     f7.update_layout(margin=dict(l=210, r=120, t=55, b=40))
 
+    # ── Chart 7: Heatmap ──
     hm_data = cwc_s[avail].fillna(0)
     f4 = go.Figure(go.Heatmap(
         z=hm_data.values.tolist(), x=list(avail),
         y=hm_data.index.str.replace("SS, ","").tolist(),
-        colorscale=[[0,'#e8f0f9'],[0.2,'#c5d5e8'],[0.5,'#607d9b'],[0.75,'#1e4d8c'],[1,'#0f2444']],
+        colorscale=[[0,'#fdf8ff'],[0.2,'#e9d8f8'],[0.5,'#c084fc'],[0.75,'#9333ea'],[1,'#581c87']],
         text=[[f"₹{fmt_inr(v)}" if v > 0 else "" for v in row] for row in hm_data.values.tolist()],
-        texttemplate="%{text}", textfont=dict(size=9, color='#1a2e4a'),
+        texttemplate="%{text}", textfont=dict(size=9, color='#1a0030'),
         hoverongaps=False,
-        colorbar=dict(title="Sale ₹", tickfont=dict(color='#1a2e4a')),
+        colorbar=dict(title="Sale ₹", tickfont=dict(color='#1a0030')),
     ))
-    f4.update_layout(paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(240,244,248,0.5)",
-        font=dict(color="#1a2e4a", family="Inter", size=11),
+    f4.update_layout(paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(245,240,255,0.5)",
+        font=dict(color="#1a0030", family="Inter", size=11),
         height=720, margin=dict(l=180, r=20, t=55, b=80),
         title=dict(text="<b>Sale Heatmap: Store × Category (MRP Value)</b>",
-                   font=dict(color='#1a2e4a', size=15, family='Plus Jakarta Sans')),
-        xaxis=dict(tickangle=-30, tickfont=dict(size=10, color='#1a3a6b')),
-        yaxis=dict(tickfont=dict(size=10, color='#1a3a6b'), autorange='reversed'))
+                   font=dict(color='#1a0030', size=15, family='Plus Jakarta Sans')),
+        xaxis=dict(tickangle=-30, tickfont=dict(size=10, color='#2d0050')),
+        yaxis=dict(tickfont=dict(size=10, color='#2d0050'), autorange='reversed'))
 
+    # ── Heatmap Insight HTML (same logic as Streamlit tab) ──
     _hm = cwc_s[avail].fillna(0)
     _hm_max_val  = _hm.max().max()
     _hm_max_cat  = _hm.max().idxmax()
@@ -685,27 +780,27 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
     _best_val = _store_totals.values[-1]
     _zero_sc = {s.replace("SS, ",""): len([c for c in avail if _hm.loc[s,c]==0]) for s in _hm.index if len([c for c in avail if _hm.loc[s,c]==0]) >= 7}
     _zero_str = ", ".join([f"<b>{s}</b> ({n} categories zero)" for s,n in list(_zero_sc.items())[:3]]) if _zero_sc else f"<b>{_weakest}</b> — Weakest store · ₹{fmt_inr(int(_weakest_val))}"
-    hm_insight_html = f"""<div style="background:#f8faff;border:1.5px solid #c5d5e8;border-radius:12px;padding:1.1rem 1.4rem;margin-top:.8rem">
-      <div style="font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a3a6b;margin-bottom:.8rem;">🔥 HEATMAP — KEY INSIGHTS</div>
+    hm_insight_html = f"""<div style="background:#f8faff;border:1.5px solid #c7d7f9;border-radius:12px;padding:1.1rem 1.4rem;margin-top:.8rem">
+      <div style="font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1e40af;margin-bottom:.8rem;">🔥 HEATMAP — KEY INSIGHTS</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;">
-        <div style="background:#e8f0f9;border-radius:8px;padding:.8rem 1rem;border-left:4px solid #1a3a6b;">
-          <div style="font-size:.72rem;font-weight:700;color:#1a3a6b;margin-bottom:.3rem;">🏆 HIGHEST SALE COMBINATION</div>
-          <div style="font-size:.9rem;font-weight:800;color:#1a2e4a;"><b>{_hm_max_store}</b> → {_hm_max_cat}</div>
-          <div style="font-size:.82rem;color:#1a3a6b;margin-top:.2rem;">₹{fmt_inr(int(_hm_max_val))} — Top performing store-category pair</div>
+        <div style="background:#f5f3ff;border-radius:8px;padding:.8rem 1rem;border-left:4px solid #7c3aed;">
+          <div style="font-size:.72rem;font-weight:700;color:#4c1d95;margin-bottom:.3rem;">🏆 HIGHEST SALE COMBINATION</div>
+          <div style="font-size:.9rem;font-weight:800;color:#1a0030;"><b>{_hm_max_store}</b> → {_hm_max_cat}</div>
+          <div style="font-size:.82rem;color:#4c1d95;margin-top:.2rem;">₹{fmt_inr(int(_hm_max_val))} — Top performing store-category pair</div>
         </div>
         <div style="background:#fef2f2;border-radius:8px;padding:.8rem 1rem;border-left:4px solid #dc2626;">
           <div style="font-size:.72rem;font-weight:700;color:#991b1b;margin-bottom:.3rem;">⚠️ WEAK STORES (Many Zero Categories)</div>
-          <div style="font-size:.82rem;color:#1a2e4a;">{_zero_str}</div>
+          <div style="font-size:.82rem;color:#1a0030;">{_zero_str}</div>
         </div>
         <div style="background:#f0fdf4;border-radius:8px;padding:.8rem 1rem;border-left:4px solid #16a34a;">
           <div style="font-size:.72rem;font-weight:700;color:#166534;margin-bottom:.3rem;">📦 TOP CATEGORIES BY SALE</div>
-          <div style="font-size:.82rem;color:#1a2e4a;">{_top_cats_str}</div>
+          <div style="font-size:.82rem;color:#1a0030;">{_top_cats_str}</div>
         </div>
         <div style="background:#fefce8;border-radius:8px;padding:.8rem 1rem;border-left:4px solid #ca8a04;">
           <div style="font-size:.72rem;font-weight:700;color:#854d0e;margin-bottom:.3rem;">💡 HOW TO READ THIS HEATMAP</div>
-          <div style="font-size:.82rem;color:#1a2e4a;">
-            <b>Dark Navy</b> = High sale ✅<br>
-            <b>Light Blue</b> = Low sale ⚠️<br>
+          <div style="font-size:.82rem;color:#1a0030;">
+            <b>Dark Purple</b> = High sale ✅<br>
+            <b>Light Pink</b> = Low sale ⚠️<br>
             <b>Blank/—</b> = Zero sale ❌<br>
             Focus dark cells = your best opportunities
           </div>
@@ -718,7 +813,10 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
       </div>
     </div>"""
 
+    # ── Chart 8: Deep Dive - per store monthly bars ──
+    # Build store rank data for deep dive
     store_ranks = data_swc['Total Sale'].rank(ascending=False).astype(int)
+    # Store selector will be JS driven - build all stores data as JSON
     import json as _json
     store_data = {}
     for st in stores:
@@ -742,6 +840,7 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
         }
     store_data_json = _json.dumps(store_data)
 
+    # ── Performance Charts ──
     monthly_total = data_swc[MONTHS].sum()
     mom_total = monthly_total.pct_change() * 100
     apr_val = float(monthly_total.values[0])
@@ -752,47 +851,48 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
         x=MONTH_SHORT[1:], y=mom_vals_html,
         marker=dict(color=colors_mom, line=dict(width=0)),
         text=mom_texts_all,
-        textposition='outside', textfont=dict(size=12, color='#1a2e4a'),
+        textposition='outside', textfont=dict(size=12, color='#1a0030'),
     ))
     f_mom.add_annotation(x=MONTH_SHORT[1], y=max(mom_vals_html)*0.9,
         text=f'📌 Apr Start: ₹{fmt_inr(int(apr_val))}',
-        showarrow=False, font=dict(size=11, color='#1a3a6b', family='Inter'),
-        bgcolor='rgba(232,240,249,0.9)', bordercolor='#1a3a6b', borderwidth=1)
-    f_mom.update_layout(paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(240,244,248,0.5)",
-        font=dict(color="#1a2e4a", family="Inter", size=12), height=360, bargap=0.3,
+        showarrow=False, font=dict(size=11, color='#9c27b0', family='Inter'),
+        bgcolor='rgba(243,232,255,0.9)', bordercolor='#9c27b0', borderwidth=1)
+    f_mom.update_layout(paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(245,240,255,0.5)",
+        font=dict(color="#1a0030", family="Inter", size=12), height=360, bargap=0.3,
         margin=dict(l=20, r=20, t=50, b=40),
         title=dict(text="<b>Month-on-Month Sale Growth (%) — All Stores Combined</b>",
-                   font=dict(color='#1a2e4a', size=15, family='Plus Jakarta Sans')),
-        xaxis=dict(gridcolor='#dce8f5', tickfont=dict(color='#1a2e4a', size=11), linecolor='#c5d5e8'),
-        yaxis=dict(gridcolor='#dce8f5', tickfont=dict(color='#1a2e4a', size=11), linecolor='#c5d5e8',
-                   zeroline=True, zerolinecolor='#1a3a6b', zerolinewidth=2))
+                   font=dict(color='#1a0030', size=15, family='Plus Jakarta Sans')),
+        xaxis=dict(gridcolor='#ede9fe', tickfont=dict(color='#1a0030', size=11), linecolor='#ddd6fe'),
+        yaxis=dict(gridcolor='#ede9fe', tickfont=dict(color='#1a0030', size=11), linecolor='#ddd6fe',
+                   zeroline=True, zerolinecolor='#9c27b0', zerolinewidth=2))
 
     top5 = data_swc['Total Sale'].nlargest(5).sort_values()
     f_top5 = go.Figure(go.Bar(
         x=top5.values.tolist(), y=top5.index.str.replace("SS, ","").tolist(), orientation='h',
         marker=dict(color='#16a34a', line=dict(width=0)),
         text=[f"₹{fmt_inr(v)}" for v in top5.values],
-        textposition='outside', textfont=dict(size=12, color='#1a2e4a')))
-    f_top5.update_layout(paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(240,244,248,0.5)",
-        font=dict(color="#1a2e4a", family="Inter", size=12), height=300,
+        textposition='outside', textfont=dict(size=12, color='#1a0030')))
+    f_top5.update_layout(paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(245,240,255,0.5)",
+        font=dict(color="#1a0030", family="Inter", size=12), height=300,
         margin=dict(l=10, r=160, t=40, b=20),
-        title=dict(text="<b>Top 5 Stores</b>", font=dict(color='#1a2e4a', size=14, family='Plus Jakarta Sans')),
-        xaxis=dict(gridcolor='#dce8f5', tickfont=dict(color='#1a2e4a', size=10), linecolor='#c5d5e8', range=[0, float(top5.max())*1.4]),
-        yaxis=dict(gridcolor='#dce8f5', tickfont=dict(color='#1a2e4a', size=11), linecolor='#c5d5e8'))
+        title=dict(text="<b>Top 5 Stores</b>", font=dict(color='#1a0030', size=14, family='Plus Jakarta Sans')),
+        xaxis=dict(gridcolor='#ede9fe', tickfont=dict(color='#1a0030', size=10), linecolor='#ddd6fe', range=[0, float(top5.max())*1.4]),
+        yaxis=dict(gridcolor='#ede9fe', tickfont=dict(color='#1a0030', size=11), linecolor='#ddd6fe'))
 
     bot5 = data_swc['Total Sale'].nsmallest(5).sort_values(ascending=False)
     f_bot5 = go.Figure(go.Bar(
         x=bot5.values.tolist(), y=bot5.index.str.replace("SS, ","").tolist(), orientation='h',
         marker=dict(color='#dc2626', line=dict(width=0)),
         text=[f"₹{fmt_inr(v)}" for v in bot5.values],
-        textposition='outside', textfont=dict(size=12, color='#1a2e4a')))
-    f_bot5.update_layout(paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(240,244,248,0.5)",
-        font=dict(color="#1a2e4a", family="Inter", size=12), height=300,
+        textposition='outside', textfont=dict(size=12, color='#1a0030')))
+    f_bot5.update_layout(paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(245,240,255,0.5)",
+        font=dict(color="#1a0030", family="Inter", size=12), height=300,
         margin=dict(l=10, r=160, t=40, b=20),
-        title=dict(text="<b>Bottom 5 Stores</b>", font=dict(color='#1a2e4a', size=14, family='Plus Jakarta Sans')),
-        xaxis=dict(gridcolor='#dce8f5', tickfont=dict(color='#1a2e4a', size=10), linecolor='#c5d5e8', range=[0, float(bot5.max())*1.5]),
-        yaxis=dict(gridcolor='#dce8f5', tickfont=dict(color='#1a2e4a', size=11), linecolor='#c5d5e8'))
+        title=dict(text="<b>Bottom 5 Stores</b>", font=dict(color='#1a0030', size=14, family='Plus Jakarta Sans')),
+        xaxis=dict(gridcolor='#ede9fe', tickfont=dict(color='#1a0030', size=10), linecolor='#ddd6fe', range=[0, float(bot5.max())*1.5]),
+        yaxis=dict(gridcolor='#ede9fe', tickfont=dict(color='#1a0030', size=11), linecolor='#ddd6fe'))
 
+    # Zero sale + MoM table HTML
     zero_rows = ""
     for store in stores:
         row = data_swc.loc[store, MONTHS]
@@ -825,6 +925,7 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
             <th style="padding:.5rem .6rem;text-align:right">Total Sale</th>
         </tr></thead><tbody>{zero_rows}</tbody></table>"""
 
+    # ── Inventory Intelligence Charts ──
     import pandas as _pd
     st_matrix = _pd.DataFrame(index=cwc_s.index, columns=list(avail))
     for _store in cwc_s.index:
@@ -840,22 +941,24 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
         y=st_matrix.index.str.replace("SS, ","").tolist(),
         colorscale=[[0,'#fef2f2'],[0.3,'#fca5a5'],[0.6,'#fde68a'],[0.8,'#86efac'],[1,'#16a34a']],
         text=[[f"{v:.0f}%" if v > 0 else "—" for v in row] for row in st_matrix.values.tolist()],
-        texttemplate="%{text}", textfont=dict(size=9, color='#1a2e4a'),
+        texttemplate="%{text}", textfont=dict(size=9, color='#1a0030'),
         hoverongaps=False, zmin=0, zmax=100,
-        colorbar=dict(title="ST%", tickfont=dict(color='#1a2e4a', size=9), ticksuffix="%")))
+        colorbar=dict(title="ST%", tickfont=dict(color='#1a0030', size=9), ticksuffix="%")))
     f_st.update_layout(paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(255,255,255,1)",
-        font=dict(color="#1a2e4a", family="Inter", size=11), height=700,
+        font=dict(color="#1a0030", family="Inter", size=11), height=700,
         margin=dict(l=150, r=30, t=50, b=80),
         title=dict(text="<b>Sell-Through Rate (%) — Store × Category</b>",
-                   font=dict(color='#1a2e4a', size=15, family='Plus Jakarta Sans')),
-        xaxis=dict(tickangle=-30, tickfont=dict(size=10, color='#1a2e4a')),
-        yaxis=dict(tickfont=dict(size=10, color='#1a2e4a'), autorange='reversed'))
+                   font=dict(color='#1a0030', size=15, family='Plus Jakarta Sans')),
+        xaxis=dict(tickangle=-30, tickfont=dict(size=10, color='#1a0030')),
+        yaxis=dict(tickfont=dict(size=10, color='#1a0030'), autorange='reversed'))
 
+    # Sell-through insights — SMART (store-level, no contradictions)
     avg_st_val = float(st_matrix.replace(0, float('nan')).stack().mean())
     store_avg = st_matrix.replace(0, float('nan')).mean(axis=1).sort_values(ascending=False)
     best_s = store_avg[store_avg >= 60].index.str.replace("SS, ","").tolist()[:3]
     worst_s = store_avg[store_avg < 30].index.str.replace("SS, ","").tolist()[:3]
 
+    # Restock: ST >= 80% at store level
     restock_h = []
     for _store in cwc_s.index:
         for _cat in avail:
@@ -863,39 +966,43 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
             if (_s+_k) > 0 and _s > 5000 and _s/(_s+_k)*100 >= 80:
                 restock_h.append(f"{_store.replace('SS, ','')} → {_cat}")
 
+    # Smart slow categories: slow overall BUT exclude any cat that has restock stores
     restock_cats = set([x.split(' → ')[1] for x in restock_h])
     cat_avg = st_matrix.replace(0, float('nan')).mean(axis=0).sort_values(ascending=False)
+    # Category is truly slow only if avg < 30% AND no store needs restock for it
     truly_slow_c = [c for c in cat_avg[cat_avg < 30].index.tolist() if c not in restock_cats][:3]
+    # Mixed categories: slow overall but some stores need restock
     mixed_c = [c for c in cat_avg[cat_avg < 30].index.tolist() if c in restock_cats][:3]
-    st_insight_html = f"""<div style="background:#f8faff;border:1.5px solid #c5d5e8;border-radius:12px;padding:1rem 1.2rem;margin-top:.8rem">
-      <div style="font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a3a6b;margin-bottom:.7rem">📊 KEY INSIGHTS</div>
+    st_insight_html = f"""<div style="background:#f8faff;border:1.5px solid #c7d7f9;border-radius:12px;padding:1rem 1.2rem;margin-top:.8rem">
+      <div style="font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1e40af;margin-bottom:.7rem">📊 KEY INSIGHTS</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem">
         <div style="background:#f0fdf4;border-radius:8px;padding:.7rem;border-left:4px solid #16a34a">
           <div style="font-size:.65rem;font-weight:700;color:#166534;margin-bottom:.3rem">🏆 BEST PERFORMING STORES</div>
-          <div style="font-size:.78rem;color:#1a2e4a">{"<br>".join([f"<b>{s}</b> — Strong sell-through" for s in best_s]) if best_s else "N/A"}</div>
+          <div style="font-size:.78rem;color:#1a0030">{"<br>".join([f"<b>{s}</b> — Strong sell-through" for s in best_s]) if best_s else "N/A"}</div>
         </div>
         <div style="background:#fef2f2;border-radius:8px;padding:.7rem;border-left:4px solid #dc2626">
           <div style="font-size:.65rem;font-weight:700;color:#991b1b;margin-bottom:.3rem">⚠️ STORES NEEDING ATTENTION</div>
-          <div style="font-size:.78rem;color:#1a2e4a">{"<br>".join([f"<b>{s}</b> — Low sell-through, overstocked" for s in worst_s]) if worst_s else "All stores OK"}</div>
+          <div style="font-size:.78rem;color:#1a0030">{"<br>".join([f"<b>{s}</b> — Low sell-through, overstocked" for s in worst_s]) if worst_s else "All stores OK"}</div>
         </div>
         <div style="background:#eff6ff;border-radius:8px;padding:.7rem;border-left:4px solid #1d4ed8">
           <div style="font-size:.65rem;font-weight:700;color:#1e40af;margin-bottom:.3rem">📦 URGENT RESTOCK NEEDED</div>
-          <div style="font-size:.78rem;color:#1a2e4a">{"<br>".join(restock_h[:4]) if restock_h else "No urgent restock"}</div>
+          <div style="font-size:.78rem;color:#1a0030">{"<br>".join(restock_h[:4]) if restock_h else "No urgent restock"}</div>
         </div>
         <div style="background:#fefce8;border-radius:8px;padding:.7rem;border-left:4px solid #ca8a04">
           <div style="font-size:.65rem;font-weight:700;color:#854d0e;margin-bottom:.3rem">🐌 SLOW MOVING CATEGORIES</div>
-          <div style="font-size:.78rem;color:#1a2e4a">{"<br>".join([f"<b>{c}</b> — Reduce stock (slow across all stores)" for c in truly_slow_c]) if truly_slow_c else "No universally slow categories"}</div>
+          <div style="font-size:.78rem;color:#1a0030">{"<br>".join([f"<b>{c}</b> — Reduce stock (slow across all stores)" for c in truly_slow_c]) if truly_slow_c else "No universally slow categories"}</div>
           {"<div style='font-size:.72rem;color:#ca8a04;margin-top:.3rem;font-style:italic'>" + ", ".join([f"<b>{c}</b>" for c in mixed_c]) + " — Mixed: slow in some stores, fast in others</div>" if mixed_c else ""}
         </div>
       </div>
       <div style="margin-top:.7rem;padding:.5rem .7rem;background:#fff;border-radius:6px;font-size:.75rem;color:#374151">
         📌 <b>Avg Sell-Through: {avg_st_val:.1f}%</b> &nbsp;·&nbsp;
         <span style="color:#16a34a;font-weight:600">Green ≥60%</span> = Good &nbsp;·&nbsp;
-        <span style="color:#ca8a04;font-weight:600">Yellow 30-59%</span> = Average &nbsp;·&nbsp;
+        <span style="color:#ca8a04;font-weight:600">Yellow 30–59%</span> = Average &nbsp;·&nbsp;
         <span style="color:#dc2626;font-weight:600">Red &lt;30%</span> = Slow mover
       </div>
     </div>"""
 
+    # Fit score table
     fit_rows = ""
     for _store in cwc_s.index:
         for _cat in avail:
@@ -909,8 +1016,8 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
                 fit_rows += f"<tr style='border-bottom:1px solid #f3f4f6'><td style='padding:.35rem .5rem;font-weight:600'>{_store.replace('SS, ','')}</td><td style='padding:.35rem .5rem'>{_cat}</td><td style='padding:.35rem .5rem;text-align:right'>₹{fmt_inr(_s)}</td><td style='padding:.35rem .5rem;text-align:center'>{_sq}</td><td style='padding:.35rem .5rem;text-align:right'>₹{fmt_inr(_k)}</td><td style='padding:.35rem .5rem;text-align:center'>{_kq}</td><td style='padding:.35rem .5rem;text-align:center'>{_r:.1f}%</td><td style='padding:.35rem .5rem;text-align:center'>{fit}</td></tr>"
     fit_html = f"""
     <div style="margin-bottom:.6rem;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center">
-      <span style="font-size:.72rem;font-weight:700;color:#1a3a6b;">Filter by Fit:</span>
-      <button onclick="filterFit('All')" id="fitBtn_All" class="filt-btn filt-active" style="padding:.3rem .8rem;border-radius:6px;border:1.5px solid #607d9b;background:linear-gradient(135deg,#1a3a6b,#1e4d8c);color:#fff;font-size:.75rem;font-weight:700;cursor:pointer">All</button>
+      <span style="font-size:.72rem;font-weight:700;color:#6a1b9a;">Filter by Fit:</span>
+      <button onclick="filterFit('All')" id="fitBtn_All" class="filt-btn filt-active" style="padding:.3rem .8rem;border-radius:6px;border:1.5px solid #c084fc;background:linear-gradient(135deg,#6a1b9a,#9c27b0);color:#fff;font-size:.75rem;font-weight:700;cursor:pointer">All</button>
       <button onclick="filterFit('Strong')" id="fitBtn_Strong" class="filt-btn" style="padding:.3rem .8rem;border-radius:6px;border:1.5px solid #86efac;background:#f0fdf4;color:#166534;font-size:.75rem;font-weight:700;cursor:pointer">🟢 Strong</button>
       <button onclick="filterFit('Average')" id="fitBtn_Average" class="filt-btn" style="padding:.3rem .8rem;border-radius:6px;border:1.5px solid #fde68a;background:#fefce8;color:#854d0e;font-size:.75rem;font-weight:700;cursor:pointer">🟡 Average</button>
       <button onclick="filterFit('Weak')" id="fitBtn_Weak" class="filt-btn" style="padding:.3rem .8rem;border-radius:6px;border:1.5px solid #fca5a5;background:#fef2f2;color:#991b1b;font-size:.75rem;font-weight:700;cursor:pointer">🔴 Weak</button>
@@ -931,7 +1038,7 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
     <script>
     function filterFit(val) {{
       document.querySelectorAll('.filt-btn').forEach(function(b) {{
-        b.style.background = b.id === 'fitBtn_'+val ? 'linear-gradient(135deg,#1a3a6b,#1e4d8c)' : (b.id.includes('Strong') ? '#f0fdf4' : b.id.includes('Average') ? '#fefce8' : b.id.includes('Weak') ? '#fef2f2' : '#f3f4f6');
+        b.style.background = b.id === 'fitBtn_'+val ? 'linear-gradient(135deg,#6a1b9a,#9c27b0)' : (b.id.includes('Strong') ? '#f0fdf4' : b.id.includes('Average') ? '#fefce8' : b.id.includes('Weak') ? '#fef2f2' : '#f3f4f6');
         b.style.color = b.id === 'fitBtn_'+val ? '#fff' : (b.id.includes('Strong') ? '#166534' : b.id.includes('Average') ? '#854d0e' : b.id.includes('Weak') ? '#991b1b' : '#374151');
       }});
       var rows = document.querySelectorAll('#fitBody tr');
@@ -942,6 +1049,7 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
     }}
     </script>"""
 
+    # Dead stock table
     dead_rows = ""
     for _store in cwc_s.index:
         for _cat in avail:
@@ -963,13 +1071,14 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
             <th style="padding:.4rem .5rem;text-align:center">Action</th>
         </tr></thead><tbody>{dead_rows if dead_rows else "<tr><td colspan=4 style='text-align:center;padding:1rem;color:#16a34a'>✅ No dead stock found!</td></tr>"}</tbody></table>
         <div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:.6rem .8rem;margin-top:.5rem">
-          <div style="font-size:.78rem;font-weight:700;color:#991b1b;margin-bottom:.3rem">⚠️ <b>{_dead_count} store-category combinations</b> have Dead Stock</div>
+          <div style="font-size:.78rem;font-weight:700;color:#991b1b;margin-bottom:.3rem">⚠️ <b>{_dead_count} store-category combinations</b> store-category pairs have Dead Stock</div>
           <div style="display:flex;gap:1.5rem;font-size:.75rem;color:#7f1d1d">
             <span>💰 Total Dead Value: <b>₹{fmt_inr(int(_dead_val_total))}</b></span>
             <span>📦 Total Dead Qty: <b>{_dead_qty_total} Pcs</b></span>
           </div>
         </div>"""
 
+    # Recommendations table
     rec_rows = ""
     for _store in cwc_s.index:
         for _cat in avail:
@@ -988,8 +1097,8 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
             rec_rows += f"<tr style='border-bottom:1px solid #f3f4f6'><td style='padding:.35rem .5rem;font-weight:600'>{_store.replace('SS, ','')}</td><td style='padding:.35rem .5rem'>{_cat}</td><td style='padding:.35rem .5rem;text-align:right'>₹{fmt_inr(_s)}</td><td style='padding:.35rem .5rem;text-align:center'>{_rsq}</td><td style='padding:.35rem .5rem;text-align:right'>₹{fmt_inr(_k)}</td><td style='padding:.35rem .5rem;text-align:center'>{_rkq}</td><td style='padding:.35rem .5rem;text-align:center'>{_r:.1f}%</td><td style='padding:.35rem .5rem'>{rec}</td><td style='padding:.35rem .5rem;text-align:center'>{pri}</td></tr>"
     rec_html = f"""
     <div style="margin-bottom:.6rem;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center">
-      <span style="font-size:.72rem;font-weight:700;color:#1a3a6b;">Filter by Priority:</span>
-      <button onclick="filterRec('All')" id="recBtn_All" class="rec-btn rec-active" style="padding:.3rem .8rem;border-radius:6px;border:1.5px solid #607d9b;background:linear-gradient(135deg,#1a3a6b,#1e4d8c);color:#fff;font-size:.75rem;font-weight:700;cursor:pointer">All</button>
+      <span style="font-size:.72rem;font-weight:700;color:#6a1b9a;">Filter by Priority:</span>
+      <button onclick="filterRec('All')" id="recBtn_All" class="rec-btn rec-active" style="padding:.3rem .8rem;border-radius:6px;border:1.5px solid #c084fc;background:linear-gradient(135deg,#6a1b9a,#9c27b0);color:#fff;font-size:.75rem;font-weight:700;cursor:pointer">All</button>
       <button onclick="filterRec('Urgent')" id="recBtn_Urgent" class="rec-btn" style="padding:.3rem .8rem;border-radius:6px;border:1.5px solid #fca5a5;background:#fef2f2;color:#991b1b;font-size:.75rem;font-weight:700;cursor:pointer">🔴 Urgent</button>
       <button onclick="filterRec('Medium')" id="recBtn_Medium" class="rec-btn" style="padding:.3rem .8rem;border-radius:6px;border:1.5px solid #fde68a;background:#fefce8;color:#854d0e;font-size:.75rem;font-weight:700;cursor:pointer">🟡 Medium</button>
     </div>
@@ -1010,7 +1119,7 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
     <script>
     function filterRec(val) {{
       document.querySelectorAll('.rec-btn').forEach(function(b) {{
-        b.style.background = b.id === 'recBtn_'+val ? 'linear-gradient(135deg,#1a3a6b,#1e4d8c)' : (b.id.includes('Urgent') ? '#fef2f2' : b.id.includes('Medium') ? '#fefce8' : '#f3f4f6');
+        b.style.background = b.id === 'recBtn_'+val ? 'linear-gradient(135deg,#6a1b9a,#9c27b0)' : (b.id.includes('Urgent') ? '#fef2f2' : b.id.includes('Medium') ? '#fefce8' : '#f3f4f6');
         b.style.color = b.id === 'recBtn_'+val ? '#fff' : (b.id.includes('Urgent') ? '#991b1b' : b.id.includes('Medium') ? '#854d0e' : '#374151');
       }});
       var rows = document.querySelectorAll('#recBody tr');
@@ -1031,12 +1140,12 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
     deep_dive_html = f"""
     <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem">
       <div style="flex:1">
-        <label style="font-size:.75rem;font-weight:700;color:#1a3a6b;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:.4rem">Select Store</label>
-        <select id="ddStore" onchange="updateDeepDive()" style="width:100%;padding:.6rem 1rem;border:1.5px solid #607d9b;border-radius:10px;font-size:.9rem;color:#1a2e4a;background:#fff;outline:none">
+        <label style="font-size:.75rem;font-weight:700;color:#6a1b9a;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:.4rem">Select Store</label>
+        <select id="ddStore" onchange="updateDeepDive()" style="width:100%;padding:.6rem 1rem;border:1.5px solid #c084fc;border-radius:10px;font-size:.9rem;color:#1a0030;background:#fff;outline:none">
           {''.join(f'<option value="{s}">{s.replace("SS, ","")}</option>' for s in stores)}
         </select>
       </div>
-      <div id="ddRankCard" style="background:linear-gradient(135deg,#1a3a6b,#1e4d8c);border-radius:12px;padding:.8rem 1.3rem;display:flex;align-items:center;gap:.8rem;min-width:220px;box-shadow:0 4px 14px rgba(26,58,107,.3)">
+      <div id="ddRankCard" style="background:linear-gradient(135deg,#6a1b9a,#9c27b0);border-radius:12px;padding:.8rem 1.3rem;display:flex;align-items:center;gap:.8rem;min-width:220px;box-shadow:0 4px 14px rgba(106,27,154,.3)">
         <div style="background:rgba(255,255,255,.2);border-radius:50%;width:48px;height:48px;min-width:48px;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,.35)">
           <span id="ddRankNum" style="color:#fff;font-size:1.15rem;font-weight:800">#1</span>
         </div>
@@ -1084,37 +1193,40 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
       document.getElementById('ddStock').innerHTML = fmtInr(d.closing) + (d.closing_qty ? "<div style='font-size:.75rem;font-weight:700;color:rgba(255,255,255,.85);margin-top:.2rem'>" + d.closing_qty.toLocaleString('en-IN') + " Pcs</div>" : '');
       document.getElementById('ddCont').textContent = (d.cont*100).toFixed(4)+'%';
 
+      // Monthly bar
       var mvals = d.monthly;
       var mmax = Math.max(...mvals) * 1.22;
       Plotly.newPlot('ddMonthChart', [{{
         type:'bar', x:_months, y:mvals,
         marker:{{color:mvals, colorscale:_BLUE_SEQ, line:{{width:0}}}},
         text:mvals.map(v=>v>0?fmtInr(v):''), textposition:'outside',
-        textfont:{{size:11,color:'#1a2e4a'}}
+        textfont:{{size:11,color:'#1a0030'}}
       }}], {{
-        paper_bgcolor:'rgba(255,255,255,1)', plot_bgcolor:'rgba(240,244,248,0.5)',
+        paper_bgcolor:'rgba(255,255,255,1)', plot_bgcolor:'rgba(245,240,255,0.5)',
         height:280, margin:{{l:55,r:10,t:30,b:40}},
-        font:{{color:'#1a2e4a',size:11}}, bargap:0.3,
-        xaxis:{{gridcolor:'#dce8f5',tickfont:{{color:'#1a2e4a',size:10}}}},
-        yaxis:{{gridcolor:'#dce8f5',tickfont:{{color:'#1a2e4a',size:10}},range:[0,mmax]}}
+        font:{{color:'#1a0030',size:11}}, bargap:0.3,
+        xaxis:{{gridcolor:'#ede9fe',tickfont:{{color:'#1a0030',size:10}}}},
+        yaxis:{{gridcolor:'#ede9fe',tickfont:{{color:'#1a0030',size:10}},range:[0,mmax]}}
       }}, {{responsive:true,displayModeBar:false,displaylogo:false}});
 
+      // Category pie
       var cats = Object.keys(d.cats), vals = Object.values(d.cats);
       if(cats.length > 0) {{
         Plotly.newPlot('ddCatChart', [{{
           type:'pie', labels:cats, values:vals, hole:0.5,
           marker:{{colors:_catColors.slice(0,cats.length), line:{{color:'#fff',width:2}}}},
           textinfo:'label+percent',
-          textfont:{{size:11,color:'#1a2e4a'}},
+          textfont:{{size:11,color:'#1a0030'}},
           insidetextfont:{{size:10,color:'#ffffff'}}
         }}], {{
           paper_bgcolor:'rgba(255,255,255,1)',
           height:280, margin:{{l:55,r:10,t:30,b:10}},
-          font:{{color:'#1a2e4a',size:11}},
+          font:{{color:'#1a0030',size:11}},
           showlegend:false
         }}, {{responsive:true,displayModeBar:false,displaylogo:false}});
       }}
     }}
+    // Init on load
     setTimeout(updateDeepDive, 300);
     </script>"""
 
@@ -1127,10 +1239,10 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
 <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
 <style>
   *{{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}}
-  body{{background:#f0f4f8;color:#1a2e4a;overflow-x:hidden}}
-  .navbar{{background:linear-gradient(90deg,#0f2444,#1a3a6b,#1e4d8c);
+  body{{background:#f4f0ff;color:#1a0030;overflow-x:hidden}}
+  .navbar{{background:linear-gradient(90deg,#3a0068,#6a1b9a,#9c27b0);
     padding:.75rem 2rem;display:flex;align-items:center;gap:1rem;
-    box-shadow:0 4px 16px rgba(26,58,107,.3);position:sticky;top:0;z-index:99}}
+    box-shadow:0 4px 16px rgba(106,27,154,.3);position:sticky;top:0;z-index:99}}
   .badge{{background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.4);
     color:#fff;font-size:.55rem;font-weight:700;letter-spacing:2px;
     text-transform:uppercase;padding:4px 12px;border-radius:20px;white-space:nowrap}}
@@ -1138,25 +1250,25 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
   .nav-hint{{font-size:.62rem;color:rgba(255,255,255,.55);margin-top:.1rem}}
   .wrap{{width:100%;padding:1.2rem 1.5rem}}
   .kpi-row{{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.4rem}}
-  .kpi{{background:linear-gradient(135deg,#1a3a6b,#1e4d8c);border-radius:14px;
-    padding:1.1rem 1.3rem;box-shadow:0 4px 16px rgba(26,58,107,.3)}}
+  .kpi{{background:linear-gradient(135deg,#6a1b9a,#9c27b0);border-radius:14px;
+    padding:1.1rem 1.3rem;box-shadow:0 4px 16px rgba(106,27,154,.3)}}
   .kpi-label{{font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
     color:rgba(255,255,255,.7);margin-bottom:.4rem}}
   .kpi-value{{font-size:1.5rem;font-weight:800;color:#fff;line-height:1.1}}
   .kpi-sub{{font-size:.72rem;color:rgba(255,255,255,.65);margin-top:.25rem}}
   .tab-bar{{display:flex;gap:.5rem;margin-bottom:1.2rem;flex-wrap:wrap}}
-  .tab{{padding:.55rem 1.1rem;border-radius:8px;border:1.5px solid #c5d5e8;
-    background:#fff;color:#1a3a6b;font-size:.82rem;font-weight:600;
+  .tab{{padding:.55rem 1.1rem;border-radius:8px;border:1.5px solid #ddd6fe;
+    background:#fff;color:#4c1d95;font-size:.82rem;font-weight:600;
     cursor:pointer;transition:all .18s;white-space:nowrap}}
-  .tab:hover{{background:#e8f0f9}}
-  .tab.active{{background:linear-gradient(135deg,#1a3a6b,#1e4d8c);color:#fff;border-color:transparent}}
+  .tab:hover{{background:#f3e5f5}}
+  .tab.active{{background:linear-gradient(135deg,#6a1b9a,#9c27b0);color:#fff;border-color:transparent}}
   .section{{display:none}}.section.active{{display:block}}
   .card{{background:#fff;border-radius:14px;padding:1.2rem 1.2rem;
-    box-shadow:0 2px 12px rgba(26,58,107,.08);margin-bottom:1.2rem;overflow:visible}}
+    box-shadow:0 2px 12px rgba(106,27,154,.08);margin-bottom:1.2rem;overflow:visible}}
   .sec{{font-size:.6rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;
-    color:#1a3a6b;border-bottom:2px solid #c5d5e8;padding-bottom:.4rem;margin-bottom:.9rem}}
+    color:#6a1b9a;border-bottom:2px solid #ddd6fe;padding-bottom:.4rem;margin-bottom:.9rem}}
   .two{{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.2rem}}
-  .footer{{text-align:center;padding:1.5rem;color:#607d9b;font-size:.75rem}}
+  .footer{{text-align:center;padding:1.5rem;color:#9575cd;font-size:.75rem}}
   @media(max-width:900px){{.kpi-row{{grid-template-columns:1fr 1fr}}.two{{grid-template-columns:1fr}}}}
 </style>
 </head>
@@ -1165,7 +1277,7 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
   <div class="badge">Sale Analyzer</div>
   <div style="width:1px;height:26px;background:rgba(255,255,255,.22)"></div>
   <div>
-    <div class="nav-title">Sale Analyzer &nbsp;→&nbsp; <span style="color:#c5d5e8">Store-wise &amp; Category-wise Contribution</span></div>
+    <div class="nav-title">Sale Analyzer &nbsp;→&nbsp; <span style="color:#e8c8ff">Store-wise &amp; Category-wise Contribution</span></div>
     <div class="nav-hint">Interactive Dashboard &nbsp;·&nbsp; {pd.Timestamp.now().strftime('%d %b %Y')}</div>
   </div>
 </div>
@@ -1194,19 +1306,24 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
       <div class="card"><div class="sec">🏷️ Category Mix</div>{fig_div(f3)}</div>
     </div>
   </div>
+
   <div id="swc" class="section">
     <div class="card"><div class="sec">🏪 Store-wise Monthly Sale Trend</div>{fig_div(f5)}</div>
   </div>
+
   <div id="cwc" class="section">
     <div class="card"><div class="sec">📦 Total Sale vs Closing Stock by Category</div>{fig_div(f6)}</div>
     <div class="card"><div class="sec">🏪 Store Coverage by Category</div>{fig_div(f7)}</div>
   </div>
+
   <div id="hm" class="section">
     <div class="card"><div class="sec">🔥 Sale Heatmap: Store × Category</div>{fig_div(f4)}{hm_insight_html}</div>
   </div>
+
   <div id="dd" class="section">
     <div class="card"><div class="sec">🔍 Store Deep Dive</div>{deep_dive_html}</div>
   </div>
+
   <div id="perf" class="section">
     <div class="card"><div class="sec">📊 Month-on-Month Growth</div>{fig_div(f_mom)}</div>
     <div class="two">
@@ -1215,6 +1332,7 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
     </div>
     <div class="card"><div class="sec">❌ Zero Sale Months & MoM Growth</div>{zero_mom_html}</div>
   </div>
+
   <div id="inv" class="section">
     <div class="card"><div class="sec">📊 Sell-Through Rate — Store × Category</div>{fig_div(f_st)}{st_insight_html}</div>
     <div class="two">
@@ -1244,6 +1362,7 @@ function showTab(id, el) {{
   }}, 200);
   if(id==='dd') setTimeout(updateDeepDive, 200);
 }}
+// Pre-render all tabs on page load so charts initialize correctly
 window.addEventListener('load', function() {{
   var tabs = ['ov','swc','cwc','hm','dd','perf','inv'];
   var activeTab = 'ov';
@@ -1282,9 +1401,11 @@ window.addEventListener('load', function() {{
 </body></html>"""
     return html.encode('utf-8')
 
+# ── Download Buttons ──
 excel = build_excel(swc_final, cwc_s, cwc_k, cont_s, cont_k, gt_s, gt_k, avail)
 html_dash = build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONTHS, MONTH_SHORT, BLUE_SEQ, CAT_COLORS_LIGHT, fmt_inr, pct, chart_layout, stock=stock)
 
+# ── Build ZIP (Excel + HTML together) ──
 import zipfile, io as _io
 excel_bytes = excel.getvalue() if hasattr(excel, 'getvalue') else (excel.read() if hasattr(excel, 'read') else excel)
 zip_buf = _io.BytesIO()
@@ -1309,13 +1430,14 @@ with dl3:
         data=zip_data, file_name="SS_Complete_Report.zip",
         mime="application/zip", use_container_width=True)
 
-st.markdown("""<div style="background:#e8f0f9;border:1px solid #607d9b;border-radius:10px;
-    padding:.55rem 1rem;font-size:.75rem;color:#1a3a6b;margin:.4rem 0 0 0">
+st.markdown("""<div style="background:#f3e5f5;border:1px solid #ce93d8;border-radius:10px;
+    padding:.55rem 1rem;font-size:.75rem;color:#4a0072;margin:.4rem 0 0 0">
   💡 <b>ZIP contains both files:</b> Excel Report + Interactive HTML Dashboard &nbsp;·&nbsp;
   Open HTML file in browser for interactive charts &nbsp;·&nbsp;
   Ctrl+P → Save as PDF for print version
 </div>""", unsafe_allow_html=True)
 
+# ══════════════════ TABS ══════════════════
 t1, t2, t3, t4, t5, t6, t7, t8 = st.tabs(["📈 Overview", "🏪 Store-wise (SWC)", "📦 Category-wise (CWC)", "🔥 Heatmap", "🔍 Store Deep Dive", "📊 Performance", "📦 Inventory Intelligence", "🤖 AI Strategy Summary"])
 
 with t1:
@@ -1323,14 +1445,14 @@ with t1:
     monthly = data_swc[MONTHS].sum()
     best_idx = monthly.values.argmax()
     worst_idx = monthly.values.argmin()
-    bar_colors = ['#1e4d8c' if i not in [best_idx, worst_idx] else ('#16a34a' if i == best_idx else '#dc2626') for i in range(len(monthly))]
+    bar_colors = ['#9c27b0' if i not in [best_idx, worst_idx] else ('#16a34a' if i == best_idx else '#dc2626') for i in range(len(monthly))]
     fig = go.Figure()
     fig.add_trace(go.Bar(
         x=MONTH_SHORT, y=monthly.values,
         marker=dict(color=bar_colors, line=dict(width=0)),
         text=[f"₹{fmt_inr(v)}" for v in monthly.values],
         textposition='outside',
-        textfont=dict(size=14, color='#1a2e4a', family='Inter'),
+        textfont=dict(size=14, color='#1a0030', family='Inter'),
         hovertemplate='<b>%{x}</b><br>Sale: ₹%{y:,.0f}<extra></extra>',
     ))
     fig.update_layout(**chart_layout(380, "Monthly MRP Sale — All Stores Combined (Apr'25 – Feb'26)"),
@@ -1344,6 +1466,7 @@ with t1:
         ])
     st.plotly_chart(fig, use_container_width=True)
 
+    # ── 4 Extra KPI Insight Cards ──
     avg_monthly = monthly.mean()
     feb_growth = ((monthly.values[-1] - monthly.values[0]) / monthly.values[0] * 100) if monthly.values[0] > 0 else 0
     ins1, ins2, ins3, ins4 = st.columns(4)
@@ -1355,9 +1478,9 @@ with t1:
     ]:
         with col:
             st.markdown(f"""<div style="background:#fff;border-radius:12px;padding:.9rem 1.1rem;
-                box-shadow:0 2px 10px rgba(26,58,107,.1);border-left:4px solid #1e4d8c;">
-                <div style="font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a3a6b;">{icon} {lbl}</div>
-                <div style="font-size:1.3rem;font-weight:800;color:#1a2e4a;margin:.25rem 0 .1rem">{val}</div>
+                box-shadow:0 2px 10px rgba(106,27,154,.1);border-left:4px solid #9c27b0;">
+                <div style="font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6a1b9a;">{icon} {lbl}</div>
+                <div style="font-size:1.3rem;font-weight:800;color:#1a0030;margin:.25rem 0 .1rem">{val}</div>
                 <div style="font-size:.72rem;color:#607d9b;">{sub}</div>
             </div>""", unsafe_allow_html=True)
     st.markdown("<br>", unsafe_allow_html=True)
@@ -1372,7 +1495,7 @@ with t1:
             marker=dict(color=top10.values, colorscale=BLUE_SEQ, line=dict(width=0)),
             text=[f"₹{fmt_inr(v)}" for v in top10.values],
             textposition='outside',
-            textfont=dict(size=13, color='#1a2e4a', family='Inter'),
+            textfont=dict(size=13, color='#1a0030', family='Inter'),
             hovertemplate='<b>%{y}</b><br>₹%{x:,.0f}<extra></extra>',
         ))
         fig2.update_layout(**chart_layout(400, "Top 10 Stores by MRP Sale (Apr'25 – Feb'26)"),
@@ -1386,34 +1509,36 @@ with t1:
             labels=avail, values=cat_vals.values, hole=0.52,
             marker=dict(colors=CAT_COLORS_LIGHT[:len(avail)], line=dict(color='#ffffff', width=3)),
             textinfo='label+percent',
-            textfont=dict(size=13, color='#1a2e4a', family='Inter'),
+            textfont=dict(size=13, color='#1a0030', family='Inter'),
             insidetextfont=dict(size=12, color='#ffffff'),
             textposition='auto',
             hovertemplate='<b>%{label}</b><br>₹%{value:,.0f}<br>%{percent}<extra></extra>',
         ))
         fig3.update_layout(**chart_layout(400, "Category-wise Sale Contribution"),
             annotations=[dict(text=f"<b>₹{fmt_inr(grand)}</b>", x=0.5, y=0.5,
-                              font=dict(size=14, color='#1a2e4a', family='Plus Jakarta Sans'), showarrow=False)])
+                              font=dict(size=14, color='#1a0030', family='Plus Jakarta Sans'), showarrow=False)])
         st.plotly_chart(fig3, use_container_width=True)
 
 with t2:
     st.markdown('<div class="section-title">📊 Store Monthly Trend</div>', unsafe_allow_html=True)
+
     top5_stores = data_swc['Total Sale'].nlargest(5).index.tolist()
-    sel = st.multiselect("Select Stores (to compare)", stores, default=top5_stores, key="swc_sel")
+    sel = st.multiselect("Select Stores (to compare)", stores,
+                          default=top5_stores, key="swc_sel")
     if sel:
         fig4 = go.Figure()
-        bar_colors_swc = ['#1565c0','#e91e63','#ff6f00','#00838f','#2e7d32','#1a3a6b',
-                      '#c62828','#4527a0','#00695c','#0d47a1','#ad1457','#e65100']
+        bar_colors = ['#7b1fa2','#e91e63','#ff6f00','#00838f','#2e7d32','#1565c0',
+                      '#c62828','#4527a0','#00695c','#6a1b9a','#ad1457','#e65100']
         for i, store in enumerate(sel):
             if store in data_swc.index:
                 vals = data_swc.loc[store, MONTHS].fillna(0)
                 fig4.add_trace(go.Bar(
                     x=MONTH_SHORT, y=vals.values,
                     name=store.replace("SS, ",""),
-                    marker=dict(color=bar_colors_swc[i % len(bar_colors_swc)]),
+                    marker=dict(color=bar_colors[i % len(bar_colors)]),
                     hovertemplate='<b>%{fullData.name}</b><br>%{x}: ₹%{y:,.0f}<extra></extra>',
                 ))
-        fig4.update_layout(**chart_layout(420, "Store-wise Monthly Sale Comparison"),
+        fig4.update_layout(**chart_layout(420, "Store-wise Monthly Sale Comparison"), 
                           barmode='group', bargap=0.15, bargroupgap=0.05)
         st.plotly_chart(fig4, use_container_width=True)
 
@@ -1435,36 +1560,37 @@ with t3:
         cats = list(avail)
         sale_vals = [gt_s[c] for c in cats]
         stk_vals  = [gt_k[c] for c in cats]
+
         fig5.add_trace(go.Bar(
             name='Sale (MRP)', y=cats, x=sale_vals,
-            orientation='h', marker_color='#1a3a6b', marker_line_width=0,
+            orientation='h', marker_color='#7b1fa2', marker_line_width=0,
             text=[f"₹{fmt_inr(v)}" for v in sale_vals],
             textposition='outside',
-            textfont=dict(size=13, color='#0f2444', family='Inter'),
+            textfont=dict(size=13, color='#4a0072', family='Inter'),
             hovertemplate='<b>%{y}</b><br>Sale: ₹%{x:,.0f}<extra></extra>'
         ))
         fig5.add_trace(go.Bar(
             name='Closing Stock', y=cats, x=stk_vals,
-            orientation='h', marker_color='#607d9b', marker_line_width=0,
+            orientation='h', marker_color='#ce93d8', marker_line_width=0,
             text=[f"₹{fmt_inr(v)}" for v in stk_vals],
             textposition='outside',
-            textfont=dict(size=13, color='#1a3a6b', family='Inter'),
+            textfont=dict(size=13, color='#6b21a8', family='Inter'),
             hovertemplate='<b>%{y}</b><br>Stock: ₹%{x:,.0f}<extra></extra>'
         ))
         max_val = max(max(sale_vals), max(stk_vals))
         fig5.update_layout(
-            paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(240,244,248,0.5)",
-            font=dict(color="#1a2e4a", family="Inter", size=12),
+            paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(245,240,255,0.5)",
+            font=dict(color="#1a0030", family="Inter", size=12),
             margin=dict(l=10, r=160, t=30, b=50),
-            legend=dict(font=dict(color="#1a2e4a", size=11), bgcolor="rgba(255,255,255,0.97)",
-                        bordercolor="#c5d5e8", borderwidth=1.5, orientation='h', y=-0.12, x=0.3),
+            legend=dict(font=dict(color="#1a0030", size=11), bgcolor="rgba(255,255,255,0.97)",
+                        bordercolor="#ddd6fe", borderwidth=1.5, orientation='h', y=-0.12, x=0.3),
             barmode='group', bargap=0.25, bargroupgap=0.05, height=540,
             title=dict(text="<b>Total Sale vs Closing Stock by Category</b>",
-                       font=dict(color='#1a2e4a', size=15, family='Plus Jakarta Sans')),
-            xaxis=dict(gridcolor='#dce8f5', tickfont=dict(color='#1a2e4a', size=11),
-                       linecolor='#c5d5e8', range=[0, max_val * 1.38]),
-            yaxis=dict(gridcolor='#dce8f5', tickfont=dict(color='#1a2e4a', size=12),
-                       linecolor='#c5d5e8', autorange='reversed'),
+                       font=dict(color='#1a0030', size=15, family='Plus Jakarta Sans')),
+            xaxis=dict(gridcolor='#ede9fe', tickfont=dict(color='#1a0030', size=11),
+                       linecolor='#ddd6fe', range=[0, max_val * 1.38]),
+            yaxis=dict(gridcolor='#ede9fe', tickfont=dict(color='#1a0030', size=12),
+                       linecolor='#ddd6fe', autorange='reversed'),
         )
         st.plotly_chart(fig5, use_container_width=True)
 
@@ -1477,17 +1603,18 @@ with t3:
             marker=dict(color=cat_store_count.values, colorscale=BLUE_SEQ, line=dict(width=0)),
             text=[f"{v} Stores" for v in cat_store_count.values],
             textposition='outside',
-            textfont=dict(size=11, color='#1a2e4a', family='Inter'),
+            textfont=dict(size=11, color='#1a0030', family='Inter'),
             hovertemplate='<b>%{y}</b><br>%{x} Stores<extra></extra>',
         ))
-        fig6.update_layout(paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(240,244,248,0.5)",
-            font=dict(color="#1a2e4a", family="Inter", size=12),
+        fig6.update_layout(paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(245,240,255,0.5)",
+            font=dict(color="#1a0030", family="Inter", size=12),
             margin=dict(l=10, r=80, t=50, b=10),
+            legend=dict(font=dict(color="#1a0030",size=11), bgcolor="rgba(255,255,255,0.97)"),
             height=420,
-            title=dict(text="<b>Store Coverage by Category</b>", font=dict(color='#1a2e4a', size=15, family='Plus Jakarta Sans')),
-            xaxis=dict(gridcolor='#dce8f5', tickfont=dict(color='#1a2e4a', size=11), linecolor='#c5d5e8',
+            title=dict(text="<b>Store Coverage by Category</b>", font=dict(color='#1a0030', size=15, family='Plus Jakarta Sans')),
+            xaxis=dict(gridcolor='#ede9fe', tickfont=dict(color='#1a0030', size=11), linecolor='#ddd6fe',
                        range=[0, cat_store_count.max() * 1.28]),
-            yaxis=dict(gridcolor='#dce8f5', tickfont=dict(color='#1a2e4a', size=11), linecolor='#c5d5e8'))
+            yaxis=dict(gridcolor='#ede9fe', tickfont=dict(color='#1a0030', size=11), linecolor='#ddd6fe'))
         st.plotly_chart(fig6, use_container_width=True)
 
     st.markdown('<div class="section-title">📋 CWC Table — Sale</div>', unsafe_allow_html=True)
@@ -1499,70 +1626,93 @@ with t3:
 
 with t4:
     st.markdown('<div class="section-title">🔥 Store × Category Heatmap</div>', unsafe_allow_html=True)
+
     hmap = cwc_s[avail].fillna(0).replace(0, np.nan)
     store_labels = [s.replace("SS, ","") for s in hmap.index]
+
     fig7 = go.Figure(go.Heatmap(
         z=hmap.values,
         x=avail,
         y=store_labels,
-        colorscale=[[0,'#e8f0f9'],[0.2,'#c5d5e8'],[0.5,'#607d9b'],[0.75,'#1e4d8c'],[1,'#0f2444']],
+        colorscale=[[0,'#fdf8ff'],[0.2,'#e9d8f8'],[0.5,'#c084fc'],[0.75,'#9333ea'],[1,'#581c87']],
         text=[[f"₹{fmt_inr(v)}" if not np.isnan(v) else "" for v in row] for row in hmap.values],
-        texttemplate="%{text}", textfont=dict(size=10, color='#1a2e4a', family='Inter'),
+        texttemplate="%{text}", textfont=dict(size=10, color='#1a0030', family='Inter'),
         hoverongaps=False,
         hovertemplate='<b>%{y}</b><br>%{x}<br>₹%{z:,.0f}<extra></extra>',
         showscale=True,
-        colorbar=dict(tickfont=dict(color='#607d9b', size=9),
-                      outlinecolor='#c5d5e8', outlinewidth=1,
-                      title=dict(text="Sale ₹", font=dict(color='#1a3a6b', size=10)))
+        colorbar=dict(tickfont=dict(color='#9575cd', size=9),
+                      outlinecolor='#e8def8', outlinewidth=1,
+                      title=dict(text="Sale ₹", font=dict(color='#4a0072', size=10)))
     ))
-    fig7.update_layout(paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(240,244,248,0.5)",
-        font=dict(color="#1a2e4a", family="Inter", size=12),
+    fig7.update_layout(paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(245,240,255,0.5)",
+        font=dict(color="#1a0030", family="Inter", size=12),
+        legend=dict(font=dict(color="#1a0030",size=11), bgcolor="rgba(255,255,255,0.97)"),
         height=700,
-        title=dict(text="<b>Sale Heatmap: Store × Category (MRP Value)</b>", font=dict(color='#1a2e4a', size=15, family='Plus Jakarta Sans')),
-        xaxis=dict(tickangle=-30, tickfont=dict(size=11, color='#1a2e4a', family='Inter'), gridcolor='#dce8f5', linecolor='#c5d5e8'),
-        yaxis=dict(tickfont=dict(size=11, color='#1a2e4a', family='Inter'), autorange='reversed', gridcolor='#dce8f5', linecolor='#c5d5e8'),
+        title=dict(text="<b>Sale Heatmap: Store × Category (MRP Value)</b>", font=dict(color='#1a0030', size=15, family='Plus Jakarta Sans')),
+        xaxis=dict(tickangle=-30, tickfont=dict(size=11, color='#1a0030', family='Inter'), gridcolor='#ede9fe', linecolor='#ddd6fe'),
+        yaxis=dict(tickfont=dict(size=11, color='#1a0030', family='Inter'), autorange='reversed', gridcolor='#ede9fe', linecolor='#ddd6fe'),
         margin=dict(l=130, r=30, t=60, b=80),
     )
     st.plotly_chart(fig7, use_container_width=True)
 
+    # ── Heatmap Insight Summary ──
     hmap_data = cwc_s[avail].fillna(0)
+
+    # Highest sale combo
     max_val_hm = hmap_data.max().max()
     max_cat_hm = hmap_data.max().idxmax()
     max_store_hm = hmap_data[max_cat_hm].idxmax()
+
+    # Zero sale stores (stores with mostly zeros)
     zero_store_cats = {}
     for _s in hmap_data.index:
         zero_c = [c for c in avail if hmap_data.loc[_s,c] == 0]
         if len(zero_c) >= 7:
             zero_store_cats[_s.replace("SS, ","")] = len(zero_c)
+
+    # Category leaders (highest total sale)
     cat_totals_hm = hmap_data.sum().sort_values(ascending=False)
     top_cats_hm = cat_totals_hm.head(3)
+
+    # Weakest store (lowest total)
     store_totals_hm = hmap_data.sum(axis=1).sort_values()
     weakest_store_hm = store_totals_hm.index[0].replace("SS, ","")
     weakest_val_hm = store_totals_hm.values[0]
+
+    # Best store
     best_store_hm = store_totals_hm.index[-1].replace("SS, ","")
     best_val_hm = store_totals_hm.values[-1]
+
     zero_stores_str = ", ".join([f"<b>{s}</b> ({n} categories zero)" for s,n in list(zero_store_cats.items())[:3]]) if zero_store_cats else "None"
     top_cats_str = "<br>".join([f"<b>{c}</b> — ₹{fmt_inr(int(v))}" for c,v in top_cats_hm.items()])
+
     st.markdown(f"""
-    <div style="background:#f8faff;border:1.5px solid #c5d5e8;border-radius:12px;padding:1.1rem 1.4rem;margin-top:.8rem">
-      <div style="font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a3a6b;margin-bottom:.8rem;">🔥 HEATMAP — KEY INSIGHTS</div>
+    <div style="background:#f8faff;border:1.5px solid #c7d7f9;border-radius:12px;padding:1.1rem 1.4rem;margin-top:.8rem">
+      <div style="font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1e40af;margin-bottom:.8rem;">
+        🔥 HEATMAP — KEY INSIGHTS
+      </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;">
-        <div style="background:#e8f0f9;border-radius:8px;padding:.8rem 1rem;border-left:4px solid #1a3a6b;">
-          <div style="font-size:.72rem;font-weight:700;color:#1a3a6b;margin-bottom:.3rem;">🏆 HIGHEST SALE COMBINATION</div>
-          <div style="font-size:.9rem;font-weight:800;color:#1a2e4a;"><b>{max_store_hm}</b> → {max_cat_hm}</div>
-          <div style="font-size:.82rem;color:#1a3a6b;margin-top:.2rem;">₹{fmt_inr(int(max_val_hm))} — Top performing store-category pair</div>
+        <div style="background:#f5f3ff;border-radius:8px;padding:.8rem 1rem;border-left:4px solid #7c3aed;">
+          <div style="font-size:.72rem;font-weight:700;color:#4c1d95;margin-bottom:.3rem;">🏆 HIGHEST SALE COMBINATION</div>
+          <div style="font-size:.9rem;font-weight:800;color:#1a0030;"><b>{max_store_hm}</b> → {max_cat_hm}</div>
+          <div style="font-size:.82rem;color:#4c1d95;margin-top:.2rem;">₹{fmt_inr(int(max_val_hm))} — Top performing store-category pair</div>
         </div>
         <div style="background:#fef2f2;border-radius:8px;padding:.8rem 1rem;border-left:4px solid #dc2626;">
           <div style="font-size:.72rem;font-weight:700;color:#991b1b;margin-bottom:.3rem;">⚠️ WEAK STORES (Many Zero Categories)</div>
-          <div style="font-size:.82rem;color:#1a2e4a;">{zero_stores_str if zero_store_cats else f"<b>{weakest_store_hm}</b> — Weakest store · ₹{fmt_inr(int(weakest_val_hm))}"}</div>
+          <div style="font-size:.82rem;color:#1a0030;">{zero_stores_str if zero_store_cats else f"<b>{weakest_store_hm}</b> — Weakest store · ₹{fmt_inr(int(weakest_val_hm))}"}</div>
         </div>
         <div style="background:#f0fdf4;border-radius:8px;padding:.8rem 1rem;border-left:4px solid #16a34a;">
           <div style="font-size:.72rem;font-weight:700;color:#166534;margin-bottom:.3rem;">📦 TOP CATEGORIES BY SALE</div>
-          <div style="font-size:.82rem;color:#1a2e4a;">{top_cats_str}</div>
+          <div style="font-size:.82rem;color:#1a0030;">{top_cats_str}</div>
         </div>
         <div style="background:#fefce8;border-radius:8px;padding:.8rem 1rem;border-left:4px solid #ca8a04;">
           <div style="font-size:.72rem;font-weight:700;color:#854d0e;margin-bottom:.3rem;">💡 HOW TO READ THIS HEATMAP</div>
-          <div style="font-size:.82rem;color:#1a2e4a;"><b>Dark Navy</b> = High sale ✅<br><b>Light Blue</b> = Low sale ⚠️<br><b>Blank</b> = Zero sale ❌</div>
+          <div style="font-size:.82rem;color:#1a0030;">
+            <b>Dark Purple</b> = High sale ✅<br>
+            <b>Light Pink</b> = Low sale ⚠️<br>
+            <b>Blank/—</b> = Zero sale ❌<br>
+            Focus dark cells = your best opportunities
+          </div>
         </div>
       </div>
       <div style="margin-top:.8rem;padding:.6rem .8rem;background:#fff;border-radius:8px;font-size:.78rem;color:#374151;">
@@ -1575,6 +1725,7 @@ with t4:
 
 with t5:
     st.markdown('<div class="section-title">🔍 Store Deep Dive</div>', unsafe_allow_html=True)
+
     col_sel, col_rank = st.columns([1, 1])
     with col_sel:
         sel_store = st.selectbox("Select Store", stores, key="dd_store")
@@ -1586,6 +1737,7 @@ with t5:
         cont_s_val = row['Sale Cont.']
         rank = int(data_swc['Total Sale'].rank(ascending=False)[sel_store])
 
+        # All 4 cards in one row — same size
         m1, m2, m3, m4 = st.columns(4)
         for col, lbl, val, icon, sub in [
             (m1, "Total MRP Sale",    f"₹{fmt_inr(total_s)}",   "💰", f"Apr'25 → Feb'26 Total"),
@@ -1614,13 +1766,14 @@ with t5:
 
         st.markdown("<br>", unsafe_allow_html=True)
         da, db = st.columns([3,2])
+
         with da:
             monthly_vals = row[MONTHS].fillna(0)
             fig8 = go.Figure(go.Bar(
                 x=MONTH_SHORT, y=monthly_vals.values,
                 marker=dict(color=monthly_vals.values, colorscale=BLUE_SEQ, line=dict(width=0)),
                 text=[f"₹{fmt_inr(v)}" if v > 0 else "" for v in monthly_vals.values],
-                textposition='outside', textfont=dict(size=10, color='#1a2e4a', family='Inter'),
+                textposition='outside', textfont=dict(size=10, color='#1a0030', family='Inter'),
                 hovertemplate='<b>%{x}</b><br>₹%{y:,.0f}<extra></extra>',
             ))
             fig8.update_layout(**chart_layout(300, f"{sel_store} — Monthly Sale"), bargap=0.3)
@@ -1636,7 +1789,7 @@ with t5:
                         marker=dict(colors=CAT_COLORS_LIGHT[:len(cat_vals2)],
                                     line=dict(color='#ffffff', width=3)),
                         textinfo='label+percent',
-                        textfont=dict(size=11, color='#1a2e4a', family='Inter'),
+                        textfont=dict(size=11, color='#1a0030', family='Inter'),
                         insidetextfont=dict(size=10, color='#ffffff'),
                         textposition='auto',
                         hovertemplate='<b>%{label}</b><br>₹%{value:,.0f}<extra></extra>',
@@ -1644,59 +1797,79 @@ with t5:
                     fig9.update_layout(**chart_layout(300, "Category Mix"))
                     st.plotly_chart(fig9, use_container_width=True)
 
+# ══════════════════ TAB 6: PERFORMANCE ══════════════════
 with t6:
     st.markdown('<div class="section-title">📊 Month-on-Month Growth — All Stores</div>', unsafe_allow_html=True)
+
+    # MoM Growth Table
+    mom_data = data_swc[MONTHS].copy()
+    mom_pct = mom_data.pct_change(axis=1) * 100
+
+    # Summary MoM for all stores combined
     monthly_total = data_swc[MONTHS].sum()
     mom_total = monthly_total.pct_change() * 100
+
+    # MoM Bar Chart — Apr shown as special info box, rest as % bars
     apr_sale = float(monthly_total.values[0])
-    mom_vals_plot = [float(v) for v in mom_total.values[1:]]
-    mom_labels_plot = MONTH_SHORT[1:]
+    mom_vals_plot = [float(v) for v in mom_total.values[1:]]  # May onwards only
+    mom_labels_plot = MONTH_SHORT[1:]  # May to Feb
     colors_mom = ['#16a34a' if v >= 0 else '#dc2626' for v in mom_vals_plot]
     mom_texts = [f"{v:+.1f}%" for v in mom_vals_plot]
+
     fig_mom = go.Figure(go.Bar(
-        x=mom_labels_plot, y=mom_vals_plot,
+        x=mom_labels_plot,
+        y=mom_vals_plot,
         marker=dict(color=colors_mom, line=dict(width=0)),
-        text=mom_texts, textposition='outside',
-        textfont=dict(size=13, color='#1a2e4a', family='Inter'),
+        text=mom_texts,
+        textposition='outside',
+        textfont=dict(size=13, color='#1a0030', family='Inter'),
         hovertemplate='<b>%{x}</b><br>Growth: %{y:+.1f}%<extra></extra>',
     ))
     fig_mom.update_layout(
-        paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(240,244,248,0.5)",
-        font=dict(color="#1a2e4a", family="Inter", size=12),
-        height=360, bargap=0.3, margin=dict(l=20, r=20, t=50, b=40),
+        paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(245,240,255,0.5)",
+        font=dict(color="#1a0030", family="Inter", size=12),
+        height=360, bargap=0.3,
+        margin=dict(l=20, r=20, t=50, b=40),
         title=dict(text="<b>Month-on-Month Sale Growth (%) — All Stores Combined</b>",
-                   font=dict(color='#1a2e4a', size=15, family='Plus Jakarta Sans')),
-        xaxis=dict(gridcolor='#dce8f5', tickfont=dict(color='#1a2e4a', size=11), linecolor='#c5d5e8'),
-        yaxis=dict(gridcolor='#dce8f5', tickfont=dict(color='#1a2e4a', size=11), linecolor='#c5d5e8',
-                   zeroline=True, zerolinecolor='#1a3a6b', zerolinewidth=2),
+                   font=dict(color='#1a0030', size=15, family='Plus Jakarta Sans')),
+        xaxis=dict(gridcolor='#ede9fe', tickfont=dict(color='#1a0030', size=11), linecolor='#ddd6fe'),
+        yaxis=dict(gridcolor='#ede9fe', tickfont=dict(color='#1a0030', size=11), linecolor='#ddd6fe',
+                   zeroline=True, zerolinecolor='#9c27b0', zerolinewidth=2),
     )
-    st.markdown(f"""<div style="background:linear-gradient(135deg,#e8f0f9,#dce8f5);border:1.5px solid #1a3a6b;
+    # Apr info box
+    st.markdown(f"""<div style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:1.5px solid #9c27b0;
         border-radius:10px;padding:.6rem 1.2rem;margin-bottom:.6rem;display:inline-block">
-        <span style="font-size:.65rem;font-weight:700;letter-spacing:2px;color:#1a3a6b;text-transform:uppercase">
+        <span style="font-size:.65rem;font-weight:700;letter-spacing:2px;color:#6b21a8;text-transform:uppercase">
         📌 APR'25 — START MONTH</span>
-        <span style="font-size:1rem;font-weight:800;color:#0f2444;margin-left:1rem">₹{fmt_inr(int(apr_sale))}</span>
-        <span style="font-size:.75rem;color:#1e4d8c;margin-left:.5rem">(Base — no previous month to compare)</span>
+        <span style="font-size:1rem;font-weight:800;color:#4c1d95;margin-left:1rem">₹{fmt_inr(int(apr_sale))}</span>
+        <span style="font-size:.75rem;color:#7c3aed;margin-left:.5rem">(Base — no previous month to compare)</span>
     </div>""", unsafe_allow_html=True)
     st.plotly_chart(fig_mom, use_container_width=True)
 
+    # ── Top 5 vs Bottom 5 ──
     ca6, cb6 = st.columns(2)
+
     with ca6:
         st.markdown('<div class="section-title">🏆 Top 5 Stores</div>', unsafe_allow_html=True)
         top5 = data_swc['Total Sale'].nlargest(5).sort_values()
         fig_top5 = go.Figure(go.Bar(
             x=top5.values, y=top5.index.str.replace("SS, ", ""),
-            orientation='h', marker=dict(color='#16a34a', line=dict(width=0)),
+            orientation='h',
+            marker=dict(color='#16a34a', line=dict(width=0)),
             text=[f"₹{fmt_inr(v)}" for v in top5.values],
-            textposition='outside', textfont=dict(size=12, color='#1a2e4a', family='Inter'),
+            textposition='outside',
+            textfont=dict(size=12, color='#1a0030', family='Inter'),
             hovertemplate='<b>%{y}</b><br>₹%{x:,.0f}<extra></extra>',
         ))
         fig_top5.update_layout(
-            paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(240,244,248,0.5)",
-            font=dict(color="#1a2e4a", family="Inter", size=12),
+            paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(245,240,255,0.5)",
+            font=dict(color="#1a0030", family="Inter", size=12),
             height=320, margin=dict(l=10, r=160, t=40, b=20),
-            title=dict(text="<b>Top 5 Stores by Total Sale</b>", font=dict(color='#1a2e4a', size=14, family='Plus Jakarta Sans')),
-            xaxis=dict(gridcolor='#dce8f5', tickfont=dict(color='#1a2e4a', size=10), linecolor='#c5d5e8', range=[0, top5.max() * 1.4]),
-            yaxis=dict(gridcolor='#dce8f5', tickfont=dict(color='#1a2e4a', size=11), linecolor='#c5d5e8'),
+            title=dict(text="<b>Top 5 Stores by Total Sale</b>",
+                       font=dict(color='#1a0030', size=14, family='Plus Jakarta Sans')),
+            xaxis=dict(gridcolor='#ede9fe', tickfont=dict(color='#1a0030', size=10),
+                       linecolor='#ddd6fe', range=[0, top5.max() * 1.4]),
+            yaxis=dict(gridcolor='#ede9fe', tickfont=dict(color='#1a0030', size=11), linecolor='#ddd6fe'),
         )
         st.plotly_chart(fig_top5, use_container_width=True)
 
@@ -1705,22 +1878,28 @@ with t6:
         bot5 = data_swc['Total Sale'].nsmallest(5).sort_values(ascending=False)
         fig_bot5 = go.Figure(go.Bar(
             x=bot5.values, y=bot5.index.str.replace("SS, ", ""),
-            orientation='h', marker=dict(color='#dc2626', line=dict(width=0)),
+            orientation='h',
+            marker=dict(color='#dc2626', line=dict(width=0)),
             text=[f"₹{fmt_inr(v)}" for v in bot5.values],
-            textposition='outside', textfont=dict(size=12, color='#1a2e4a', family='Inter'),
+            textposition='outside',
+            textfont=dict(size=12, color='#1a0030', family='Inter'),
             hovertemplate='<b>%{y}</b><br>₹%{x:,.0f}<extra></extra>',
         ))
         fig_bot5.update_layout(
-            paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(240,244,248,0.5)",
-            font=dict(color="#1a2e4a", family="Inter", size=12),
+            paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(245,240,255,0.5)",
+            font=dict(color="#1a0030", family="Inter", size=12),
             height=320, margin=dict(l=10, r=160, t=40, b=20),
-            title=dict(text="<b>Bottom 5 Stores by Total Sale</b>", font=dict(color='#1a2e4a', size=14, family='Plus Jakarta Sans')),
-            xaxis=dict(gridcolor='#dce8f5', tickfont=dict(color='#1a2e4a', size=10), linecolor='#c5d5e8', range=[0, bot5.max() * 1.5]),
-            yaxis=dict(gridcolor='#dce8f5', tickfont=dict(color='#1a2e4a', size=11), linecolor='#c5d5e8'),
+            title=dict(text="<b>Bottom 5 Stores by Total Sale</b>",
+                       font=dict(color='#1a0030', size=14, family='Plus Jakarta Sans')),
+            xaxis=dict(gridcolor='#ede9fe', tickfont=dict(color='#1a0030', size=10),
+                       linecolor='#ddd6fe', range=[0, bot5.max() * 1.5]),
+            yaxis=dict(gridcolor='#ede9fe', tickfont=dict(color='#1a0030', size=11), linecolor='#ddd6fe'),
         )
         st.plotly_chart(fig_bot5, use_container_width=True)
 
+    # ── Zero Sale Months Table ──
     st.markdown('<div class="section-title">❌ Zero Sale Months — Store-wise</div>', unsafe_allow_html=True)
+
     zero_records = []
     for store in stores:
         row = data_swc.loc[store, MONTHS]
@@ -1735,20 +1914,30 @@ with t6:
                 'Zero Count': len(zero_months),
                 'Total Sale': f"₹{fmt_inr(data_swc.loc[store, 'Total Sale'])}"
             })
+
     if zero_records:
         zero_df = pd.DataFrame(zero_records).sort_values('Zero Count', ascending=False)
         st.dataframe(zero_df, use_container_width=True, hide_index=True)
+        st.markdown(f"""<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:10px;
+            padding:.6rem 1rem;font-size:.8rem;color:#991b1b;margin-top:.5rem">
+            ⚠️ <b>{len(zero_records)} stores</b> had zero sale in one or more months.
+            These stores need immediate attention!
+        </div>""", unsafe_allow_html=True)
 
-    st.markdown('<div class="section-title">📈 Month-on-Month Growth — Store-wise</div>', unsafe_allow_html=True)
+    # ── MoM Growth per Store Table ──
+    st.markdown('<div class="section-title">📈 Month-on-Month Growth — Store-wise (Last Month vs Previous)</div>', unsafe_allow_html=True)
+
     mom_store = []
     for store in stores:
         row = data_swc.loc[store, MONTHS]
-        last = row.values[-1]; prev = row.values[-2]
+        last = row.values[-1]   # Feb
+        prev = row.values[-2]   # Jan
         if prev > 0:
             growth = ((last - prev) / prev) * 100
             arrow = "🟢 ▲" if growth >= 0 else "🔴 ▼"
         else:
-            growth = None; arrow = "➖ N/A"
+            growth = None
+            arrow = "➖ N/A"
         mom_store.append({
             'Store': store.replace("SS, ", ""),
             'Jan Sale': f"₹{fmt_inr(prev)}",
@@ -1756,16 +1945,23 @@ with t6:
             'MoM Growth': f"{growth:+.1f}%" if growth is not None else "N/A",
             'Trend': arrow
         })
+
     mom_df = pd.DataFrame(mom_store)
     st.dataframe(mom_df, use_container_width=True, hide_index=True)
 
+
+# ══════════════════ TAB 7: INVENTORY INTELLIGENCE ══════════════════
 with t7:
+
+    # ── Sell-Through Rate ──
     st.markdown('<div class="section-title">📊 Sell-Through Rate — Store × Category</div>', unsafe_allow_html=True)
     st.markdown("""<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;
         padding:.5rem 1rem;font-size:.8rem;color:#166534;margin-bottom:.8rem">
-        <b>Sell-Through Rate</b> = Sale ÷ (Sale + Closing Stock) × 100
+        <b>Sell-Through Rate</b> = Sale ÷ (Sale + Closing Stock) × 100 &nbsp;·&nbsp;
+        Higher % = Better selling &nbsp;·&nbsp; Lower % = Overstocked (stock not selling)
     </div>""", unsafe_allow_html=True)
 
+    # Calculate sell-through per store per category
     st_matrix = pd.DataFrame(index=cwc_s.index, columns=avail)
     for store in cwc_s.index:
         for cat in avail:
@@ -1773,86 +1969,116 @@ with t7:
             k = cwc_k.loc[store, cat] if store in cwc_k.index else 0
             total = s + k
             st_matrix.loc[store, cat] = round(s / total * 100, 1) if total > 0 else 0
+
     st_matrix = st_matrix.astype(float)
 
+    # Heatmap for sell-through
     fig_st = go.Figure(go.Heatmap(
-        z=st_matrix.values.tolist(), x=list(avail),
+        z=st_matrix.values.tolist(),
+        x=list(avail),
         y=st_matrix.index.str.replace("SS, ", "").tolist(),
         colorscale=[[0, '#fef2f2'], [0.3, '#fca5a5'], [0.6, '#fde68a'], [0.8, '#86efac'], [1, '#16a34a']],
         text=[[f"{v:.0f}%" if v > 0 else "—" for v in row] for row in st_matrix.values.tolist()],
-        texttemplate="%{text}", textfont=dict(size=9, color='#1a2e4a'),
+        texttemplate="%{text}",
+        textfont=dict(size=9, color='#1a0030'),
         hoverongaps=False,
         hovertemplate='<b>%{y}</b><br>%{x}<br>Sell-Through: %{z:.1f}%<extra></extra>',
         zmin=0, zmax=100,
-        colorbar=dict(title="ST%", tickfont=dict(color='#1a2e4a', size=9), ticksuffix="%")
+        colorbar=dict(title="ST%", tickfont=dict(color='#1a0030', size=9),
+                      ticksuffix="%")
     ))
     fig_st.update_layout(
         paper_bgcolor="rgba(255,255,255,1)", plot_bgcolor="rgba(255,255,255,1)",
-        font=dict(color="#1a2e4a", family="Inter", size=11),
+        font=dict(color="#1a0030", family="Inter", size=11),
         height=700, margin=dict(l=150, r=30, t=50, b=80),
         title=dict(text="<b>Sell-Through Rate (%) — Store × Category</b>",
-                   font=dict(color='#1a2e4a', size=15, family='Plus Jakarta Sans')),
-        xaxis=dict(tickangle=-30, tickfont=dict(size=10, color='#1a2e4a')),
-        yaxis=dict(tickfont=dict(size=10, color='#1a2e4a'), autorange='reversed'),
+                   font=dict(color='#1a0030', size=15, family='Plus Jakarta Sans')),
+        xaxis=dict(tickangle=-30, tickfont=dict(size=10, color='#1a0030')),
+        yaxis=dict(tickfont=dict(size=10, color='#1a0030'), autorange='reversed'),
     )
     st.plotly_chart(fig_st, use_container_width=True)
 
+    # ── Auto Insights Box ──
     avg_st = st_matrix.replace(0, np.nan).stack().mean()
     store_avg_st = st_matrix.replace(0, np.nan).mean(axis=1).sort_values(ascending=False)
     best_stores = store_avg_st[store_avg_st >= 60].index.str.replace("SS, ", "").tolist()
     worst_stores = store_avg_st[store_avg_st < 30].index.str.replace("SS, ", "").tolist()
+    cat_avg_st = st_matrix.replace(0, np.nan).mean(axis=0).sort_values(ascending=False)
+    best_cats = cat_avg_st[cat_avg_st >= 60].index.tolist()
+    slow_cats = cat_avg_st[cat_avg_st < 30].index.tolist()
+
+    perfect_stores = []
+    for store in st_matrix.index:
+        vals = st_matrix.loc[store].replace(0, np.nan).dropna()
+        if len(vals) > 0 and vals.min() >= 95:
+            perfect_stores.append(store.replace("SS, ", ""))
+
     restock_needed = []
     for store in cwc_s.index:
         for cat in avail:
-            s = cwc_s.loc[store, cat]; k = cwc_k.loc[store, cat] if store in cwc_k.index else 0
+            s = cwc_s.loc[store, cat]
+            k = cwc_k.loc[store, cat] if store in cwc_k.index else 0
             total = s + k
             if total > 0 and s > 5000:
                 st_r = s / total * 100
                 if st_r >= 80:
                     restock_needed.append(f"{store.replace('SS, ','')} → {cat}")
+
+    top_heroes = (perfect_stores or best_stores[:3])
+    hero_lines = "<br>".join([f"<b>{s}</b> — Strong sell-through across categories" for s in top_heroes]) if top_heroes else "No store with consistently high ST rate"
+    warn_lines = "<br>".join([f"<b>{s}</b> — Low sell-through, overstocked" for s in worst_stores[:3]]) if worst_stores else "All stores performing reasonably well"
+    restock_lines = "<br>".join(restock_needed[:4]) if restock_needed else "No urgent restock required"
+    # Smart: exclude cats that have restock stores (no contradiction)
     restock_cats_st = set([x.split(' → ')[1] for x in restock_needed])
-    cat_avg_st = st_matrix.replace(0, np.nan).mean(axis=0).sort_values(ascending=False)
-    slow_cats = cat_avg_st[cat_avg_st < 30].index.tolist()
     truly_slow_cats = [c for c in slow_cats if c not in restock_cats_st]
     mixed_cats = [c for c in slow_cats if c in restock_cats_st]
-    hero_lines = "<br>".join([f"<b>{s}</b> — Strong sell-through" for s in (best_stores[:3] or [])]) or "N/A"
-    warn_lines = "<br>".join([f"<b>{s}</b> — Low sell-through" for s in worst_stores[:3]]) if worst_stores else "All stores OK"
-    restock_lines = "<br>".join(restock_needed[:4]) if restock_needed else "No urgent restock"
     slow_lines_parts = [f"<b>{c}</b> — Reduce stock (slow across all stores)" for c in truly_slow_cats[:3]]
     if mixed_cats:
         slow_lines_parts.append(f"<i style='color:#ca8a04'>{', '.join(mixed_cats[:2])} — Mixed: slow overall but fast in specific stores</i>")
-    slow_lines = "<br>".join(slow_lines_parts) if slow_lines_parts else "No universally slow categories"
+    slow_lines = "<br>".join(slow_lines_parts) if slow_lines_parts else "No universally slow categories" 
 
     st.markdown(f"""
-    <div style="background:#f8faff;border:1.5px solid #c5d5e8;border-radius:12px;padding:1.1rem 1.4rem;margin-bottom:1.2rem;">
-      <div style="font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a3a6b;margin-bottom:.8rem;">📊 KEY INSIGHTS</div>
+    <div style="background:#f8faff;border:1.5px solid #c7d7f9;border-radius:12px;padding:1.1rem 1.4rem;margin-bottom:1.2rem;">
+      <div style="font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1e40af;margin-bottom:.8rem;">
+        📊 SELL-THROUGH RATE — KEY INSIGHTS
+      </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;">
         <div style="background:#f0fdf4;border-radius:8px;padding:.8rem 1rem;border-left:4px solid #16a34a;">
-          <div style="font-size:.72rem;font-weight:700;color:#166534;margin-bottom:.3rem;">🏆 BEST STORES</div>
-          <div style="font-size:.82rem;color:#1a2e4a;">{hero_lines}</div>
+          <div style="font-size:.72rem;font-weight:700;color:#166534;margin-bottom:.3rem;">🏆 BEST PERFORMING STORES</div>
+          <div style="font-size:.82rem;color:#1a0030;">{hero_lines}</div>
         </div>
         <div style="background:#fef2f2;border-radius:8px;padding:.8rem 1rem;border-left:4px solid #dc2626;">
-          <div style="font-size:.72rem;font-weight:700;color:#991b1b;margin-bottom:.3rem;">⚠️ NEEDS ATTENTION</div>
-          <div style="font-size:.82rem;color:#1a2e4a;">{warn_lines}</div>
+          <div style="font-size:.72rem;font-weight:700;color:#991b1b;margin-bottom:.3rem;">⚠️ STORES NEEDING ATTENTION</div>
+          <div style="font-size:.82rem;color:#1a0030;">{warn_lines}</div>
         </div>
         <div style="background:#eff6ff;border-radius:8px;padding:.8rem 1rem;border-left:4px solid #1d4ed8;">
-          <div style="font-size:.72rem;font-weight:700;color:#1e40af;margin-bottom:.3rem;">📦 URGENT RESTOCK</div>
-          <div style="font-size:.82rem;color:#1a2e4a;">{restock_lines}</div>
+          <div style="font-size:.72rem;font-weight:700;color:#1e40af;margin-bottom:.3rem;">📦 URGENT RESTOCK NEEDED</div>
+          <div style="font-size:.82rem;color:#1a0030;">{restock_lines}</div>
+          <div style="font-size:.7rem;color:#6b7280;margin-top:.3rem;">ST Rate ≥ 80% with significant sale volume</div>
         </div>
         <div style="background:#fefce8;border-radius:8px;padding:.8rem 1rem;border-left:4px solid #ca8a04;">
-          <div style="font-size:.72rem;font-weight:700;color:#854d0e;margin-bottom:.3rem;">🐌 SLOW CATEGORIES</div>
-          <div style="font-size:.82rem;color:#1a2e4a;">{slow_lines}</div>
+          <div style="font-size:.72rem;font-weight:700;color:#854d0e;margin-bottom:.3rem;">🐌 SLOW MOVING CATEGORIES</div>
+          <div style="font-size:.82rem;color:#1a0030;">{slow_lines}</div>
         </div>
       </div>
       <div style="margin-top:.8rem;padding:.6rem .8rem;background:#fff;border-radius:8px;font-size:.78rem;color:#374151;">
-        📌 <b>Avg ST: {avg_st:.1f}%</b> &nbsp;·&nbsp; Green ≥60% = Good &nbsp;·&nbsp; Yellow 30-59% = Avg &nbsp;·&nbsp; Red &lt;30% = Slow
+        📌 <b>Overall Avg Sell-Through: {avg_st:.1f}%</b> &nbsp;·&nbsp;
+        <span style="color:#16a34a;font-weight:600;">Green ≥ 60%</span> = Good &nbsp;·&nbsp;
+        <span style="color:#ca8a04;font-weight:600;">Yellow 30–59%</span> = Average &nbsp;·&nbsp;
+        <span style="color:#dc2626;font-weight:600;">Red &lt; 30%</span> = Slow mover
       </div>
     </div>
     """, unsafe_allow_html=True)
 
+    # ── Category-Store Fit Score + Dead Stock Alert ──
     cc7, cd7 = st.columns(2)
+
     with cc7:
         st.markdown('<div class="section-title">🟢 Category-Store Fit Score</div>', unsafe_allow_html=True)
+        st.markdown("""<div style="font-size:.75rem;color:#607d9b;margin-bottom:.6rem">
+            Based on Sell-Through Rate: 🟢 Strong (≥60%) &nbsp;·&nbsp; 🟡 Average (30-59%) &nbsp;·&nbsp; 🔴 Weak (&lt;30%)
+        </div>""", unsafe_allow_html=True)
+
         fit_records = []
         for store in cwc_s.index:
             for cat in avail:
@@ -1861,16 +2087,27 @@ with t7:
                 total = s + k
                 if total > 0:
                     st_rate = s / total * 100
-                    fit = "🟢 Strong" if st_rate >= 60 else ("🟡 Average" if st_rate >= 30 else "🔴 Weak")
+                    if st_rate >= 60:
+                        fit = "🟢 Strong"
+                    elif st_rate >= 30:
+                        fit = "🟡 Average"
+                    else:
+                        fit = "🔴 Weak"
                     sale_qty = int(sale[(sale['Store Name']==store) & (sale['CATEGORY']==cat)]['Quantity'].sum()) if 'Quantity' in sale.columns else '—'
                     stk_qty = int(stock[(stock['Store Name']==store) & (stock['CATEGORY']==cat) & (stock['Month']=='Feb Closing')]['Quantity'].sum()) if 'Quantity' in stock.columns else '—'
                     fit_records.append({
-                        'Store': store.replace("SS, ", ""), 'Category': cat,
-                        'Sale (₹)': f"₹{fmt_inr(s)}", 'Sale Qty': sale_qty,
-                        'Stock (₹)': f"₹{fmt_inr(k)}", 'Stock Qty': stk_qty,
-                        'Sell-Through': f"{st_rate:.1f}%", 'Fit': fit
+                        'Store': store.replace("SS, ", ""),
+                        'Category': cat,
+                        'Sale (₹)': f"₹{fmt_inr(s)}",
+                        'Sale Qty': sale_qty,
+                        'Stock (₹)': f"₹{fmt_inr(k)}",
+                        'Stock Qty': stk_qty,
+                        'Sell-Through': f"{st_rate:.1f}%",
+                        'Fit': fit
                     })
+
         fit_df = pd.DataFrame(fit_records)
+        # Show only Weak and Strong — most actionable
         fit_filter = st.selectbox("Filter by Fit", ["All", "🟢 Strong", "🟡 Average", "🔴 Weak"], key="fit_filter")
         if fit_filter != "All":
             fit_df = fit_df[fit_df['Fit'] == fit_filter]
@@ -1878,6 +2115,11 @@ with t7:
 
     with cd7:
         st.markdown('<div class="section-title">⚠️ Dead Stock Alert</div>', unsafe_allow_html=True)
+        st.markdown("""<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;
+            padding:.5rem 1rem;font-size:.8rem;color:#991b1b;margin-bottom:.6rem">
+            Dead Stock = Stock exists but ZERO sale in entire period. Immediate action needed!
+        </div>""", unsafe_allow_html=True)
+
         dead_records = []
         for store in cwc_s.index:
             for cat in avail:
@@ -1886,13 +2128,17 @@ with t7:
                 if s == 0 and k > 0:
                     dq = int(stock[(stock['Store Name']==store) & (stock['CATEGORY']==cat) & (stock['Month']=='Feb Closing')]['Quantity'].sum()) if 'Quantity' in stock.columns else '—'
                     dead_records.append({
-                        'Store': store.replace("SS, ", ""), 'Category': cat,
-                        'Dead Stock (₹)': f"₹{fmt_inr(k)}", 'Dead Stock Qty': f"{dq} Pcs",
+                        'Store': store.replace("SS, ", ""),
+                        'Category': cat,
+                        'Dead Stock (₹)': f"₹{fmt_inr(k)}",
+                        'Dead Stock Qty': f"{dq} Pcs",
                         'Action': '⚠️ Transfer or Liquidate'
                     })
+
         if dead_records:
             dead_df = pd.DataFrame(dead_records).sort_values('Store')
             st.dataframe(dead_df, use_container_width=True, hide_index=True, height=400)
+            # Total dead value
             total_dead_val = 0
             total_dead_qty = 0
             for r in dead_records:
@@ -1906,192 +2152,311 @@ with t7:
             st.markdown(f"""<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:10px;
                 padding:.8rem 1.1rem;margin-top:.5rem">
                 <div style="font-size:.85rem;font-weight:700;color:#991b1b;margin-bottom:.4rem">
-                    ⚠️ <b>{len(dead_records)} store-category combinations</b> have Dead Stock
+                    ⚠️ <b>{len(dead_records)} store-category combinations</b> store-category pairs have Dead Stock
                 </div>
                 <div style="display:flex;gap:2rem;font-size:.82rem;color:#7f1d1d">
-                    <span>💰 Total Dead Value: <b>₹{fmt_inr(int(total_dead_val))}</b></span>
+                    <span>💰 Total Dead Stock Value: <b>₹{fmt_inr(int(total_dead_val))}</b></span>
                     <span>📦 Total Dead Qty: <b>{total_dead_qty} Pcs</b></span>
                 </div>
             </div>""", unsafe_allow_html=True)
         else:
             st.success("✅ No dead stock found!")
 
+    # ── Stock Recommendations ──
     st.markdown('<div class="section-title">📋 Stock Recommendations</div>', unsafe_allow_html=True)
+
     rec_records = []
     for store in cwc_s.index:
         for cat in avail:
             s = cwc_s.loc[store, cat] if store in cwc_s.index else 0
             k = cwc_k.loc[store, cat] if store in cwc_k.index else 0
             total = s + k
-            if total == 0: continue
+            if total == 0:
+                continue
             st_rate = s / total * 100
-            if st_rate >= 75 and s > 5000: rec = "📦 Increase Stock — High Demand"; priority = "🔴 Urgent"
-            elif st_rate >= 60 and s > 0: rec = "📦 Replenish Stock — Good Seller"; priority = "🟡 Medium"
-            elif st_rate < 20 and k > 10000: rec = "🔄 Transfer to Better Store"; priority = "🔴 Urgent"
-            elif s == 0 and k > 0: rec = "❌ Remove Stock — No Sale"; priority = "🔴 Urgent"
-            elif st_rate < 30 and k > 5000: rec = "⬇️ Reduce Stock — Slow Mover"; priority = "🟡 Medium"
-            else: continue
+
+            if st_rate >= 75 and s > 5000:
+                rec = "📦 Increase Stock — High Demand"
+                priority = "🔴 Urgent"
+            elif st_rate >= 60 and s > 0:
+                rec = "📦 Replenish Stock — Good Seller"
+                priority = "🟡 Medium"
+            elif st_rate < 20 and k > 10000:
+                rec = "🔄 Transfer to Better Performing Store"
+                priority = "🔴 Urgent"
+            elif s == 0 and k > 0:
+                rec = "❌ Remove Stock — No Sale"
+                priority = "🔴 Urgent"
+            elif st_rate < 30 and k > 5000:
+                rec = "⬇️ Reduce Stock — Slow Mover"
+                priority = "🟡 Medium"
+            else:
+                continue
+
             rsq = int(sale[sale['Store Name']==store][sale['CATEGORY']==cat]['Quantity'].sum()) if 'Quantity' in sale.columns else '—'
             rkq = int(stock[(stock['Store Name']==store) & (stock['CATEGORY']==cat) & (stock['Month']=='Feb Closing')]['Quantity'].sum()) if 'Quantity' in stock.columns else '—'
             rec_records.append({
-                'Store': store.replace("SS, ", ""), 'Category': cat,
-                'Sale (₹)': f"₹{fmt_inr(s)}", 'Sale Qty': rsq,
-                'Stock (₹)': f"₹{fmt_inr(k)}", 'Stock Qty': rkq,
-                'Sell-Through': f"{st_rate:.1f}%", 'Recommendation': rec, 'Priority': priority
+                'Store': store.replace("SS, ", ""),
+                'Category': cat,
+                'Sale (₹)': f"₹{fmt_inr(s)}",
+                'Sale Qty': rsq,
+                'Stock (₹)': f"₹{fmt_inr(k)}",
+                'Stock Qty': rkq,
+                'Sell-Through': f"{st_rate:.1f}%",
+                'Recommendation': rec,
+                'Priority': priority
             })
+
     if rec_records:
         rec_df = pd.DataFrame(rec_records).sort_values(['Priority', 'Store'])
         priority_filter = st.selectbox("Filter by Priority", ["All", "🔴 Urgent", "🟡 Medium"], key="rec_priority")
         if priority_filter != "All":
             rec_df = rec_df[rec_df['Priority'] == priority_filter]
         st.dataframe(rec_df, use_container_width=True, hide_index=True)
+        st.markdown(f"""<div style="background:#eff6ff;border:1px solid #93c5fd;border-radius:8px;
+            padding:.6rem 1rem;font-size:.8rem;color:#1e40af;margin-top:.5rem">
+            💡 <b>{len(rec_records)} recommendations</b> generated based on Sell-Through Rate analysis.
+            Filter by Priority to focus on urgent actions first.
+        </div>""", unsafe_allow_html=True)
 
+# ══════════════════ TAB 8: AI STRATEGY SUMMARY ══════════════════
 with t8:
     st.markdown('<div class="section-title">🤖 AI Strategy Summary</div>', unsafe_allow_html=True)
-    st.markdown("""<div style="background:linear-gradient(135deg,#0f2444,#1a3a6b);border-radius:12px;
+
+    st.markdown("""<div style="background:linear-gradient(135deg,#3a0068,#6a1b9a);border-radius:12px;
         padding:1rem 1.4rem;margin-bottom:1rem;color:#fff">
         <div style="font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
             color:rgba(255,255,255,.7);margin-bottom:.3rem">HOW IT WORKS</div>
-        <div style="font-size:.85rem">AI analyses your complete sales data and generates a smart business strategy.</div>
+        <div style="font-size:.85rem">AI analyses your complete sales data — stores, categories,
+        sell-through rates, dead stock — and generates a smart business strategy with action plan.</div>
     </div>""", unsafe_allow_html=True)
 
+    # ── Build data summary for AI ──
+    # Sell-through matrix
     st_mat = pd.DataFrame(index=cwc_s.index, columns=avail)
     for _s in cwc_s.index:
         for _c in avail:
-            sv = float(cwc_s.loc[_s, _c]); kv = float(cwc_k.loc[_s, _c]) if _s in cwc_k.index else 0
+            sv = float(cwc_s.loc[_s, _c])
+            kv = float(cwc_k.loc[_s, _c]) if _s in cwc_k.index else 0
             t = sv + kv
             st_mat.loc[_s, _c] = round(sv/t*100, 1) if t > 0 else 0
     st_mat = st_mat.astype(float)
 
-    total_sale = float(grand); total_stock = float(data_swc['Feb Closing Stk'].sum())
+    # Key metrics
+    total_sale = float(grand)
+    total_stock = float(data_swc['Feb Closing Stk'].sum())
     overall_st = float(st_mat.replace(0, np.nan).stack().mean())
-    top3 = data_swc['Total Sale'].nlargest(3); bot3 = data_swc['Total Sale'].nsmallest(3)
-    cat_sale = gt_s[avail].sort_values(ascending=False); cat_stock = gt_k[avail].sort_values(ascending=False)
+    num_stores = len(stores)
+    num_cats = len(avail)
+
+    # Top/Bottom stores
+    top3 = data_swc['Total Sale'].nlargest(3)
+    bot3 = data_swc['Total Sale'].nsmallest(3)
+
+    # Category performance
+    cat_sale = gt_s[avail].sort_values(ascending=False)
+    cat_stock = gt_k[avail].sort_values(ascending=False)
     cat_st = st_mat.replace(0, np.nan).mean(axis=0).sort_values(ascending=False)
-    dead_items = []; dead_val = 0
+
+    # Dead stock
+    dead_items = []
+    dead_val = 0
     for _s in cwc_s.index:
         for _c in avail:
-            sv = float(cwc_s.loc[_s, _c]); kv = float(cwc_k.loc[_s, _c]) if _s in cwc_k.index else 0
+            sv = float(cwc_s.loc[_s, _c])
+            kv = float(cwc_k.loc[_s, _c]) if _s in cwc_k.index else 0
             if sv == 0 and kv > 0:
-                dead_items.append(f"{_s.replace('SS, ','')}:{_c}=₹{fmt_inr(kv)}"); dead_val += kv
+                dead_items.append(f"{_s.replace('SS, ','')}:{_c}=₹{fmt_inr(kv)}")
+                dead_val += kv
+
+    # Restock needed
     restock_items = []
     for _s in cwc_s.index:
         for _c in avail:
-            sv = float(cwc_s.loc[_s, _c]); kv = float(cwc_k.loc[_s, _c]) if _s in cwc_k.index else 0
+            sv = float(cwc_s.loc[_s, _c])
+            kv = float(cwc_k.loc[_s, _c]) if _s in cwc_k.index else 0
             t = sv + kv
             if t > 0 and sv > 5000 and sv/t*100 >= 80:
                 restock_items.append(f"{_s.replace('SS, ','')}:{_c}({sv/t*100:.0f}%ST)")
+
+    # MoM last month
     monthly_vals = data_swc[MONTHS].sum()
     mom_last = ((monthly_vals.values[-1] - monthly_vals.values[-2]) / monthly_vals.values[-2] * 100) if monthly_vals.values[-2] > 0 else 0
-    best_month_idx = monthly_vals.values.argmax(); worst_month_idx = monthly_vals.values.argmin()
+    best_month_idx = monthly_vals.values.argmax()
+    worst_month_idx = monthly_vals.values.argmin()
+
+    # Zero sale stores
     zero_stores = []
     for _s in stores:
         row = data_swc.loc[_s, MONTHS]
         zc = sum(1 for v in row.values if pd.isna(v) or v == 0)
-        if zc >= 3: zero_stores.append(f"{_s.replace('SS, ','')}({zc} months)")
+        if zc >= 3:
+            zero_stores.append(f"{_s.replace('SS, ','')}({zc} months)")
 
+    # Build comprehensive data prompt
     data_prompt = f"""You are a senior retail business consultant analyzing sales data for SS Retail (UCB brand stores in India).
 
 BUSINESS DATA SUMMARY:
-- Total MRP Sale: Rs.{fmt_inr(int(total_sale))} across {len(stores)} stores, {len(avail)} categories, Apr'25-Feb'26 (11 months)
-- Total Closing Stock: Rs.{fmt_inr(int(total_stock))}
-- Overall Sell-Through Rate: {overall_st:.1f}%
-- Last Month Growth (Jan to Feb): {mom_last:+.1f}%
+- Total MRP Sale: ₹{fmt_inr(int(total_sale))} across {num_stores} stores, {num_cats} categories, Apr'25–Feb'26 (11 months)
+- Total Closing Stock: ₹{fmt_inr(int(total_stock))}
+- Overall Sell-Through Rate: {overall_st:.1f}% (only {overall_st:.1f}% of total inventory sold)
+- Last Month Growth (Jan→Feb): {mom_last:+.1f}%
 - Best Month: {MONTH_SHORT[best_month_idx]} | Worst Month: {MONTH_SHORT[worst_month_idx]}
 
-TOP 3 STORES: {chr(10).join([f"- {s.replace('SS, ','')}: Rs.{fmt_inr(int(v))} ({v/total_sale*100:.1f}%)" for s,v in top3.items()])}
-BOTTOM 3 STORES: {chr(10).join([f"- {s.replace('SS, ','')}: Rs.{fmt_inr(int(v))}" for s,v in bot3.items()])}
-TOP 5 CATEGORIES: {chr(10).join([f"- {c}: Rs.{fmt_inr(int(cat_sale[c]))} | ST: {cat_st.get(c,0):.1f}%" for c in cat_sale.index[:5]])}
-DEAD STOCK VALUE: Rs.{fmt_inr(int(dead_val))}
-URGENT RESTOCK: {', '.join(restock_items[:6]) if restock_items else 'None'}
-POOR CONSISTENCY STORES: {', '.join(zero_stores[:5]) if zero_stores else 'None'}
+TOP 3 STORES (by sale):
+{chr(10).join([f"- {s.replace('SS, ','')}: ₹{fmt_inr(int(v))} ({v/total_sale*100:.1f}% of total)" for s,v in top3.items()])}
 
-Provide structured business strategy with sections:
-1. EXECUTIVE SUMMARY
-2. KEY STRENGTHS
-3. CRITICAL ISSUES
-4. HOW TO INCREASE SALE - STRATEGIES
-5. INVENTORY ACTION PLAN
-6. IMMEDIATE PRIORITIES
+BOTTOM 3 STORES (by sale):
+{chr(10).join([f"- {s.replace('SS, ','')}: ₹{fmt_inr(int(v))} ({v/total_sale*100:.1f}% of total)" for s,v in bot3.items()])}
 
-Be specific, direct, no fluff."""
+TOP 5 CATEGORIES (by sale):
+{chr(10).join([f"- {c}: ₹{fmt_inr(int(cat_sale[c]))} | ST Rate: {cat_st.get(c,0):.1f}%" for c in cat_sale.index[:5]])}
 
-    if 'ai_summary' not in st.session_state: st.session_state.ai_summary = None
-    if 'ai_loading' not in st.session_state: st.session_state.ai_loading = False
+BOTTOM 3 CATEGORIES (by sale):
+{chr(10).join([f"- {c}: ₹{fmt_inr(int(cat_sale[c]))} | ST Rate: {cat_st.get(c,0):.1f}%" for c in cat_sale.index[-3:]])}
+
+DEAD STOCK (stock exists, zero sale):
+Total Dead Stock Value: ₹{fmt_inr(int(dead_val))}
+Items: {', '.join(dead_items[:8]) if dead_items else 'None'}
+
+URGENT RESTOCK NEEDED (ST Rate ≥80%):
+{', '.join(restock_items[:8]) if restock_items else 'None'}
+
+STORES WITH POOR CONSISTENCY (3+ months zero sale):
+{', '.join(zero_stores[:6]) if zero_stores else 'None'}
+
+Based on this data, provide a structured business strategy report in English with these exact sections:
+
+1. EXECUTIVE SUMMARY (2-3 sentences — overall business health)
+2. KEY STRENGTHS (3 bullet points — what is working well)
+3. CRITICAL ISSUES (3 bullet points — biggest problems)
+4. HOW TO INCREASE SALE — STRATEGIES (5 specific, actionable strategies with expected impact)
+5. INVENTORY ACTION PLAN (specific store/category actions — restock, transfer, liquidate)
+6. IMMEDIATE PRIORITIES (3 actions for THIS WEEK, 3 for THIS MONTH, 3 for NEXT QUARTER)
+
+Be specific with store names and numbers. Be direct and business-focused. No fluff."""
+
+    # ── Generate Button ──
+    if 'ai_summary' not in st.session_state:
+        st.session_state.ai_summary = None
+    if 'ai_loading' not in st.session_state:
+        st.session_state.ai_loading = False
 
     col_btn1, col_btn2, col_btn3 = st.columns([1,2,1])
     with col_btn2:
         if st.button("🤖  Generate AI Strategy Summary", use_container_width=True):
-            st.session_state.ai_loading = True; st.session_state.ai_summary = None
+            st.session_state.ai_loading = True
+            st.session_state.ai_summary = None
 
     if st.session_state.ai_loading and st.session_state.ai_summary is None:
-        with st.spinner("🤖 AI analysing data..."):
+        with st.spinner("🤖 AI is analysing your data... please wait..."):
             try:
                 import requests
                 response = requests.post(
                     "https://api.anthropic.com/v1/messages",
                     headers={"Content-Type": "application/json"},
-                    json={"model": "claude-sonnet-4-20250514", "max_tokens": 1500,
-                          "messages": [{"role": "user", "content": data_prompt}]},
+                    json={
+                        "model": "claude-sonnet-4-20250514",
+                        "max_tokens": 1500,
+                        "messages": [{"role": "user", "content": data_prompt}]
+                    },
                     timeout=60
                 )
                 if response.status_code == 200:
                     result = response.json()
-                    st.session_state.ai_summary = result['content'][0]['text']
+                    ai_text = result['content'][0]['text']
+                    st.session_state.ai_summary = ai_text
+                    st.session_state.ai_loading = False
                 else:
-                    st.session_state.ai_summary = f"API Error: {response.status_code}"
-                st.session_state.ai_loading = False
+                    st.session_state.ai_summary = f"API Error: {response.status_code} — {response.text[:200]}"
+                    st.session_state.ai_loading = False
             except Exception as e:
                 st.session_state.ai_summary = f"Error: {str(e)}"
                 st.session_state.ai_loading = False
         st.rerun()
 
+    # ── Display AI Summary ──
     if st.session_state.ai_summary:
         summary_text = st.session_state.ai_summary
+
+        # Parse and render each section beautifully
         section_styles = {
-            "EXECUTIVE SUMMARY": ("📋", "#1e3a5f", "#e8f0f9", "#1a3a6b"),
+            "EXECUTIVE SUMMARY": ("📋", "#1e3a5f", "#eff6ff", "#1e40af"),
             "KEY STRENGTHS": ("💪", "#166534", "#f0fdf4", "#16a34a"),
             "CRITICAL ISSUES": ("🚨", "#991b1b", "#fef2f2", "#dc2626"),
-            "HOW TO INCREASE SALE": ("🚀", "#1a3a6b", "#e8f0f9", "#1e4d8c"),
+            "HOW TO INCREASE SALE": ("🚀", "#4c1d95", "#f5f3ff", "#7c3aed"),
             "INVENTORY ACTION PLAN": ("📦", "#854d0e", "#fefce8", "#ca8a04"),
             "IMMEDIATE PRIORITIES": ("⚡", "#065f46", "#ecfdf5", "#059669"),
         }
+
         lines = summary_text.split('\n')
-        current_section = None; sections = {}; current_content = []
+        current_section = None
+        sections = {}
+        current_content = []
+
         for line in lines:
             line = line.strip()
-            if not line: continue
+            if not line:
+                continue
             matched = False
             for sec_key in section_styles.keys():
                 if sec_key in line.upper():
-                    if current_section: sections[current_section] = '\n'.join(current_content)
-                    current_section = sec_key; current_content = []; matched = True; break
-            if not matched and current_section: current_content.append(line)
-        if current_section: sections[current_section] = '\n'.join(current_content)
+                    if current_section:
+                        sections[current_section] = '\n'.join(current_content)
+                    current_section = sec_key
+                    current_content = []
+                    matched = True
+                    break
+            if not matched and current_section:
+                current_content.append(line)
 
+        if current_section:
+            sections[current_section] = '\n'.join(current_content)
+
+        # Render sections
         for sec_key, (icon, title_color, bg_color, border_color) in section_styles.items():
             if sec_key in sections:
                 sec_content = sections[sec_key]
+                # Format bullet points
                 formatted = []
                 for l in sec_content.split('\n'):
                     l = l.strip()
-                    if not l: continue
-                    if l.startswith(('-', '•', '*')): l = '• ' + l.lstrip('-•* ').strip()
-                    formatted.append(f'<div style="margin:.25rem 0;font-size:.85rem;color:#1a2e4a;line-height:1.5">{l}</div>')
-                st.markdown(f"""<div style="background:{bg_color};border-left:4px solid {border_color};
-                    border-radius:10px;padding:.9rem 1.1rem;margin-bottom:.8rem">
-                    <div style="font-size:.6rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:{title_color};margin-bottom:.5rem">
-                        {icon} {sec_key}</div>
-                    {''.join(formatted)}</div>""", unsafe_allow_html=True)
+                    if not l:
+                        continue
+                    if l.startswith(('-', '•', '*')):
+                        l = '• ' + l.lstrip('-•* ').strip()
+                    elif l[0].isdigit() and '.' in l[:3]:
+                        l = '→ ' + l[2:].strip() if l[1] == '.' else l
+                    formatted.append(f'<div style="margin:.25rem 0;font-size:.85rem;color:#1a0030;line-height:1.5">{l}</div>')
 
+                st.markdown(f"""
+                <div style="background:{bg_color};border-left:4px solid {border_color};
+                    border-radius:10px;padding:.9rem 1.1rem;margin-bottom:.8rem">
+                    <div style="font-size:.6rem;font-weight:800;letter-spacing:2px;
+                        text-transform:uppercase;color:{title_color};margin-bottom:.5rem">
+                        {icon} {sec_key}
+                    </div>
+                    {''.join(formatted)}
+                </div>""", unsafe_allow_html=True)
+
+        # Download button for summary
         st.markdown("<br>", unsafe_allow_html=True)
         d1, d2, d3 = st.columns([1,2,1])
         with d2:
             summary_export = f"SS RETAIL — AI STRATEGY SUMMARY\nGenerated: {pd.Timestamp.now().strftime('%d %b %Y %I:%M %p')}\n\n{summary_text}"
-            st.download_button("📥  Download Strategy Summary (TXT)", data=summary_export,
-                file_name="SS_AI_Strategy_Summary.txt", mime="text/plain", use_container_width=True)
+            st.download_button(
+                "📥  Download Strategy Summary (TXT)",
+                data=summary_export,
+                file_name="SS_AI_Strategy_Summary.txt",
+                mime="text/plain",
+                use_container_width=True
+            )
+
     elif not st.session_state.ai_loading:
         st.markdown("""<div style="text-align:center;padding:3rem 0">
             <div style="font-size:3rem">🤖</div>
-            <div style="font-size:1rem;color:#607d9b;font-weight:500;margin-top:.8rem">Click Generate AI Strategy Summary</div>
+            <div style="font-size:1rem;color:#607d9b;font-weight:500;margin-top:.8rem">
+                Click "Generate AI Strategy Summary" to get AI analysis</div>
+            <div style="font-size:.8rem;color:#90a4c0;margin-top:.4rem">
+                Analyses all 28 stores · 11 categories · 11 months of data</div>
         </div>""", unsafe_allow_html=True)
