@@ -136,7 +136,7 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
 }
 [data-testid="stFileUploader"] * { color:#ffffff !important; font-weight:500 !important; }
 [data-testid="stFileUploaderFileName"] { color:#ffffff !important; font-weight:700 !important; }
-[data-testid="stFileUploaderDropzone"] button { display: none !important; }
+[data-testid="stFileUploaderDropzone"] button { visibility: hidden !important; height: 0 !important; padding: 0 !important; margin: 0 !important; }
 [data-testid="stFileUploaderDropzone"] svg { fill: #ffffff !important; }
 
 /* Tabs */
