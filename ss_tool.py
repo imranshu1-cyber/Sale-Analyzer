@@ -127,10 +127,11 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
 
 /* File uploader */
 [data-testid="stFileUploader"] {
-    background:#f3e5f5 !important; border:2px dashed #c084fc !important; border-radius:14px !important;
+    background: linear-gradient(90deg, #3a0068 0%, #6a1b9a 55%, #9c27b0 100%) !important; border:2px dashed #c084fc !important; border-radius:14px !important;
 }
-[data-testid="stFileUploader"] * { color:#4a0072 !important; font-weight:500 !important; }
-[data-testid="stFileUploaderFileName"] { color:#4a0072 !important; font-weight:700 !important; }
+[data-testid="stFileUploader"] * { color:#ffffff !important; font-weight:500 !important; }
+[data-testid="stFileUploaderFileName"] { color:#ffffff !important; font-weight:700 !important; }
+[data-testid="stFileUploaderDropzone"] button { display: none !important; }
 
 /* Tabs */
 .stTabs [data-baseweb="tab-list"] {
