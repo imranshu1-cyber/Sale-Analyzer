@@ -593,7 +593,11 @@ st.markdown("""
 # ── Upload ──
 c1, c2, c3 = st.columns([1,2,1])
 with c2:
-    uploaded = st.file_uploader("Sale_Report.xlsx", type=["xlsx","xls"], label_visibility="collapsed")
+    st.markdown("""<div style="background:linear-gradient(90deg,#3a0068 0%,#6a1b9a 55%,#9c27b0 100%);
+        border-radius:14px;border:2px dashed rgba(255,255,255,0.4);padding:.1rem .5rem;margin-bottom:.2rem">
+        <p style="color:#ffffff !important;font-size:.8rem !important;font-weight:600;margin:.4rem 0 0 .5rem">
+        📂 Upload Sale Report (XLSX / XLS)</p></div>""", unsafe_allow_html=True)
+    uploaded = st.file_uploader("", type=["xlsx","xls"], label_visibility="hidden")
     if uploaded:
         b1,b2,b3 = st.columns([1,2,1])
         with b2:
