@@ -137,17 +137,31 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
 }
 [data-testid="stFileUploader"] * { color: #ffffff !important; font-weight: 500 !important; }
 [data-testid="stFileUploaderDropzone"] svg { fill: #ffffff !important; }
-[data-testid="stFileUploaderDropzone"] button { display: none !important; visibility: hidden !important; }
+[data-testid="stFileUploaderDropzone"] button {
+    visibility: hidden !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    position: absolute !important;
+}
 [data-testid="stFileUploaderFileName"] { color: #ffffff !important; font-weight: 700 !important; }
-[data-testid="stFileUploadDeleteBtn"] button {
+[data-testid="stFileUploadDeleteBtn"] {
     visibility: visible !important;
     display: flex !important;
+    align-items: center !important;
+}
+[data-testid="stFileUploadDeleteBtn"] button {
+    visibility: visible !important;
+    display: inline-flex !important;
+    height: auto !important;
     background: rgba(255,255,255,0.2) !important;
     border: 1px solid rgba(255,255,255,0.4) !important;
     border-radius: 6px !important;
     color: #ffffff !important;
-    padding: 2px 8px !important;
+    padding: 3px 10px !important;
     cursor: pointer !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
 }
 [data-testid="stFileUploadDeleteBtn"] svg { fill: #ffffff !important; }
 
