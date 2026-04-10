@@ -610,11 +610,10 @@ if 'uploader_key' not in st.session_state:
 
 c1, c2, c3 = st.columns([1,2,1])
 with c2:
-    st.markdown('''<div style="text-align:center;padding:.4rem 0 .1rem 0"><div style="font-size:2.2rem">&#128202;</div><div style="font-size:.92rem;font-weight:700;color:#1a0030;margin:.2rem 0 .1rem">Upload Sale Report</div><div style="font-size:.75rem;color:#9575cd">XLSX or XLS &nbsp;&middot;&nbsp; Max 200MB &nbsp;&middot;&nbsp; Drag &amp; Drop or Click</div></div>''', unsafe_allow_html=True)
     uploaded = st.file_uploader(
-        "",
+        "📊 Upload Sale Report  ·  XLSX or XLS  ·  Drag & Drop or Click",
         type=["xlsx","xls"],
-        label_visibility="collapsed",
+        label_visibility="visible",
         key=f"uploader_{st.session_state.uploader_key}"
     )
     if uploaded:
