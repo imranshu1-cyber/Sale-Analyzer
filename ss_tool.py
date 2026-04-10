@@ -144,6 +144,21 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
     padding: 0 !important;
     margin: 0 !important;
 }
+[data-testid="stFileUploadDeleteBtn"] button {
+    visibility: visible !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    height: 28px !important;
+    background: rgba(255,255,255,0.2) !important;
+    border: 1.5px solid rgba(255,255,255,0.6) !important;
+    border-radius: 6px !important;
+    padding: 0 10px !important;
+    cursor: pointer !important;
+    color: #ffffff !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+}
+[data-testid="stFileUploadDeleteBtn"] svg { fill: #ffffff !important; }
 
 
 /* Tabs */
