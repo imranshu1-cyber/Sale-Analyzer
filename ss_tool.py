@@ -142,37 +142,36 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
 [data-testid="stFileUploader"] * { color: #0a0a0a !important; }
 [data-testid="stFileUploaderDropzone"] svg { fill: #aaaaaa !important; }
 
-/* Browse files button - blue, no overlap */
+/* Browse files button - purple theme */
 [data-testid="stFileUploaderDropzone"] button {
     visibility: visible !important;
     height: auto !important;
-    padding: 8px 20px !important;
-    margin: 8px auto 0 !important;
-    background: #2563eb !important;
+    padding: 8px 22px !important;
+    margin: 10px auto 0 !important;
+    background: linear-gradient(135deg, #6a1b9a, #9c27b0) !important;
     border: none !important;
     border-radius: 8px !important;
     color: #ffffff !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
     font-size: 13px !important;
     cursor: pointer !important;
     display: inline-block !important;
-    overflow: hidden !important;
     white-space: nowrap !important;
+    box-shadow: 0 3px 10px rgba(106,27,154,0.35) !important;
 }
 [data-testid="stFileUploaderDropzone"] button:hover {
-    background: #1d4ed8 !important;
+    background: linear-gradient(135deg, #7b1fa2, #ab47bc) !important;
 }
-/* Hide duplicate text / p tag inside button */
+/* Hide only extra p tag — keep span text visible */
 [data-testid="stFileUploaderDropzone"] button p { display: none !important; }
-[data-testid="stFileUploaderDropzone"] button > div { display: none !important; }
 
-/* Hide "add" button that appears after file upload */
+/* Hide "add" button after file upload */
 [data-testid="stFileUploader"] section > div > div:last-child > button {
     display: none !important; visibility: hidden !important;
 }
 /* Upload size/type text */
 [data-testid="stFileUploaderDropzone"] > div > div {
-    color: #aaaaaa !important;
+    color: #888888 !important;
     font-size: 12px !important;
 }
 
