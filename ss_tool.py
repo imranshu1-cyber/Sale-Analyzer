@@ -144,22 +144,29 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
     padding: 0 !important;
     margin: 0 !important;
 }
+[data-testid="stFileUploadDeleteBtn"] {
+    visibility: visible !important;
+    display: flex !important;
+    align-items: center !important;
+}
 [data-testid="stFileUploadDeleteBtn"] button {
     visibility: visible !important;
     display: inline-flex !important;
     align-items: center !important;
     height: 28px !important;
-    background: rgba(255,255,255,0.2) !important;
-    border: 1.5px solid rgba(255,255,255,0.6) !important;
+    background: #fee2e2 !important;
+    border: 1.5px solid #fca5a5 !important;
     border-radius: 6px !important;
-    padding: 0 10px !important;
+    padding: 0 12px !important;
     cursor: pointer !important;
-    color: #ffffff !important;
+    color: #dc2626 !important;
     font-size: 12px !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
 }
-[data-testid="stFileUploadDeleteBtn"] svg { fill: #ffffff !important; }
-
+[data-testid="stFileUploadDeleteBtn"] button:hover {
+    background: #fecaca !important;
+}
+[data-testid="stFileUploadDeleteBtn"] svg { fill: #dc2626 !important; }
 
 /* Tabs */
 .stTabs [data-baseweb="tab-list"] {
