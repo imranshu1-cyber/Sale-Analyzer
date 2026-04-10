@@ -146,7 +146,10 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
 [data-testid="stFileUploaderDropzone"] button {
     visibility: visible !important;
     height: auto !important;
-    padding: 8px 22px !important;
+    padding: 8px 28px !important;
+    min-width: 140px !important;
+    width: auto !important;
+    overflow: visible !important;
     margin: 10px auto 0 !important;
     background: linear-gradient(135deg, #6a1b9a, #9c27b0) !important;
     border: none !important;
