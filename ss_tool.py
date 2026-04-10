@@ -137,12 +137,13 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
 }
 [data-testid="stFileUploaderDropzone"] {
     text-align: center !important;
-    padding: 28px 20px !important;
+    padding: 16px !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    min-height: 80px !important;
+    min-height: 0 !important;
+    max-height: 80px !important;
 }
 [data-testid="stFileUploaderDropzone"] svg { fill: #9c27b0 !important; }
 [data-testid="stFileUploaderDropzone"] > div {
