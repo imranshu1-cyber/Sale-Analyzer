@@ -135,31 +135,59 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
     border: none !important;
 }
 [data-testid="stFileUploader"] * { color:#ffffff !important; font-weight:500 !important; }
-[data-testid="stFileUploaderFileName"] { color:#ffffff !important; font-weight:700 !important; }
+[data-testid="stFileUploaderFileName"] {
+    color:#ffffff !important; font-weight:700 !important;
+    display: block !important; visibility: visible !important; font-size:.85rem !important;
+}
 [data-testid="stFileUploaderDropzone"] svg { fill: #ffffff !important; }
+
+/* Browse files button - no overlap fix */
 [data-testid="stFileUploaderDropzone"] button {
     visibility: visible !important;
     height: auto !important;
-    padding: .35rem 1rem !important;
-    margin: .4rem auto 0 !important;
-    background: rgba(255,255,255,0.2) !important;
-    border: 1.5px solid rgba(255,255,255,0.5) !important;
+    padding: .3rem .9rem !important;
+    margin: 0 !important;
+    background: rgba(255,255,255,0.18) !important;
+    border: 1.5px solid rgba(255,255,255,0.45) !important;
     border-radius: 8px !important;
     color: #ffffff !important;
     font-weight: 700 !important;
     font-size: .8rem !important;
-    display: block !important;
+    display: inline-flex !important;
+    align-items: center !important;
 }
 [data-testid="stFileUploaderDropzone"] button:hover {
-    background: rgba(255,255,255,0.35) !important;
+    background: rgba(255,255,255,0.3) !important;
 }
-[data-testid="stFileUploadDeleteBtn"] button,
+/* Fix double text overlap in button */
+[data-testid="stFileUploaderDropzone"] button span:last-child {
+    display: none !important;
+}
+
+/* After upload - file row */
+[data-testid="stFileUploaderFile"] {
+    background: rgba(255,255,255,0.12) !important;
+    border-radius: 8px !important;
+    padding: .3rem .6rem !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Delete/close button after upload */
 [data-testid="stFileUploadDeleteBtn"] {
     visibility: visible !important;
+    display: flex !important;
+    align-items: center !important;
+}
+[data-testid="stFileUploadDeleteBtn"] button {
+    visibility: visible !important;
     height: auto !important;
-    padding: 0 !important;
+    padding: 2px !important;
+    background: transparent !important;
+    border: none !important;
     color: #ffffff !important;
     opacity: 0.85 !important;
+    display: flex !important;
 }
 [data-testid="stFileUploadDeleteBtn"] svg { fill: #ffffff !important; }
 
