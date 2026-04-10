@@ -608,20 +608,20 @@ st.markdown("""
 if 'uploader_key' not in st.session_state:
     st.session_state.uploader_key = 0
 
-c1, c2, c3 = st.columns([1,2,1])
-with c2:
+cu1, cu2, cu3 = st.columns([1.5,2,1.5])
+with cu2:
     uploaded = st.file_uploader(
-        "📊 Upload Sale Report  ·  XLSX or XLS  ·  Drag & Drop or Click",
+        "📊 Upload Sale Report  ·  XLSX or XLS",
         type=["xlsx","xls"],
         label_visibility="visible",
         key=f"uploader_{st.session_state.uploader_key}"
     )
     if uploaded:
-        col_gen, col_clr = st.columns([3,1])
-        with col_gen:
-            gen_clicked = st.button("⚡  Generate Reports + Dashboard", use_container_width=True)
-        with col_clr:
-            if st.button("✕ Remove", use_container_width=True):
+        _, btn1, btn2, _ = st.columns([1.5, 1.5, 0.5, 1.5])
+        with btn1:
+            gen_clicked = st.button("⚡ Generate Reports", use_container_width=True)
+        with btn2:
+            if st.button("✕", use_container_width=True):
                 st.session_state.uploader_key += 1
                 st.session_state.ready = False
                 st.session_state.data = None
