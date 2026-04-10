@@ -127,12 +127,12 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
 
 /* ══ FILE UPLOADER ══ */
 [data-testid="stFileUploader"] {
-    background: linear-gradient(90deg, #3a0068 0%, #6a1b9a 55%, #9c27b0 100%) !important;
-    border: 2px dashed rgba(255,255,255,0.4) !important;
+    background: #ffffff !important;
+    border: 2px dashed #c084fc !important;
     border-radius: 14px !important;
 }
 [data-testid="stFileUploaderDropzone"] {
-    background: transparent !important;
+    background: #ffffff !important;
     border: none !important;
 }
 [data-testid="stFileUploaderDropzone"] small { color: #ffffff !important; }
