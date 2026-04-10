@@ -128,12 +128,14 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
 /* ══ FILE UPLOADER ══ */
 [data-testid="stFileUploader"] {
     background: #ffffff !important;
-    border: 2px dashed #c084fc !important;
+    border: none !important;
     border-radius: 14px !important;
+    padding: 0 !important;
 }
 [data-testid="stFileUploaderDropzone"] {
     background: #ffffff !important;
-    border: none !important;
+    border: 2px dashed #c084fc !important;
+    border-radius: 14px !important;
 }
 [data-testid="stFileUploaderDropzone"] {
     text-align: center !important;
