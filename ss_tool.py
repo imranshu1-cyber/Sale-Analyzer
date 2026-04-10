@@ -135,9 +135,9 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
     background: #ffffff !important;
     border: none !important;
 }
-[data-testid="stFileUploaderDropzone"] small { color: #ffffff !important; }
-[data-testid="stFileUploaderDropzone"] span { color: #ffffff !important; }
-[data-testid="stFileUploaderDropzone"] svg { fill: #ffffff !important; }
+[data-testid="stFileUploaderDropzone"] { text-align: center !important; padding: 20px !important; }
+[data-testid="stFileUploaderDropzone"] svg { fill: #9c27b0 !important; }
+[data-testid="stFileUploaderDropzone"] > div { display: flex !important; flex-direction: column !important; align-items: center !important; }
 [data-testid="stFileUploaderDropzone"] button {
     visibility: hidden !important;
     height: 0 !important;
