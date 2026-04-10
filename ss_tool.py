@@ -160,7 +160,7 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
     background: rgba(255,255,255,0.3) !important;
 }
 /* Fix double text overlap in button */
-[data-testid="stFileUploaderDropzone"] button span:last-child {
+[data-testid="stFileUploaderDropzone"] button p {
     display: none !important;
 }
 
