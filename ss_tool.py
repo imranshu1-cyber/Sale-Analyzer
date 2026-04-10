@@ -142,7 +142,7 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
 [data-testid="stFileUploader"] * { color: #0a0a0a !important; }
 [data-testid="stFileUploaderDropzone"] svg { fill: #aaaaaa !important; }
 
-/* Browse files / Choose File button - blue */
+/* Browse files button - blue, no overlap */
 [data-testid="stFileUploaderDropzone"] button {
     visibility: visible !important;
     height: auto !important;
@@ -156,9 +156,19 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
     font-size: 13px !important;
     cursor: pointer !important;
     display: inline-block !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
 }
 [data-testid="stFileUploaderDropzone"] button:hover {
     background: #1d4ed8 !important;
+}
+/* Hide duplicate text / p tag inside button */
+[data-testid="stFileUploaderDropzone"] button p { display: none !important; }
+[data-testid="stFileUploaderDropzone"] button > div { display: none !important; }
+
+/* Hide "add" button that appears after file upload */
+[data-testid="stFileUploader"] section > div > div:last-child > button {
+    display: none !important; visibility: hidden !important;
 }
 /* Upload size/type text */
 [data-testid="stFileUploaderDropzone"] > div > div {
