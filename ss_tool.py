@@ -18,6 +18,7 @@ st.markdown("""
 *, *::before, *::after { font-family: 'Inter', sans-serif !important; box-sizing: border-box; }
 .stApp { background: #f4f0ff !important; }
 #MainMenu, footer, header { visibility: hidden; }
+[data-testid="stToolbar"], [data-testid="stDecoration"], [data-testid="stStatusWidget"] { display: none !important; }
 
 /* Remove Streamlit default top padding */
 .block-container { padding-top: 0.8rem !important; padding-bottom: 1rem !important; }
