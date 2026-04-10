@@ -125,55 +125,65 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
 }
 .stDownloadButton > button:hover { background:#f5f0ff !important; }
 
-/* ══ FILE UPLOADER ══ */
+/* ══ FILE UPLOADER — Clean White Card Style ══ */
 [data-testid="stFileUploader"] {
-    background: linear-gradient(90deg, #3a0068 0%, #6a1b9a 55%, #9c27b0 100%) !important;
-    border:2px dashed rgba(255,255,255,0.4) !important; border-radius:14px !important;
+    background: #ffffff !important;
+    border: 2px dashed #e0e0db !important;
+    border-radius: 12px !important;
+    padding: 4px !important;
 }
 [data-testid="stFileUploaderDropzone"] {
-    background: linear-gradient(90deg, #3a0068 0%, #6a1b9a 55%, #9c27b0 100%) !important;
+    background: #ffffff !important;
     border: none !important;
+    padding: 18px 16px !important;
+    text-align: center !important;
 }
-[data-testid="stFileUploader"] * { color:#ffffff !important; font-weight:500 !important; }
-[data-testid="stFileUploaderFileName"] {
-    color:#ffffff !important; font-weight:700 !important;
-    display: block !important; visibility: visible !important; font-size:.85rem !important;
-}
-[data-testid="stFileUploaderDropzone"] svg { fill: #ffffff !important; }
+/* All text inside uploader - dark */
+[data-testid="stFileUploader"] * { color: #0a0a0a !important; }
+[data-testid="stFileUploaderDropzone"] svg { fill: #aaaaaa !important; }
 
-/* Browse files button - no overlap fix */
+/* Browse files / Choose File button - blue */
 [data-testid="stFileUploaderDropzone"] button {
     visibility: visible !important;
     height: auto !important;
-    padding: .3rem .9rem !important;
-    margin: 0 !important;
-    background: rgba(255,255,255,0.18) !important;
-    border: 1.5px solid rgba(255,255,255,0.45) !important;
+    padding: 8px 20px !important;
+    margin: 8px auto 0 !important;
+    background: #2563eb !important;
+    border: none !important;
     border-radius: 8px !important;
     color: #ffffff !important;
-    font-weight: 700 !important;
-    font-size: .8rem !important;
-    display: inline-flex !important;
-    align-items: center !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    cursor: pointer !important;
+    display: inline-block !important;
 }
 [data-testid="stFileUploaderDropzone"] button:hover {
-    background: rgba(255,255,255,0.3) !important;
+    background: #1d4ed8 !important;
 }
-/* Fix double text overlap in button */
-[data-testid="stFileUploaderDropzone"] button p {
-    display: none !important;
+/* Upload size/type text */
+[data-testid="stFileUploaderDropzone"] > div > div {
+    color: #aaaaaa !important;
+    font-size: 12px !important;
 }
 
-/* After upload - file row */
+/* After upload - file name row */
 [data-testid="stFileUploaderFile"] {
-    background: rgba(255,255,255,0.12) !important;
+    background: #eff6ff !important;
     border-radius: 8px !important;
-    padding: .3rem .6rem !important;
+    padding: 8px 12px !important;
     display: flex !important;
     align-items: center !important;
+    margin-top: 4px !important;
+}
+[data-testid="stFileUploaderFileName"] {
+    color: #1e40af !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    display: block !important;
+    visibility: visible !important;
 }
 
-/* Delete/close button after upload */
+/* X / Delete button after upload */
 [data-testid="stFileUploadDeleteBtn"] {
     visibility: visible !important;
     display: flex !important;
@@ -182,14 +192,17 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
 [data-testid="stFileUploadDeleteBtn"] button {
     visibility: visible !important;
     height: auto !important;
-    padding: 2px !important;
-    background: transparent !important;
-    border: none !important;
-    color: #ffffff !important;
-    opacity: 0.85 !important;
+    padding: 4px 10px !important;
+    background: #fee2e2 !important;
+    border: 1px solid #fecaca !important;
+    border-radius: 6px !important;
+    color: #dc2626 !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
     display: flex !important;
 }
-[data-testid="stFileUploadDeleteBtn"] svg { fill: #ffffff !important; }
+[data-testid="stFileUploadDeleteBtn"] svg { fill: #dc2626 !important; }
 
 /* Tabs */
 .stTabs [data-baseweb="tab-list"] {
