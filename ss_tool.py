@@ -135,7 +135,7 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
     background: transparent !important;
     border: none !important;
 }
-[data-testid="stFileUploader"] * { color: #ffffff !important; font-weight: 500 !important; }
+[data-testid="stFileUploaderDropzone"] * { color: #ffffff !important; }
 [data-testid="stFileUploaderDropzone"] svg { fill: #ffffff !important; }
 [data-testid="stFileUploaderDropzone"] button {
     visibility: hidden !important;
@@ -144,24 +144,46 @@ li[aria-selected="true"] { background:rgba(106,27,154,0.12) !important; color:#6
     margin: 0 !important;
     position: absolute !important;
 }
-[data-testid="stFileUploaderFileName"] { color: #ffffff !important; font-weight: 700 !important; }
+[data-testid="stFileUploaderFile"] {
+    background: rgba(255,255,255,0.15) !important;
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
+    margin: 4px 8px 8px 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+[data-testid="stFileUploaderFile"] * { color: #ffffff !important; }
+[data-testid="stFileUploaderFile"] svg { fill: #ffffff !important; }
+[data-testid="stFileUploaderFileName"] {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    visibility: visible !important;
+    display: block !important;
+}
 [data-testid="stFileUploadDeleteBtn"] {
     visibility: visible !important;
     display: flex !important;
     align-items: center !important;
+    margin-left: auto !important;
 }
 [data-testid="stFileUploadDeleteBtn"] button {
     visibility: visible !important;
     display: inline-flex !important;
-    height: auto !important;
+    align-items: center !important;
+    height: 28px !important;
     background: rgba(255,255,255,0.2) !important;
-    border: 1px solid rgba(255,255,255,0.4) !important;
+    border: 1.5px solid rgba(255,255,255,0.5) !important;
     border-radius: 6px !important;
     color: #ffffff !important;
-    padding: 3px 10px !important;
+    padding: 0 12px !important;
     cursor: pointer !important;
     font-size: 12px !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
+}
+[data-testid="stFileUploadDeleteBtn"] button:hover {
+    background: rgba(255,255,255,0.35) !important;
 }
 [data-testid="stFileUploadDeleteBtn"] svg { fill: #ffffff !important; }
 
