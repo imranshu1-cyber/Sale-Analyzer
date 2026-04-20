@@ -9,7 +9,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 import plotly.io as pio
 
-st.set_page_config(page_title="Sale Analyzer", layout="wide", page_icon="📊")
+st.set_page_config(page_title="Nike Fitness Sale Analyzer", layout="wide", page_icon="📊")
 
 st.markdown("""
 <style>
@@ -609,11 +609,11 @@ for k, v in {"ready": False, "data": None}.items():
 # ══════════════════ UI ══════════════════
 st.markdown("""
 <div class="hero">
-  <div class="hero-badge">Sale Analyzer</div>
+  <div class="hero-badge">Nike Fitness Sale Analyzer</div>
   <div class="hero-divider"></div>
   <div style="flex:1;min-width:0">
     <div style="display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap">
-      <div class="hero-title">Sale Analyzer</div>
+      <div class="hero-title">Nike Fitness Sale Analyzer</div>
       <div class="hero-arrow">→</div>
       <div class="hero-sub-line">Store-wise Contribution &amp; Category-wise Contribution</div>
     </div>
@@ -1273,7 +1273,7 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sale Analyzer — Dashboard</title>
+<title>Nike Fitness Sale Analyzer — Dashboard</title>
 <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
 <style>
   *{{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}}
@@ -1312,10 +1312,10 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
 </head>
 <body>
 <div class="navbar">
-  <div class="badge">Sale Analyzer</div>
+  <div class="badge">Nike Fitness Sale Analyzer</div>
   <div style="width:1px;height:26px;background:rgba(255,255,255,.22)"></div>
   <div>
-    <div class="nav-title">Sale Analyzer &nbsp;→&nbsp; <span style="color:#e8c8ff">Store-wise &amp; Category-wise Contribution</span></div>
+    <div class="nav-title">Nike Fitness Sale Analyzer &nbsp;→&nbsp; <span style="color:#e8c8ff">Store-wise &amp; Category-wise Contribution</span></div>
     <div class="nav-hint">Interactive Dashboard &nbsp;·&nbsp; {pd.Timestamp.now().strftime('%d %b %Y')}</div>
   </div>
 </div>
@@ -1380,7 +1380,7 @@ def build_html_dashboard(data_swc, cwc_s, gt_s, gt_k, avail, grand, stores, MONT
     <div class="card"><div class="sec">📋 Stock Recommendations</div>{rec_html}</div>
   </div>
 
-  <div class="footer">Sale Analyzer &nbsp;·&nbsp; Generated {pd.Timestamp.now().strftime('%d %b %Y %I:%M %p')}</div>
+  <div class="footer">Nike Fitness Sale Analyzer &nbsp;·&nbsp; Generated {pd.Timestamp.now().strftime('%d %b %Y %I:%M %p')}</div>
 </div>
 <script>
 function showTab(id, el) {{
