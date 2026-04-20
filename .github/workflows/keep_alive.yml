@@ -1,0 +1,22 @@
+name: Keep Streamlit Apps Alive
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'  # Har 10 minute mein
+  workflow_dispatch:  # Manual trigger bhi
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Sale Analyzer
+        run: |
+          curl -s -o /dev/null -w "%{http_code}" https://sale-analyzer.streamlit.app/ || true
+
+      - name: Ping SS Sale & Stock Analyzer
+        run: |
+          curl -s -o /dev/null -w "%{http_code}" https://ss-analyzer.streamlit.app/ || true
+
+      - name: Ping Reconciliation Tool
+        run: |
+          curl -s -o /dev/null -w "%{http_code}" https://reconciliation-tool.streamlit.app/ || true
