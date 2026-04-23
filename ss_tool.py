@@ -672,7 +672,7 @@ with t6:
 
     stk_fs = stk_fs.copy()
     stk_fs["SzLabel"] = stk_fs.apply(get_sz_label, axis=1)
-    stk_fs = stk_fs[stk_fs["SzLabel"].notna()]
+    # Do NOT filter out NaN SzLabel — keep all articles
 
     # Per Store + Brand + Article → classify
     # Expected sizes
@@ -691,7 +691,8 @@ with t6:
         # Build size->qty map
         sz_qty = {}
         for s, q in zip(sizes, qtys):
-            sz_qty[str(s).strip().upper()] = sz_qty.get(str(s).strip().upper(), 0) + q
+            if s is not None and str(s).strip() != 'nan':
+                sz_qty[str(s).strip().upper()] = sz_qty.get(str(s).strip().upper(), 0) + q
 
         if div == "FOOTWEAR":
             expected = FW_WOMEN if gender == "WOMEN" else FW_MEN
